@@ -2,4 +2,4 @@
 
 GOPATH="$(pwd):$GOPATH"
 
-go run repl.go $@
+go run src/repl.go $@
