@@ -40,7 +40,7 @@ func (p *Parser) unscan() {
 
 func (p *Parser) scanIgnoreWhitespace() (tok Token, lit string) {
 	tok, lit = p.scan()
-	if tok == WS {
+	if tok == TokenWhitespace {
 		tok, lit = p.scan()
 	}
 	return tok, lit

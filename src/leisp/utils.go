@@ -5,7 +5,7 @@
 package leisp
 
 func isWhitesapce(ch rune) bool {
-	return ch == ' ' || ch == '\t' || ch == '\n'
+	return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r'
 }
 
 func isLetter(ch rune) bool {
@@ -14,4 +14,8 @@ func isLetter(ch rune) bool {
 
 func isDigit(ch rune) bool {
 	return ch >= '0' && ch <= '9'
+}
+
+func isPunctuation(ch rune) bool {
+	return ch == '(' || ch == ')' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == ',' || ch == ';'
 }

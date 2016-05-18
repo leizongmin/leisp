@@ -7,26 +7,14 @@ package leisp
 type Token int
 
 const (
-	TokenIllegal Token = itoa
+	TokenIllegal Token = iota
 	TokenEOF
 	TokenWhitespace
 
 	TokenSymbol
 	TokenNumber
 	TokenString
+	TokenChar
 
-	TokenColon // :
-	TokenComma // ,
-
-	TokenRoundBacketLeft  // (
-	TokenRoundBacketRight // )
-
-	TokenSquareBacketLeft  // [
-	TokenSquareBacketRight // ]
-
-	TokenCurlyBacketLeft  // {
-	TokenCurlyBacketRight // {
-
-	TokenDoubleQuotation // "
-	TokenSingleQuotation // '
+	TokenPunctuation
 )

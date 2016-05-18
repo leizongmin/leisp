@@ -6,9 +6,15 @@ package main
 
 import (
 	"fmt"
+	"leisp"
 	"strings"
 )
 
 func main() {
-	fmt.Println(strings.NewReader("hello"))
+
+	reader := strings.NewReader("hello")
+
+	s := leisp.NewScanner(reader)
+
+	fmt.Println(s.Scan())
 }
