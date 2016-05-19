@@ -72,7 +72,14 @@ func (p *Parser) Parse() (*AST, error) {
 	case TokenKeyword:
 		return newKeywordAST(lit), nil
 	case TokenSymbol:
-		return newSymbolAST(lit), nil
+		LIT := strings.ToUpper(lit)
+		if LIT == "NIL" {
+			return newNullAST(), nil
+		} else if LIT == "T" {
+			return newBooleanAST(), nil
+		} else {
+			return newSymbolAST(lit), nil
+		}
 	case TokenPunctuation:
 		return p.parsePunctuation(lit)
 	default:

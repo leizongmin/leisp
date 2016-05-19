@@ -25,11 +25,11 @@ func newEmptyAST() *AST {
 }
 
 func newNullAST() *AST {
-	return newAST("null", nil, nil)
+	return newAST("null", "NIL", nil)
 }
 
 func newBooleanAST() *AST {
-	return newAST("boolean", nil, nil)
+	return newAST("boolean", "T", nil)
 }
 
 func newCharAST(s string) *AST {
