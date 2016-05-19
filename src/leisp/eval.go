@@ -31,12 +31,16 @@ func Eval(prog string) *Result {
 func EvalAST(ast *AST) *Result {
 
 	switch ast.Type {
+
 	case "ratio", "integer", "float", "string", "char", "null", "boolean", "symbol":
 		return newResult(ast.Value)
+
 	case "list":
 		return newResult(ast.Children)
+
 	case "q-expr":
-		return newResult(ast.Children)
+		return newResult(newSExpressionAST(ast.Children))
+
 	case "s-expr":
 		if len(ast.Children) < 1 {
 			return newEmptyResult()
