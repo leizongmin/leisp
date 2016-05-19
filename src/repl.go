@@ -15,11 +15,11 @@ func main() {
 	reader := strings.NewReader(`
 (defun hello {a b}
   ;;(setf c 1/23 'c',)
+  (:hello world)
   (format nil (+ a b)))
 	`)
 
 	s := leisp.NewScanner(reader)
-
 	for {
 		tok, lit := s.Scan()
 		fmt.Printf("token=%d, literal='%s'\n", tok, lit)
@@ -33,4 +33,7 @@ func main() {
 			break
 		}
 	}
+
+	p := leisp.NewParser(reader)
+	fmt.Println(p.Parse())
 }
