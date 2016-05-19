@@ -32,8 +32,8 @@ func newBooleanAST() *AST {
 	return newAST("boolean", nil, nil)
 }
 
-func newCharAST(c string) *AST {
-	return newAST("char", c, nil)
+func newCharAST(s string) *AST {
+	return newAST("char", []rune(s)[0], nil)
 }
 
 func newStringAST(s string) *AST {
@@ -101,4 +101,11 @@ func (a *AST) dump(indent int) {
 	} else if a.Type == "list" || a.Type == "q-expr" || a.Type == "s-expr" {
 		fmt.Printf("%s-- empty %s\n", makeIndentString(indent+1), a.Type)
 	}
+}
+
+func (a *AST) IsEmpty() bool {
+	if a.Type == "empty" {
+		return true
+	}
+	return false
 }

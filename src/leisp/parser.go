@@ -81,6 +81,7 @@ func (p *Parser) Parse() (*AST, error) {
 }
 
 func (p *Parser) parseNumber(lit string) (*AST, error) {
+
 	if i := strings.IndexAny(lit, "/"); i != -1 {
 		return newRatioAST(lit), nil
 	}
