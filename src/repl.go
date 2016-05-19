@@ -12,7 +12,8 @@ import (
 
 func main() {
 
-	str := `(+ 1 2 {"a" 'a' 4 /})`
+	str := `(+ 1 2 {"a" 'a' 4 / [1] []
+			  (:name my-name)})`
 	reader := strings.NewReader(str)
 
 	// s := leisp.NewScanner(reader)
@@ -35,10 +36,6 @@ func main() {
 		fmt.Println("result", a, e)
 	} else {
 		fmt.Println("result", a)
-		if a.Children != nil {
-			for i, v := range a.Children {
-				fmt.Println(i, *v)
-			}
-		}
+		a.Dump()
 	}
 }

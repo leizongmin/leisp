@@ -4,6 +4,8 @@
 
 package leisp
 
+import "fmt"
+
 type AST struct {
 	Type     string
 	Value    interface{}
@@ -63,9 +65,40 @@ func newListAST(ch []*AST) *AST {
 }
 
 func newSExpressionAST(ch []*AST) *AST {
-	return newAST("s-expression", nil, ch)
+	return newAST("s-expr", nil, ch)
 }
 
 func newQExpressionAST(ch []*AST) *AST {
-	return newAST("q-expression", nil, ch)
+	return newAST("q-expr", nil, ch)
+}
+
+func (a *AST) Dump() {
+	a.dump(0)
+}
+
+func makeIndentString(n int) string {
+	s := ""
+	for i := 0; i < n; i++ {
+		s += "  "
+	}
+	return s
+}
+
+func (a *AST) dump(indent int) {
+
+	prefix := makeIndentString(indent) + "--"
+
+	val := ""
+	if a.Value != nil {
+		val = fmt.Sprint(a.Value)
+	}
+
+	fmt.Printf("%s %s:\t%s\n", prefix, a.Type, val)
+	if len(a.Children) > 0 {
+		for _, c := range a.Children {
+			c.dump(indent + 1)
+		}
+	} else if a.Type == "list" || a.Type == "q-expr" || a.Type == "s-expr" {
+		fmt.Printf("%s-- empty %s\n", makeIndentString(indent+1), a.Type)
+	}
 }
