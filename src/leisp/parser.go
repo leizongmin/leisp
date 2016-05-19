@@ -58,39 +58,39 @@ func (p *Parser) Parse() (*AST, error) {
 	tok, lit := p.scanIgnoreWhitespaceOrComment()
 	switch tok {
 	case TokenChar:
-		return NewCharAST(lit), nil
+		return newCharAST(lit), nil
 	case TokenString:
-		return NewStringAST(lit), nil
+		return newStringAST(lit), nil
 	case TokenEOF:
-		return NewEmptyAST(), nil
+		return newEmptyAST(), nil
 	case TokenNumber:
 		return p.parseNumber(lit)
 	case TokenKeyword:
-		return NewKeywordAST(lit), nil
+		return newKeywordAST(lit), nil
 	case TokenSymbol:
-		return NewSymbolAST(lit), nil
+		return newSymbolAST(lit), nil
 	case TokenPunctuation:
 		return p.parsePunctuation(lit)
 	default:
-		return NewEmptyAST(), fmt.Errorf("illegal token %s", lit)
+		return newEmptyAST(), fmt.Errorf("illegal token %s", lit)
 	}
 }
 
 func (p *Parser) parseNumber(lit string) (*AST, error) {
 	if i := strings.IndexAny(lit, "/"); i != -1 {
-		return NewRatioAST(lit), nil
+		return newRatioAST(lit), nil
 	}
 	if i := strings.IndexAny(lit, "."); i != -1 {
 		if val, err := strconv.ParseFloat(lit, 64); err != nil {
-			return NewEmptyAST(), fmt.Errorf("invalid float number %s", lit)
+			return newEmptyAST(), fmt.Errorf("invalid float number %s", lit)
 		} else {
-			return NewFloatAST(val), nil
+			return newFloatAST(val), nil
 		}
 	}
 	if val, err := strconv.ParseInt(lit, 10, 64); err != nil {
-		return NewEmptyAST(), fmt.Errorf("invalid integer number %s", lit)
+		return newEmptyAST(), fmt.Errorf("invalid integer number %s", lit)
 	} else {
-		return NewIntegerAST(val), nil
+		return newIntegerAST(val), nil
 	}
 }
 
@@ -104,9 +104,9 @@ func (p *Parser) parsePunctuation(lit string) (*AST, error) {
 	case "[":
 		return p.parseList(lit)
 	case ")", "}", "]":
-		return NewEmptyAST(), fmt.Errorf("mismatching %s", lit)
+		return newEmptyAST(), fmt.Errorf("mismatching %s", lit)
 	default:
-		return NewEmptyAST(), fmt.Errorf("illegal token %s", lit)
+		return newEmptyAST(), fmt.Errorf("illegal token %s", lit)
 	}
 }
 
@@ -121,14 +121,14 @@ func (p *Parser) parseSExpression(lit string) (*AST, error) {
 		} else {
 			p.unscan()
 			if ast, err := p.Parse(); err != nil {
-				return NewEmptyAST(), err
+				return newEmptyAST(), err
 			} else {
 				children = append(children, ast)
 			}
 		}
 	}
 
-	return NewSExpressionAST(children), nil
+	return newSExpressionAST(children), nil
 }
 
 func (p *Parser) parseQExpression(lit string) (*AST, error) {
@@ -142,14 +142,14 @@ func (p *Parser) parseQExpression(lit string) (*AST, error) {
 		} else {
 			p.unscan()
 			if ast, err := p.Parse(); err != nil {
-				return NewEmptyAST(), err
+				return newEmptyAST(), err
 			} else {
 				children = append(children, ast)
 			}
 		}
 	}
 
-	return NewQExpressionAST(children), nil
+	return newQExpressionAST(children), nil
 }
 
 func (p *Parser) parseList(lit string) (*AST, error) {
@@ -163,12 +163,12 @@ func (p *Parser) parseList(lit string) (*AST, error) {
 		} else {
 			p.unscan()
 			if ast, err := p.Parse(); err != nil {
-				return NewEmptyAST(), err
+				return newEmptyAST(), err
 			} else {
 				children = append(children, ast)
 			}
 		}
 	}
 
-	return NewListAST(children), nil
+	return newListAST(children), nil
 }
