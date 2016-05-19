@@ -59,6 +59,9 @@ func (s *Scanner) Scan() (tok Token, lit string) {
 	case ';':
 		s.unread()
 		return s.scanComment()
+	case ':':
+		s.unread()
+		return s.scanKeyword()
 	}
 
 	if isPunctuation(ch) {
@@ -197,6 +200,30 @@ func (s *Scanner) scanSymbol() (tok Token, lit string) {
 	}
 
 	return TokenSymbol, buf.String()
+}
+
+func (s *Scanner) scanKeyword() (tok Token, lit string) {
+
+	var buf bytes.Buffer
+	buf.WriteRune(s.read())
+
+	for {
+		if ch := s.read(); ch == eof {
+			break
+		} else if isWhitesapce(ch) {
+			s.unread()
+			break
+		} else if ch == ':' {
+			return TokenIllegal, string(ch)
+		} else if isPunctuation(ch) {
+			s.unread()
+			break
+		} else {
+			buf.WriteRune(ch)
+		}
+	}
+
+	return TokenKeyword, buf.String()
 }
 
 func (s *Scanner) scanComment() (tok Token, lit string) {

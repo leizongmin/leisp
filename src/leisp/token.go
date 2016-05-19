@@ -12,6 +12,7 @@ const (
 	TokenWhitespace
 	TokenComment
 
+	TokenKeyword
 	TokenSymbol
 	TokenNumber
 	TokenString

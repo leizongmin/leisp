@@ -17,5 +17,5 @@ func isDigit(ch rune) bool {
 }
 
 func isPunctuation(ch rune) bool {
-	return ch == '(' || ch == ')' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == ',' || ch == ';'
+	return ch == '(' || ch == ')' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == ',' || ch == ';' || ch == ':'
 }
