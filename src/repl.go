@@ -14,7 +14,7 @@ func main() {
 
 	reader := strings.NewReader(`
 (defun hello {a b}
-  (setf c 1/23 'c',)
+  ;;(setf c 1/23 'c',)
   (format nil (+ a b)))
 	`)
 

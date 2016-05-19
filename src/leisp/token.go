@@ -10,6 +10,7 @@ const (
 	TokenIllegal Token = iota
 	TokenEOF
 	TokenWhitespace
+	TokenComment
 
 	TokenSymbol
 	TokenNumber
