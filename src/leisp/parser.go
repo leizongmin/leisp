@@ -53,6 +53,10 @@ func (p *Parser) scanIgnoreWhitespaceOrComment() (tok Token, lit string) {
 	return tok, lit
 }
 
+func (p *Parser) GetPosition() Position {
+	return p.s.Position
+}
+
 func (p *Parser) Parse() (*AST, error) {
 
 	tok, lit := p.scanIgnoreWhitespaceOrComment()
