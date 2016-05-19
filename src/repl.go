@@ -24,15 +24,13 @@ func main() {
 	reader := strings.NewReader(str)
 	p := leisp.NewParser(reader)
 	if a, e := p.Parse(); e != nil {
-		fmt.Println("result", a, e)
 		pos := p.GetPosition()
 		fmt.Printf("Error: %s at line %d,%d\n", e.Error(), pos.Line, pos.Column)
 	} else {
-		fmt.Println("result", a)
 		a.Dump()
 	}
 
+	fmt.Println()
 	r := leisp.Eval(str)
-	fmt.Println(r)
 	r.Print()
 }
