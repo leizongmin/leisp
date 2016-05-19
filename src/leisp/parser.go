@@ -82,15 +82,15 @@ func (p *Parser) parseNumber(lit string) (*AST, error) {
 	}
 	if i := strings.IndexAny(lit, "."); i != -1 {
 		if val, err := strconv.ParseFloat(lit, 64); err != nil {
-			return NewFloatAST(val), nil
-		} else {
 			return NewEmptyAST(), fmt.Errorf("invalid float number %s", lit)
+		} else {
+			return NewFloatAST(val), nil
 		}
 	}
 	if val, err := strconv.ParseInt(lit, 10, 64); err != nil {
-		return NewIntegerAST(val), nil
-	} else {
 		return NewEmptyAST(), fmt.Errorf("invalid integer number %s", lit)
+	} else {
+		return NewIntegerAST(val), nil
 	}
 }
 
@@ -113,17 +113,17 @@ func (p *Parser) parsePunctuation(lit string) (*AST, error) {
 func (p *Parser) parseSExpression(lit string) (*AST, error) {
 
 	var children []*AST
-	_, _ = p.scan()
 
 	for {
 		tok, lit := p.scanIgnoreWhitespaceOrComment()
 		if tok == TokenPunctuation && lit == ")" {
 			break
 		} else {
+			p.unscan()
 			if ast, err := p.Parse(); err != nil {
-				children = append(children, ast)
+				return NewEmptyAST(), err
 			} else {
-				return NewSExpressionAST(children), err
+				children = append(children, ast)
 			}
 		}
 	}
@@ -132,9 +132,43 @@ func (p *Parser) parseSExpression(lit string) (*AST, error) {
 }
 
 func (p *Parser) parseQExpression(lit string) (*AST, error) {
-	return NewEmptyAST(), fmt.Errorf("empty q-expression %s", lit)
+
+	var children []*AST
+
+	for {
+		tok, lit := p.scanIgnoreWhitespaceOrComment()
+		if tok == TokenPunctuation && lit == "}" {
+			break
+		} else {
+			p.unscan()
+			if ast, err := p.Parse(); err != nil {
+				return NewEmptyAST(), err
+			} else {
+				children = append(children, ast)
+			}
+		}
+	}
+
+	return NewQExpressionAST(children), nil
 }
 
 func (p *Parser) parseList(lit string) (*AST, error) {
-	return NewEmptyAST(), fmt.Errorf("empty list %s", lit)
+
+	var children []*AST
+
+	for {
+		tok, lit := p.scanIgnoreWhitespaceOrComment()
+		if tok == TokenPunctuation && lit == "]" {
+			break
+		} else {
+			p.unscan()
+			if ast, err := p.Parse(); err != nil {
+				return NewEmptyAST(), err
+			} else {
+				children = append(children, ast)
+			}
+		}
+	}
+
+	return NewListAST(children), nil
 }

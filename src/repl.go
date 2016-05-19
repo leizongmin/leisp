@@ -12,12 +12,8 @@ import (
 
 func main() {
 
-	reader := strings.NewReader(`
-(defun hello {a b}
-  ;;(setf c 1/23 'c',)
-  (:hello world)
-  (format nil (+ a b)))
-	`)
+	str := `(+ 1 2 {"a" 'a' 4 /})`
+	reader := strings.NewReader(str)
 
 	// s := leisp.NewScanner(reader)
 	// for {
@@ -36,9 +32,9 @@ func main() {
 
 	p := leisp.NewParser(reader)
 	if a, e := p.Parse(); e != nil {
-		fmt.Println(a, e)
+		fmt.Println("result", a, e)
 	} else {
-		fmt.Println(a)
+		fmt.Println("result", a)
 		if a.Children != nil {
 			for i, v := range a.Children {
 				fmt.Println(i, *v)
