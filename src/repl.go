@@ -19,21 +19,30 @@ func main() {
   (format nil (+ a b)))
 	`)
 
-	s := leisp.NewScanner(reader)
-	for {
-		tok, lit := s.Scan()
-		fmt.Printf("[%d, %d], token=%d, literal='%s'\n", s.Position.Line, s.Position.Column, tok, lit)
+	// s := leisp.NewScanner(reader)
+	// for {
+	// 	tok, lit := s.Scan()
+	// 	fmt.Printf("[%d, %d], token=%d, literal='%s'\n", s.Position.Line, s.Position.Column, tok, lit)
 
-		if tok == leisp.TokenIllegal {
-			fmt.Printf("Illegal token\n")
-			break
-		}
-		if tok == leisp.TokenEOF {
-			fmt.Println("EOF")
-			break
-		}
-	}
+	// 	if tok == leisp.TokenIllegal {
+	// 		fmt.Printf("Illegal token\n")
+	// 		break
+	// 	}
+	// 	if tok == leisp.TokenEOF {
+	// 		fmt.Println("EOF")
+	// 		break
+	// 	}
+	// }
 
 	p := leisp.NewParser(reader)
-	fmt.Println(p.Parse())
+	if a, e := p.Parse(); e != nil {
+		fmt.Println(a, e)
+	} else {
+		fmt.Println(a)
+		if a.Children != nil {
+			for i, v := range a.Children {
+				fmt.Println(i, *v)
+			}
+		}
+	}
 }

@@ -46,9 +46,7 @@ func (p *Parser) unscan() {
 func (p *Parser) scanIgnoreWhitespaceOrComment() (tok Token, lit string) {
 	for {
 		tok, lit = p.scan()
-		if tok == TokenWhitespace || tok == TokenComment {
-			tok, lit = p.scan()
-		} else {
+		if tok != TokenWhitespace && tok != TokenComment {
 			break
 		}
 	}
@@ -113,13 +111,30 @@ func (p *Parser) parsePunctuation(lit string) (*AST, error) {
 }
 
 func (p *Parser) parseSExpression(lit string) (*AST, error) {
-	return NewEmptyAST(), fmt.Errorf("empty %s", lit)
+
+	var children []*AST
+	_, _ = p.scan()
+
+	for {
+		tok, lit := p.scanIgnoreWhitespaceOrComment()
+		if tok == TokenPunctuation && lit == ")" {
+			break
+		} else {
+			if ast, err := p.Parse(); err != nil {
+				children = append(children, ast)
+			} else {
+				return NewSExpressionAST(children), err
+			}
+		}
+	}
+
+	return NewSExpressionAST(children), nil
 }
 
 func (p *Parser) parseQExpression(lit string) (*AST, error) {
-	return NewEmptyAST(), fmt.Errorf("empty %s", lit)
+	return NewEmptyAST(), fmt.Errorf("empty q-expression %s", lit)
 }
 
 func (p *Parser) parseList(lit string) (*AST, error) {
-	return NewEmptyAST(), fmt.Errorf("empty %s", lit)
+	return NewEmptyAST(), fmt.Errorf("empty list %s", lit)
 }
