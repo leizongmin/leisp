@@ -17,6 +17,10 @@ func newResult(value interface{}) *Result {
 	}
 }
 
+func newEmptyResult() *Result {
+	return newResult(nil)
+}
+
 func newErrorResult(err error) *Result {
 	return &Result{
 		Error: err,

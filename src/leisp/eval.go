@@ -29,9 +29,30 @@ func Eval(prog string) *Result {
 }
 
 func EvalAST(ast *AST) *Result {
+
 	switch ast.Type {
-	case "integer", "float", "string", "char":
+	case "ratio", "integer", "float", "string", "char", "null", "boolean", "symbol":
 		return newResult(ast.Value)
+	case "list":
+		return newResult(ast.Children)
+	case "q-expr":
+		return newResult(ast.Children)
+	case "s-expr":
+		if len(ast.Children) < 1 {
+			return newEmptyResult()
+		}
+		op := EvalAST(ast.Children[0])
+		args := ast.Children[1:]
+		values := make([]*Result, len(args))
+		for i, v := range args {
+			values[i] = EvalAST(v)
+		}
+		fn, ok := op.Value.(string)
+		if !ok {
+			return newErrorResult(fmt.Errorf("%s is not a function", op.ToString()))
+		}
+		return callBuiltinFunction(fn, values)
 	}
-	return newResult(2)
+
+	return newEmptyResult()
 }
