@@ -32,7 +32,7 @@ func EvalAST(ast *AST) *Result {
 
 	switch ast.Type {
 
-	case "ratio", "integer", "float", "string", "char", "null", "boolean", "symbol":
+	case "ratio", "integer", "float", "string", "char", "null", "boolean", "symbol", "keyword":
 		return newResult(ast.Value)
 
 	case "list":
