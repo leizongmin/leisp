@@ -22,7 +22,7 @@ func main() {
 	s := leisp.NewScanner(reader)
 	for {
 		tok, lit := s.Scan()
-		fmt.Printf("token=%d, literal='%s'\n", tok, lit)
+		fmt.Printf("[%d, %d], token=%d, literal='%s'\n", s.Position.Line, s.Position.Column, tok, lit)
 
 		if tok == leisp.TokenIllegal {
 			fmt.Printf("Illegal token\n")

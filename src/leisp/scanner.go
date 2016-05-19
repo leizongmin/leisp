@@ -12,26 +12,57 @@ import (
 
 const eof = rune(0)
 
+type Position struct {
+	Line   int
+	Column int
+}
+
 type Scanner struct {
-	r *bufio.Reader
+	r          *bufio.Reader
+	Position   Position
+	lastChar   rune
+	lastColumn int
 }
 
 func NewScanner(r io.Reader) *Scanner {
 	return &Scanner{
 		r: bufio.NewReader(r),
+		Position: Position{
+			Line: 1,
+		},
 	}
 }
 
 func (s *Scanner) read() rune {
+
 	ch, _, err := s.r.ReadRune()
 	if err != nil {
 		return eof
 	}
+
+	s.lastColumn = s.Position.Column
+	s.lastChar = ch
+	if ch == '\n' {
+		s.Position.Line++
+		s.Position.Column = 0
+	} else {
+		s.Position.Column++
+	}
+
 	return ch
 }
 
 func (s *Scanner) unread() {
-	_ = s.r.UnreadRune()
+
+	_ = s.r.UnreadByte()
+
+	if s.lastChar == '\n' {
+		s.Position.Line--
+		s.Position.Column = s.lastColumn
+		s.lastColumn--
+	} else {
+		s.Position.Column--
+	}
 }
 
 func (s *Scanner) Scan() (tok Token, lit string) {
