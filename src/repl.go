@@ -12,10 +12,12 @@ import (
 
 func main() {
 
-	str := `(+ 1 2.2e5 {"a" 'a' '好' 4 / [1] [nil t]
-			  ;;这里使用keyword
-			  (:name my-name)})
-			(setf a 1.1)`
+	str := `
+(+ 1 2.2e5 {"a" 'a' '好' 4 / [1] [nil t]
+  ;;这里使用keyword
+  (:name my-name)})
+(setf a 1.1)`
+	fmt.Println(str)
 
 	reader := strings.NewReader(str)
 	p := leisp.NewParser(reader)
