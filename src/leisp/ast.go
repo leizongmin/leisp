@@ -72,6 +72,7 @@ func newQExpressionAST(ch []*AST) *AST {
 	return newAST("q-expr", nil, ch)
 }
 
+// Dump prints the AST structs
 func (a *AST) Dump() {
 	a.dump(0)
 }
@@ -103,6 +104,7 @@ func (a *AST) dump(indent int) {
 	}
 }
 
+// IsEmpty returns true if this is an empty AST
 func (a *AST) IsEmpty() bool {
 	if a.Type == "empty" {
 		return true
