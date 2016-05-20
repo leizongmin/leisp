@@ -22,6 +22,9 @@ func Eval(prog string) *Result {
 			break
 		} else {
 			r = EvalAST(ast)
+			if r.Error != nil {
+				break
+			}
 		}
 	}
 

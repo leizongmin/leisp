@@ -32,5 +32,9 @@ func (r *Result) ToString() string {
 }
 
 func (r *Result) Print() {
-	fmt.Println(r.ToString())
+	if r.Error != nil {
+		fmt.Printf("<Error: %s>\n", r.Error)
+	} else {
+		fmt.Println(r.ToString())
+	}
 }
