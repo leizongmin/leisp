@@ -28,13 +28,19 @@ func newErrorResult(err error) *Result {
 }
 
 func (r *Result) ToString() string {
+	if r.Error != nil {
+		return fmt.Sprintf("<Error#\"%s\">", r.Error)
+	}
+	if arr, ok := r.Value.([]*AST); ok {
+		arr2 := make([]interface{}, len(arr))
+		for i, v := range arr {
+			arr2[i] = v.Value
+		}
+		r.Value = arr2
+	}
 	return fmt.Sprint(r.Value)
 }
 
 func (r *Result) Print() {
-	if r.Error != nil {
-		fmt.Printf("<Error: %s>\n", r.Error)
-	} else {
-		fmt.Println(r.ToString())
-	}
+	fmt.Println(r.ToString())
 }

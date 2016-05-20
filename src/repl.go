@@ -13,13 +13,7 @@ import (
 func main() {
 
 	str := `
-(print
-  "hello world"
-  'a'
-  :append
-  (- 1111 222)
-  (+ 1 2 3 0 "a" 4))
-(print "ok")
+{1 2 3}
 `
 	fmt.Println(str)
 
