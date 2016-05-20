@@ -18,7 +18,7 @@ func NewScope(parent *Scope) *Scope {
 }
 
 func NewRootScope() *Scope {
-	return &Scope{}
+	return NewScope(nil)
 }
 
 func (s *Scope) Get(name string) (val interface{}, err error) {
