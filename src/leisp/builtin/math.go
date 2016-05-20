@@ -2,19 +2,19 @@
 // Copyright 2016 Zongmin Lei <leizongmin@gmail.com>. All rights reserved.
 // Under the MIT License
 
-package leisp
+package builtin
 
 import "fmt"
 
 func init() {
 
-	registerBuiltinFunction("+", Function(func(args []*Result) *Result {
+	Register("+", Function(func(args []*Result) *Result {
 
 		if len(args) < 1 {
 			return newResult(0)
 		}
 
-		args = getFunctionArgs(args)
+		args = GetArgs(args)
 		var ri int64
 		var rf float64
 		isInt := true
@@ -49,13 +49,13 @@ func init() {
 		return newResult(rf)
 	}))
 
-	registerBuiltinFunction("-", Function(func(args []*Result) *Result {
+	Register("-", Function(func(args []*Result) *Result {
 
 		if len(args) < 1 {
 			return newResult(0)
 		}
 
-		args = getFunctionArgs(args)
+		args = GetArgs(args)
 		var ri int64
 		var rf float64
 		isInt := true
@@ -90,13 +90,13 @@ func init() {
 		return newResult(rf)
 	}))
 
-	registerBuiltinFunction("*", Function(func(args []*Result) *Result {
+	Register("*", Function(func(args []*Result) *Result {
 
 		if len(args) < 1 {
 			return newResult(0)
 		}
 
-		args = getFunctionArgs(args)
+		args = GetArgs(args)
 		var ri int64
 		var rf float64
 		isInt := true
@@ -131,13 +131,13 @@ func init() {
 		return newResult(rf)
 	}))
 
-	registerBuiltinFunction("/", Function(func(args []*Result) *Result {
+	Register("/", Function(func(args []*Result) *Result {
 
 		if len(args) < 1 {
 			return newResult(0)
 		}
 
-		args = getFunctionArgs(args)
+		args = GetArgs(args)
 		var rf float64
 
 		if vi, ok := args[0].Value.(int64); ok {

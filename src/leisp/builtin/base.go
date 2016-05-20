@@ -2,11 +2,11 @@
 // Copyright 2016 Zongmin Lei <leizongmin@gmail.com>. All rights reserved.
 // Under the MIT License
 
-package leisp
+package builtin
 
 func init() {
 
-	registerBuiltinFunction("setf", Function(func(args []*Result) *Result {
+	Register("setf", Function(func(args []*Result) *Result {
 		return newResult("setf")
 	}))
 
