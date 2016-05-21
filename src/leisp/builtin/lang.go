@@ -11,3 +11,6 @@ func init() {
 	}))
 
 }
+
+// type-of, is-int32?
+// int32, int64, int, float32, float64, string ...

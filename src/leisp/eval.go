@@ -6,7 +6,7 @@ package leisp
 
 import (
 	"fmt"
-	"leisp/builtin"
+	//"leisp/builtin"
 	"strings"
 )
 
@@ -59,7 +59,7 @@ func EvalAST(ast *AST) *Result {
 		if !ok {
 			return newErrorResult(fmt.Errorf("%s is not a function", op.ToString()))
 		}
-		return builtin.Call(fn, values)
+		// return builtin.Call(fn, values)
 	}
 
 	return newEmptyResult()
