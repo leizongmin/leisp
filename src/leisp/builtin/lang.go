@@ -6,8 +6,8 @@ package builtin
 
 func init() {
 
-	Register("setf", Function(func(args []*Result) *Result {
-		return newResult("setf")
+	Register("setf", Function(func(args []*Atom) *Atom {
+		return newAtom("setf")
 	}))
 
 }

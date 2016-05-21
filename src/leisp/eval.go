@@ -10,15 +10,15 @@ import (
 	"strings"
 )
 
-func Eval(prog string) *Result {
+func Eval(prog string) *Atom {
 
 	p := NewParser(strings.NewReader(prog))
-	var r *Result
+	var r *Atom
 
 	for {
 		if ast, err := p.Parse(); err != nil {
 			pos := p.GetPosition()
-			return newErrorResult(fmt.Errorf("Error: %s at line %d,%d\n", err.Error(), pos.Line, pos.Column))
+			return newErrorAtom(fmt.Errorf("Error: %s at line %d,%d\n", err.Error(), pos.Line, pos.Column))
 		} else if ast.IsEmpty() {
 			break
 		} else {
@@ -32,35 +32,35 @@ func Eval(prog string) *Result {
 	return r
 }
 
-func EvalAST(ast *AST) *Result {
+func EvalAST(ast *AST) *Atom {
 
 	switch ast.Type {
 
 	case "ratio", "integer", "float", "string", "char", "null", "boolean", "symbol", "keyword":
-		return newResult(ast.Value)
+		return newAtom(ast.Value)
 
 	case "list":
-		return newResult(ast.Children)
+		return newAtom(ast.Children)
 
 	case "q-expr":
-		return newResult(newSExpressionAST(ast.Children))
+		return newAtom(newSExpressionAST(ast.Children))
 
 	case "s-expr":
 		if len(ast.Children) < 1 {
-			return newEmptyResult()
+			return newEmptyAtom()
 		}
 		op := EvalAST(ast.Children[0])
 		args := ast.Children[1:]
-		values := make([]*Result, len(args))
+		values := make([]*Atom, len(args))
 		for i, v := range args {
 			values[i] = EvalAST(v)
 		}
 		fn, ok := op.Value.(string)
 		if !ok {
-			return newErrorResult(fmt.Errorf("%s is not a function", op.ToString()))
+			return newErrorAtom(fmt.Errorf("%s is not a function", op.ToString()))
 		}
 		// return builtin.Call(fn, values)
 	}
 
-	return newEmptyResult()
+	return newEmptyAtom()
 }

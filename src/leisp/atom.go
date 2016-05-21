@@ -6,28 +6,28 @@ package leisp
 
 import "fmt"
 
-type Result struct {
+type Atom struct {
 	Error error
 	Value interface{}
 }
 
-func newResult(value interface{}) *Result {
-	return &Result{
+func newAtom(value interface{}) *Atom {
+	return &Atom{
 		Value: value,
 	}
 }
 
-func newEmptyResult() *Result {
-	return newResult(nil)
+func newEmptyAtom() *Atom {
+	return newAtom(nil)
 }
 
-func newErrorResult(err error) *Result {
-	return &Result{
+func newErrorAtom(err error) *Atom {
+	return &Atom{
 		Error: err,
 	}
 }
 
-func (r *Result) ToString() string {
+func (r *Atom) ToString() string {
 	if r.Error != nil {
 		return fmt.Sprintf("<Error#\"%s\">", r.Error)
 	}
@@ -41,6 +41,6 @@ func (r *Result) ToString() string {
 	return fmt.Sprint(r.Value)
 }
 
-func (r *Result) Print() {
+func (r *Atom) Print() {
 	fmt.Println(r.ToString())
 }

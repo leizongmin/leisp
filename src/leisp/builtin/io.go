@@ -8,13 +8,13 @@ import "fmt"
 
 func init() {
 
-	Register("print", Function(func(args []*Result) *Result {
+	Register("print", Function(func(args []*Atom) *Atom {
 		args = GetArgs(args)
 		for _, v := range args {
 			fmt.Print(v.Value, " ")
 		}
 		fmt.Print("\n")
-		return newEmptyResult()
+		return newEmptyAtom()
 	}))
 
 }
