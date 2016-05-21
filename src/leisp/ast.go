@@ -111,3 +111,13 @@ func (a *AST) IsEmpty() bool {
 	}
 	return false
 }
+
+// IsValue returns true if this is an value AST
+func (a *AST) IsValue() bool {
+	switch a.Type {
+	case "q-expr", "s-expr":
+		return false
+	default:
+		return true
+	}
+}
