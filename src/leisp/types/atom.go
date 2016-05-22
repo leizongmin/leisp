@@ -4,7 +4,10 @@
 
 package types
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Atom struct {
 	Error error
@@ -27,13 +30,31 @@ func NewErrorAtom(err error) *Atom {
 	}
 }
 
-func (r *Atom) ToString() string {
-	if r.Error != nil {
-		return fmt.Sprintf("<Error#\"%s\">", r.Error)
-	}
-	return fmt.Sprint(r.Value)
+func NewErrorMessageAtom(err string) *Atom {
+	return NewErrorAtom(errors.New(err))
 }
 
-func (r *Atom) Print() {
-	fmt.Println(r.ToString())
+func (a *Atom) ToString() string {
+	if a.Error != nil {
+		return fmt.Sprintf("<Error#\"%s\">", a.Error)
+	}
+	return fmt.Sprint(a.Value)
+}
+
+func (a *Atom) Print() {
+	fmt.Println(a.ToString())
+}
+
+func (a *Atom) IsError() bool {
+	if a.Error != nil {
+		return true
+	}
+	return false
+}
+
+func (a *Atom) IsValue() bool {
+	if a.Error == nil {
+		return true
+	}
+	return false
 }

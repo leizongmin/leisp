@@ -7,7 +7,7 @@ package types
 import "fmt"
 
 type Scope struct {
-	Variables map[string]interface{}
+	Variables map[string]ValueType
 	Parent    *Scope
 }
 
@@ -21,7 +21,7 @@ func NewRootScope() *Scope {
 	return NewScope(nil)
 }
 
-func (s *Scope) Get(name string) (val interface{}, err error) {
+func (s *Scope) Get(name string) (val ValueType, err error) {
 	if val, ok := s.Variables[name]; ok {
 		return val, nil
 	}
@@ -31,7 +31,7 @@ func (s *Scope) Get(name string) (val interface{}, err error) {
 	return nil, fmt.Errorf("'%s' is undefined", name)
 }
 
-func (s *Scope) Declare(name string, val interface{}) error {
+func (s *Scope) Declare(name string, val ValueType) error {
 	if _, ok := s.Variables[name]; ok {
 		return fmt.Errorf("'%s' has already been declared", name)
 	}
@@ -39,7 +39,7 @@ func (s *Scope) Declare(name string, val interface{}) error {
 	return nil
 }
 
-func (s *Scope) Set(name string, val interface{}) error {
+func (s *Scope) Set(name string, val ValueType) error {
 	if val, ok := s.Variables[name]; ok {
 		s.Variables[name] = val
 		return nil

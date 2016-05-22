@@ -2,18 +2,19 @@
 // Copyright 2016 Zongmin Lei <leizongmin@gmail.com>. All rights reserved.
 // Under the MIT License
 
-package leisp
+package interpreter
 
 import (
 	"fmt"
-	//"leisp/builtin"
+	"leisp/parser"
+	"leisp/types"
 	"strings"
 )
 
-func Eval(prog string) *Atom {
+func Eval(prog string) *types.Atom {
 
-	p := NewParser(strings.NewReader(prog))
-	var r *Atom
+	p := parser.NewParser(strings.NewReader(prog))
+	var r *types.Atom
 
 	for {
 		if ast, err := p.Parse(); err != nil {
@@ -32,7 +33,7 @@ func Eval(prog string) *Atom {
 	return r
 }
 
-func EvalAST(ast *AST) *Atom {
+func EvalAST(ast *AST) *types.Atom {
 
 	switch ast.Type {
 
@@ -51,7 +52,7 @@ func EvalAST(ast *AST) *Atom {
 		}
 		op := EvalAST(ast.Children[0])
 		args := ast.Children[1:]
-		values := make([]*Atom, len(args))
+		values := make([]*types.Atom, len(args))
 		for i, v := range args {
 			values[i] = EvalAST(v)
 		}

@@ -4,7 +4,10 @@
 
 package main
 
-import "leisp/parser"
+import (
+	"leisp/interpreter"
+	"leisp/parser"
+)
 
 func main() {
 
@@ -16,7 +19,6 @@ func main() {
 `
 	parser.Dump(str)
 
-	// fmt.Println()
-	// r := leisp.Eval(str)
+	a := interpreter.Eval(str)
 	// r.Print()
 }
