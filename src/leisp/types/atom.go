@@ -2,26 +2,26 @@
 // Copyright 2016 Zongmin Lei <leizongmin@gmail.com>. All rights reserved.
 // Under the MIT License
 
-package leisp
+package types
 
 import "fmt"
 
 type Atom struct {
 	Error error
-	Value interface{}
+	Value *ValueType
 }
 
-func newAtom(value interface{}) *Atom {
+func NewAtom(v *ValueType) *Atom {
 	return &Atom{
 		Value: value,
 	}
 }
 
-func newEmptyAtom() *Atom {
-	return newAtom(nil)
+func NewEmptyAtom() *Atom {
+	return NewAtom(NewNull())
 }
 
-func newErrorAtom(err error) *Atom {
+func NewErrorAtom(err error) *Atom {
 	return &Atom{
 		Error: err,
 	}

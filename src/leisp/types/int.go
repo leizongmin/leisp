@@ -6,18 +6,18 @@ package types
 
 import "fmt"
 
-type IntType struct {
+type IntegerValue struct {
 	Value int64
 }
 
-func (t *IntType) ToString() string {
+func (t *IntegerValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *IntType) GetValueType() string {
-	return "int"
+func (t *IntegerValue) GetValueType() string {
+	return "integer"
 }
 
-func NewInt(v int64) *IntType {
-	return &IntType{Value: v}
+func NewInteger(v int64) *IntegerValue {
+	return &IntegerValue{Value: v}
 }
