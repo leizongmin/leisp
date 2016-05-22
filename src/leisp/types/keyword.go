@@ -14,7 +14,7 @@ func (t *KeywordValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *KeywordValue) GetValueType() string {
+func (t *KeywordValue) GetType() string {
 	return "keyword"
 }
 

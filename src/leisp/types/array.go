@@ -14,7 +14,7 @@ func (t *ArrayValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *ArrayValue) GetValueType() string {
+func (t *ArrayValue) GetType() string {
 	return "array"
 }
 

@@ -72,7 +72,7 @@ func (a *AST) dump(indent int) {
 	if a.Value == nil {
 		fmt.Printf("%s %s\n", prefix, a.Type)
 	} else {
-		fmt.Printf("%s %s(%s):  %s\n", prefix, a.Type, a.Value.GetValueType(), a.Value.ToString())
+		fmt.Printf("%s %s(%s):  %s\n", prefix, a.Type, a.Value.GetType(), a.Value.ToString())
 	}
 
 	if len(a.Children) > 0 {

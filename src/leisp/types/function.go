@@ -16,7 +16,7 @@ func (t *FunctionValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *FunctionValue) GetValueType() string {
+func (t *FunctionValue) GetType() string {
 	return "function"
 }
 

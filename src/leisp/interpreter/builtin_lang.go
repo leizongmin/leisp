@@ -16,7 +16,7 @@ func init() {
 		if a.IsError() {
 			return types.NewAtom(types.NewString("error"))
 		}
-		return types.NewAtom(types.NewString(a.Value.GetValueType()))
+		return types.NewAtom(types.NewString(a.Value.GetType()))
 	})
 
 }

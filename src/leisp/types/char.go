@@ -14,7 +14,7 @@ func (t *CharValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *CharValue) GetValueType() string {
+func (t *CharValue) GetType() string {
 	return "char"
 }
 

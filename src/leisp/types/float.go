@@ -14,7 +14,7 @@ func (t *FloatValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *FloatValue) GetValueType() string {
+func (t *FloatValue) GetType() string {
 	return "float"
 }
 

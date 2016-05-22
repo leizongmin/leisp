@@ -14,7 +14,7 @@ func (t *RatioValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *RatioValue) GetValueType() string {
+func (t *RatioValue) GetType() string {
 	return "ratio"
 }
 

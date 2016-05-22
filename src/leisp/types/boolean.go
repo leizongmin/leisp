@@ -14,7 +14,7 @@ func (t *BooleanValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *BooleanValue) GetValueType() string {
+func (t *BooleanValue) GetType() string {
 	return "boolean"
 }
 

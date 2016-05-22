@@ -14,7 +14,7 @@ func (t *SymbolValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *SymbolValue) GetValueType() string {
+func (t *SymbolValue) GetType() string {
 	return "symbol"
 }
 
