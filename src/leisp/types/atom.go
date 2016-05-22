@@ -8,12 +8,12 @@ import "fmt"
 
 type Atom struct {
 	Error error
-	Value *ValueType
+	Value ValueType
 }
 
-func NewAtom(v *ValueType) *Atom {
+func NewAtom(v ValueType) *Atom {
 	return &Atom{
-		Value: value,
+		Value: v,
 	}
 }
 
@@ -30,13 +30,6 @@ func NewErrorAtom(err error) *Atom {
 func (r *Atom) ToString() string {
 	if r.Error != nil {
 		return fmt.Sprintf("<Error#\"%s\">", r.Error)
-	}
-	if arr, ok := r.Value.([]*AST); ok {
-		arr2 := make([]interface{}, len(arr))
-		for i, v := range arr {
-			arr2[i] = v.Value
-		}
-		r.Value = arr2
 	}
 	return fmt.Sprint(r.Value)
 }

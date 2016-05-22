@@ -18,6 +18,11 @@ func (t *CharValue) GetValueType() string {
 	return "char"
 }
 
+func getRuneByIndex(s string, i int) rune {
+	r := []rune(s)
+	return r[i]
+}
+
 func NewChar(v string) *CharValue {
-	return &CharValue{Value: v}
+	return &CharValue{Value: getRuneByIndex(v, 0)}
 }

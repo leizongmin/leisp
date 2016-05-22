@@ -6,7 +6,7 @@ package main
 
 import (
 	"fmt"
-	"leisp"
+	"leisp/parser"
 	"strings"
 )
 
@@ -18,7 +18,7 @@ func main() {
 	fmt.Println(str)
 
 	reader := strings.NewReader(str)
-	p := leisp.NewParser(reader)
+	p := parser.NewParser(reader)
 	if a, e := p.Parse(); e != nil {
 		pos := p.GetPosition()
 		fmt.Printf("Error: %s at line %d,%d\n", e.Error(), pos.Line, pos.Column)
@@ -26,7 +26,7 @@ func main() {
 		a.Dump()
 	}
 
-	fmt.Println()
-	r := leisp.Eval(str)
-	r.Print()
+	// fmt.Println()
+	// r := leisp.Eval(str)
+	// r.Print()
 }
