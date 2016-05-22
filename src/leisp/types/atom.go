@@ -38,7 +38,7 @@ func (a *Atom) ToString() string {
 	if a.Error != nil {
 		return fmt.Sprintf("<Error#\"%s\">", a.Error)
 	}
-	return fmt.Sprint(a.Value)
+	return fmt.Sprint(a.Value.ToString())
 }
 
 func (a *Atom) Print() {
