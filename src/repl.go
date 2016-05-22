@@ -20,5 +20,5 @@ func main() {
 	parser.Dump(str)
 
 	a := interpreter.Eval(str)
-	// r.Print()
+	a.Print()
 }

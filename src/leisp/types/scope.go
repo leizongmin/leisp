@@ -13,7 +13,8 @@ type Scope struct {
 
 func NewScope(parent *Scope) *Scope {
 	return &Scope{
-		Parent: parent,
+		Parent:    parent,
+		Variables: make(map[string]ValueType),
 	}
 }
 

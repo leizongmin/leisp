@@ -21,11 +21,11 @@ func CallFunction(s *types.Scope, args []*types.Atom) *types.Atom {
 		return types.NewErrorMessageAtom("invalid s-expression")
 	}
 	switch op := args[0].Value.(type) {
-	case types.SymbolValue:
-		return types.NewAtom(types.NewString("ok"))
-	case types.KeywordValue:
-		return types.NewErrorMessageAtom("keyword s-expression is not implementation")
+	// case types.SymbolValue:
+	// 	return types.NewAtom(types.NewString("ok"))
+	// case types.KeywordValue:
+	// 	return types.NewErrorMessageAtom("keyword s-expression is not implementation")
 	default:
-		return types.NewErrorAtom(fmt.Errorf("invalid s-expression, operator cannot be type %s", op.Value.GetValueType()))
+		return types.NewErrorAtom(fmt.Errorf("invalid s-expression, operator cannot be type %s", op.GetType()))
 	}
 }
