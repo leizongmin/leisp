@@ -14,6 +14,16 @@ func builtinPrint(s *types.Scope, args []*types.Atom) *types.Atom {
 	if len(args) > 0 {
 		list := make([]string, len(args))
 		for i, a := range args {
+			if a.IsValue() {
+				if sym, ok := a.Value.(*types.SymbolValue); ok {
+					if v, err := sym.GetFinalValue(s); err != nil {
+						return types.NewErrorAtom(err)
+					} else {
+						list[i] = v.ToString()
+					}
+					continue
+				}
+			}
 			list[i] = a.ToString()
 		}
 		fmt.Print(strings.Join(list, " "))
