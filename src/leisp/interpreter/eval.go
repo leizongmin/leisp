@@ -43,37 +43,15 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 		return CallFunction(s, astListToAtomList(s, ast.Children))
 	}
 
+	if ast.IsArray() {
+		return types.NewErrorMessageAtom("does not implement array AST yet")
+	}
+
+	if ast.IsQExpression() {
+		return types.NewErrorMessageAtom("does not implement q-expression AST yet")
+	}
+
 	return types.NewAtom(types.NewNull())
-
-	// switch ast.Type {
-
-	// case "ratio", "integer", "float", "string", "char", "null", "boolean", "symbol", "keyword":
-	// 	return newAtom(ast.Value)
-
-	// case "list":
-	// 	return newAtom(ast.Children)
-
-	// case "q-expr":
-	// 	return newAtom(newSExpressionAST(ast.Children))
-
-	// case "s-expr":
-	// 	if len(ast.Children) < 1 {
-	// 		return newEmptyAtom()
-	// 	}
-	// 	op := EvalAST(ast.Children[0])
-	// 	args := ast.Children[1:]
-	// 	values := make([]*types.Atom, len(args))
-	// 	for i, v := range args {
-	// 		values[i] = EvalAST(v)
-	// 	}
-	// 	fn, ok := op.Value.(string)
-	// 	if !ok {
-	// 		return newErrorAtom(fmt.Errorf("%s is not a function", op.ToString()))
-	// 	}
-	// 	// return builtin.Call(fn, values)
-	// }
-
-	// return newEmptyAtom()
 }
 
 func astListToAtomList(s *types.Scope, ast []*types.AST) []*types.Atom {
