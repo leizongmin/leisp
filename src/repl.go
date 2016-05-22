@@ -11,6 +11,8 @@ func main() {
 	str := `
 {1 2 3}
 (defun print [msg] (format "Hello, " msg))
+
+1 "xyz" 'a' nil t
 `
 	parser.Dump(str)
 

@@ -69,17 +69,17 @@ func (a *AST) dump(indent int) {
 
 	prefix := makeIndentString(indent) + "--"
 
-	val := ""
-	if a.Value != nil {
-		val = fmt.Sprint(a.Value)
+	if a.Value == nil {
+		fmt.Printf("%s %s\n", prefix, a.Type)
+	} else {
+		fmt.Printf("%s %s(%s):  %s\n", prefix, a.Type, a.Value.GetValueType(), a.Value.ToString())
 	}
 
-	fmt.Printf("%s %s:\t%s\n", prefix, a.Type, val)
 	if len(a.Children) > 0 {
 		for _, c := range a.Children {
 			c.dump(indent + 1)
 		}
-	} else if a.Type == "list" || a.Type == "q-expr" || a.Type == "s-expr" {
+	} else if a.Type == "array" || a.Type == "q-expr" || a.Type == "s-expr" {
 		fmt.Printf("%s-- empty %s\n", makeIndentString(indent+1), a.Type)
 	}
 }
