@@ -12,7 +12,8 @@ import (
 func main() {
 
 	str := `
-(type-of 1/2)
+(def aa 111)
+(println aa 123 "ok" :haha)
 `
 	parser.Dump(str)
 

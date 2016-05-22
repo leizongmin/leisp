@@ -29,12 +29,12 @@ func (s *Scope) Get(name string) (val ValueType, err error) {
 	if s.Parent != nil {
 		return s.Parent.Get(name)
 	}
-	return nil, fmt.Errorf("'%s' is undefined", name)
+	return nil, fmt.Errorf("%s is undefined", name)
 }
 
 func (s *Scope) Declare(name string, val ValueType) error {
 	if _, ok := s.Variables[name]; ok {
-		return fmt.Errorf("'%s' has already been declared", name)
+		return fmt.Errorf("%s has already been declared", name)
 	}
 	s.Variables[name] = val
 	return nil
@@ -49,7 +49,7 @@ func (s *Scope) Set(name string, val ValueType) error {
 		s.Parent.Set(name, val)
 		return nil
 	}
-	return fmt.Errorf("'%s' is undefined", name)
+	return fmt.Errorf("%s is undefined", name)
 }
 
 func (s *Scope) Delete(name string) error {

@@ -4,14 +4,12 @@
 
 package types
 
-import "fmt"
-
 type StringValue struct {
 	Value string
 }
 
 func (t *StringValue) ToString() string {
-	return fmt.Sprint(t.Value)
+	return "\"" + t.Value + "\""
 }
 
 func (t *StringValue) GetType() string {
