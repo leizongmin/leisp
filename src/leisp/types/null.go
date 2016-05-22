@@ -4,14 +4,12 @@
 
 package types
 
-import "fmt"
-
 type NullValue struct {
 	Value bool
 }
 
 func (t *NullValue) ToString() string {
-	return fmt.Sprint(t.Value)
+	return "NIL"
 }
 
 func (t *NullValue) GetType() string {

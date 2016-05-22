@@ -4,14 +4,15 @@
 
 package types
 
-import "fmt"
-
 type BooleanValue struct {
 	Value bool
 }
 
 func (t *BooleanValue) ToString() string {
-	return fmt.Sprint(t.Value)
+	if t.Value {
+		return "T"
+	}
+	return "NIL"
 }
 
 func (t *BooleanValue) GetType() string {
