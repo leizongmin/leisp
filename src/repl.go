@@ -13,7 +13,7 @@ func main() {
 
 	str := `
 (def aa "hello, world")
-(println aa 123 "ok" :haha)
+(println aa 123 "ok" :haha def)
 `
 	parser.Dump(str)
 

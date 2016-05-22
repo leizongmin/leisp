@@ -10,10 +10,15 @@ type Function func(s *Scope, args []*Atom) *Atom
 
 type FunctionValue struct {
 	Value Function
+	Name  string
 }
 
 func (t *FunctionValue) ToString() string {
-	return fmt.Sprint(t.Value)
+	n := t.Name
+	if n == "" {
+		n = "anonymous"
+	}
+	return fmt.Sprintf("<Function#%s>", n)
 }
 
 func (t *FunctionValue) GetType() string {
@@ -24,6 +29,6 @@ func (t *FunctionValue) Call(s *Scope, args []*Atom) *Atom {
 	return t.Value(s, args)
 }
 
-func NewFunction(v Function) *FunctionValue {
-	return &FunctionValue{Value: v}
+func NewFunction(n string, v Function) *FunctionValue {
+	return &FunctionValue{Name: n, Value: v}
 }
