@@ -4,27 +4,15 @@
 
 package main
 
-import (
-	"fmt"
-	"leisp/parser"
-	"strings"
-)
+import "leisp/parser"
 
 func main() {
 
 	str := `
 {1 2 3}
+(defun print [msg] (format "Hello, " msg))
 `
-	fmt.Println(str)
-
-	reader := strings.NewReader(str)
-	p := parser.NewParser(reader)
-	if a, e := p.Parse(); e != nil {
-		pos := p.GetPosition()
-		fmt.Printf("Error: %s at line %d,%d\n", e.Error(), pos.Line, pos.Column)
-	} else {
-		a.Dump()
-	}
+	parser.Dump(str)
 
 	// fmt.Println()
 	// r := leisp.Eval(str)
