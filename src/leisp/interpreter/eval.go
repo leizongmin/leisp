@@ -23,7 +23,7 @@ func Eval(prog string) *types.Atom {
 		} else if ast.IsEOF() {
 			break
 		} else {
-			r = EvalAST(ast)
+			r = EvalAST(Scope, ast)
 			if r.Error != nil {
 				break
 			}
@@ -33,10 +33,14 @@ func Eval(prog string) *types.Atom {
 	return r
 }
 
-func EvalAST(ast *types.AST) *types.Atom {
+func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 
 	if ast.IsValue() {
 		return types.NewAtom(ast.Value)
+	}
+
+	if ast.IsSExpression() {
+		return CallFunction(s, astListToAtomList(s, ast.Children))
 	}
 
 	return types.NewAtom(types.NewNull())
@@ -70,4 +74,12 @@ func EvalAST(ast *types.AST) *types.Atom {
 	// }
 
 	// return newEmptyAtom()
+}
+
+func astListToAtomList(s *types.Scope, ast []*types.AST) []*types.Atom {
+	list := make([]*types.Atom, len(ast))
+	for i, a := range ast {
+		list[i] = EvalAST(s, a)
+	}
+	return list
 }

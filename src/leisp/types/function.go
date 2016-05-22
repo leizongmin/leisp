@@ -20,6 +20,10 @@ func (t *FunctionValue) GetType() string {
 	return "function"
 }
 
+func (t *FunctionValue) Call(s *Scope, args []*Atom) *Atom {
+	return t.Value(s, args)
+}
+
 func NewFunction(v Function) *FunctionValue {
 	return &FunctionValue{Value: v}
 }

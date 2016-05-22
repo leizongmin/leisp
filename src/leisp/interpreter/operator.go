@@ -20,12 +20,29 @@ func CallFunction(s *types.Scope, args []*types.Atom) *types.Atom {
 	if l < 1 {
 		return types.NewErrorMessageAtom("invalid s-expression")
 	}
-	switch op := args[0].Value.(type) {
-	// case types.SymbolValue:
-	// 	return types.NewAtom(types.NewString("ok"))
-	// case types.KeywordValue:
-	// 	return types.NewErrorMessageAtom("keyword s-expression is not implementation")
+	op := args[0]
+	switch op.Value.GetType() {
+
+	case "symbol":
+		return callFunction(s, op, args[1:])
+
+	case "keyword":
+		return types.NewErrorMessageAtom("keyword s-expression is not implementation")
+
 	default:
-		return types.NewErrorAtom(fmt.Errorf("invalid s-expression, operator cannot be type %s", op.GetType()))
+		return types.NewErrorAtom(fmt.Errorf("invalid s-expression, operator cannot be type %s", op))
 	}
+}
+
+func callFunction(s *types.Scope, op *types.Atom, args []*types.Atom) *types.Atom {
+	symbol, _ := op.Value.(*types.SymbolValue)
+	value, err := s.Get(symbol.Value)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+	fn, ok := value.(*types.FunctionValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("%s(%s) is not a function", value.ToString(), value.GetType()))
+	}
+	return fn.Call(s, args)
 }
