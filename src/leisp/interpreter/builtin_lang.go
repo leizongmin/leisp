@@ -46,21 +46,30 @@ func builtinDef(s *types.Scope, args []*types.Atom) *types.Atom {
 	return v
 }
 
-// func builtinNewScope(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinNewScope(s *types.Scope, args []*types.Atom) *types.Atom {
 
-// 	argc := len(args)
-// 	if > 1 {
-// 		return types.NewErrorMessageAtom(`invalid arguments number for new-scope`)
-// 	}
-// 	if argc == 0 {
-// 		return types.NewAtom(types.NewScopeValue(types.NewScope(nil)))
-// 	}
-
-// }
+	argc := len(args)
+	if argc > 1 {
+		return types.NewErrorMessageAtom(`invalid arguments number for new-scope`)
+	}
+	if argc == 0 {
+		return types.NewAtom(types.NewScopeValue(types.NewScope(nil)))
+	}
+	a, err := getAtomFinalValue(s, args[0])
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+	if s2, ok := a.(*types.ScopeValue); ok {
+		return types.NewAtom(types.NewScopeValue(types.NewScope(s2.Value)))
+	}
+	return types.NewErrorAtom(fmt.Errorf("%s is not a scope: %s", a.GetType(), a.ToString()))
+}
 
 func init() {
 
 	RegisterBuiltinFunction("type-of", builtinTypeOf)
 	RegisterBuiltinFunction("def", builtinDef)
+
+	RegisterBuiltinFunction("new-scope", builtinNewScope)
 
 }
