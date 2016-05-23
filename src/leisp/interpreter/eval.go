@@ -40,7 +40,7 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 	}
 
 	if ast.IsSExpression() {
-		return CallFunction(s, astListToAtomList(s, ast.Children))
+		return CallBuiltinFunction(s, astListToAtomList(s, ast.Children))
 	}
 
 	if ast.IsList() {

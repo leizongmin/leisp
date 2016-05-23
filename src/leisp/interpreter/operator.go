@@ -15,14 +15,14 @@ func RegisterBuiltinFunction(name string, handler types.Function) {
 	Scope.Declare(name, types.NewFunction(name, handler))
 }
 
-func CallFunction(s *types.Scope, args []*types.Atom) *types.Atom {
+func CallBuiltinFunction(s *types.Scope, args []*types.Atom) *types.Atom {
 	l := len(args)
 	if l < 1 {
 		return types.NewErrorMessageAtom("invalid s-expression")
 	}
 	switch args[0].Value.(type) {
 	case *types.SymbolValue:
-		return callFunction(s, args[0], args[1:])
+		return callBuiltinFunction(s, args[0], args[1:])
 	case *types.KeywordValue:
 		return types.NewErrorMessageAtom("does not implement keyword s-expression")
 	default:
@@ -30,7 +30,7 @@ func CallFunction(s *types.Scope, args []*types.Atom) *types.Atom {
 	}
 }
 
-func callFunction(s *types.Scope, op *types.Atom, args []*types.Atom) *types.Atom {
+func callBuiltinFunction(s *types.Scope, op *types.Atom, args []*types.Atom) *types.Atom {
 	symbol, _ := op.Value.(*types.SymbolValue)
 	value, err := s.Get(symbol.Value)
 	if err != nil {
