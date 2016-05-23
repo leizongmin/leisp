@@ -6,18 +6,18 @@ package types
 
 import "fmt"
 
-type ArrayValue struct {
+type ListValue struct {
 	Value []*ValueType
 }
 
-func (t *ArrayValue) ToString() string {
+func (t *ListValue) ToString() string {
 	return fmt.Sprint(t.Value)
 }
 
-func (t *ArrayValue) GetType() string {
-	return "array"
+func (t *ListValue) GetType() string {
+	return "list"
 }
 
-func NewArray(v []*ValueType) *ArrayValue {
-	return &ArrayValue{Value: v}
+func NewList(v []*ValueType) *ListValue {
+	return &ListValue{Value: v}
 }

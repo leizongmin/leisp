@@ -43,8 +43,8 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 		return CallFunction(s, astListToAtomList(s, ast.Children))
 	}
 
-	if ast.IsArray() {
-		return types.NewErrorMessageAtom("does not implement array AST yet")
+	if ast.IsList() {
+		return types.NewErrorMessageAtom("does not implement list AST yet")
 	}
 
 	if ast.IsQExpression() {

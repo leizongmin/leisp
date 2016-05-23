@@ -183,5 +183,5 @@ func (p *Parser) parseList(lit string) (*types.AST, error) {
 		}
 	}
 
-	return types.NewArrayAST(children), nil
+	return types.NewListAST(children), nil
 }

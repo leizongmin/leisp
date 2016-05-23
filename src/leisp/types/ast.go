@@ -47,9 +47,9 @@ func NewQExpressionAST(ch []*AST) *AST {
 	}
 }
 
-func NewArrayAST(ch []*AST) *AST {
+func NewListAST(ch []*AST) *AST {
 	return &AST{
-		Type:     "array",
+		Type:     "list",
 		Value:    nil,
 		Children: ch,
 	}
@@ -82,7 +82,7 @@ func (a *AST) dump(indent int) {
 		for _, c := range a.Children {
 			c.dump(indent + 1)
 		}
-	} else if a.Type == "array" || a.Type == "q-expr" || a.Type == "s-expr" {
+	} else if a.Type == "list" || a.Type == "q-expr" || a.Type == "s-expr" {
 		fmt.Printf("%s-- empty %s\n", makeIndentString(indent+1), a.Type)
 	}
 }
@@ -110,9 +110,9 @@ func (a *AST) IsQExpression() bool {
 	return a.IsType("q-expr")
 }
 
-// IsArray returns true if this is s-expr AST
-func (a *AST) IsArray() bool {
-	return a.IsType("array")
+// IsList returns true if this is s-expr AST
+func (a *AST) IsList() bool {
+	return a.IsType("list")
 }
 
 // IsValue returns true if this is value AST
@@ -127,7 +127,7 @@ func (a *AST) ToString() string {
 	if a.IsEOF() {
 		return "EOF"
 	}
-	if a.IsArray() {
+	if a.IsList() {
 		return "[" + a.ChildrenToString() + "]"
 	}
 	if a.IsQExpression() {
