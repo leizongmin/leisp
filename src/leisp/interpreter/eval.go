@@ -48,7 +48,7 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 	}
 
 	if ast.IsQExpression() {
-		return types.NewErrorMessageAtom("does not implement q-expression AST yet")
+		return types.NewAtom(types.NewExpression(types.NewSExpressionAST(ast.Children)))
 	}
 
 	return types.NewAtom(types.NewNull())

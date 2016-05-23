@@ -14,6 +14,7 @@ func main() {
 	str := `
 (def aa "hello, world")
 (println aa 123 "ok" :haha def)
+{1 2.2 "aa"}
 `
 	parser.Dump(str)
 

@@ -4,7 +4,10 @@
 
 package types
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type AST struct {
 	Type     string
@@ -115,4 +118,34 @@ func (a *AST) IsArray() bool {
 // IsValue returns true if this is value AST
 func (a *AST) IsValue() bool {
 	return a.IsType("value")
+}
+
+func (a *AST) ToString() string {
+	if a.IsValue() {
+		return a.Value.ToString()
+	}
+	if a.IsEOF() {
+		return "EOF"
+	}
+	if a.IsArray() {
+		return "[" + a.ChildrenToString() + "]"
+	}
+	if a.IsQExpression() {
+		return "{" + a.ChildrenToString() + "}"
+	}
+	if a.IsSExpression() {
+		return "(" + a.ChildrenToString() + ")"
+	}
+	return ""
+}
+
+func (a *AST) ChildrenToString() string {
+	if len(a.Children) > 0 {
+		list := make([]string, len(a.Children))
+		for i, c := range a.Children {
+			list[i] = c.ToString()
+		}
+		return strings.Join(list, " ")
+	}
+	return ""
 }
