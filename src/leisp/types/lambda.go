@@ -7,13 +7,15 @@ package types
 import "fmt"
 
 type LambdaValueInfo struct {
+	Scope  *Scope
 	Names  []string
 	Body   []*ExpressionValue
 	Source string
 }
 
-func NewLambdaValueInfo(names []string, body []*ExpressionValue, source string) *LambdaValueInfo {
+func NewLambdaValueInfo(scope *Scope, names []string, body []*ExpressionValue, source string) *LambdaValueInfo {
 	return &LambdaValueInfo{
+		Scope:  scope,
 		Names:  names,
 		Body:   body,
 		Source: source,
