@@ -21,7 +21,8 @@ func main() {
 (defn add [a b]
   (println "arguments:" a b)
   (+ a b))
-(add 123 aa)
+(println (add 123 aa))
+(println this)
 `
 	parser.Dump(str)
 

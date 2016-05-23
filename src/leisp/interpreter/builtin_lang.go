@@ -143,7 +143,7 @@ func builtinDefn(s *types.Scope, list []*types.AST) *types.Atom {
 
 func init() {
 
-	RegisterBuiltinFunction("type-of", builtinTypeOf)
+	RegisterBuiltinFunction("typeof", builtinTypeOf)
 	RegisterBuiltinFunction("defvar", builtinDefvar)
 	RegisterBuiltinFunction("lambda", builtinLambda)
 	RegisterBuiltinFunction("defn", builtinDefn)

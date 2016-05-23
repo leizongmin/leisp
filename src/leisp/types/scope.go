@@ -4,7 +4,10 @@
 
 package types
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type Scope struct {
 	Variables map[string]ValueType
@@ -23,6 +26,10 @@ func NewRootScope() *Scope {
 }
 
 func (s *Scope) Get(name string) (val ValueType, err error) {
+
+	if name == "this" {
+		return NewScopeValue(s), nil
+	}
 	if val, ok := s.Variables[name]; ok {
 		return val, nil
 	}
@@ -33,6 +40,7 @@ func (s *Scope) Get(name string) (val ValueType, err error) {
 }
 
 func (s *Scope) Declare(name string, val ValueType) error {
+
 	if _, ok := s.Variables[name]; ok {
 		return fmt.Errorf("%s has already been declared", name)
 	}
@@ -41,6 +49,7 @@ func (s *Scope) Declare(name string, val ValueType) error {
 }
 
 func (s *Scope) Set(name string, val ValueType) error {
+
 	if val, ok := s.Variables[name]; ok {
 		s.Variables[name] = val
 		return nil
@@ -53,6 +62,7 @@ func (s *Scope) Set(name string, val ValueType) error {
 }
 
 func (s *Scope) Delete(name string) error {
+
 	if _, ok := s.Variables[name]; ok {
 		delete(s.Variables, name)
 		return nil
@@ -69,7 +79,20 @@ type ScopeValue struct {
 }
 
 func (v *ScopeValue) ToString() string {
-	return fmt.Sprint("<scope# ", v.Value, ">")
+	count := 10
+	keys := make([]string, count)
+	i := 0
+	for k := range v.Value.Variables {
+		keys[i] = k
+		i++
+		if i >= count-1 {
+			break
+		}
+	}
+	if i >= count-2 {
+		keys[count-1] = "..."
+	}
+	return fmt.Sprint("<scope#(", strings.Join(keys[0:i+1], ","), ")>")
 }
 
 func (v *ScopeValue) GetType() string {
