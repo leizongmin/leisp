@@ -62,8 +62,110 @@ func builtinMathAdd(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewAtom(types.NewFloatValue(ret))
 }
 
+func builtinMathSubtract(s *types.Scope, args []*types.Atom) *types.Atom {
+
+	if len(args) < 1 {
+		return types.NewAtom(types.NewIntegerValue(0))
+	}
+
+	values, err := getAtomListFinalValues(s, args)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	integers, floats, isInteger, err := getNumberValues(values)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	if isInteger {
+		ret := integers[0]
+		for _, v := range integers[1:] {
+			ret -= v
+		}
+		return types.NewAtom(types.NewIntegerValue(ret))
+	}
+
+	ret := floats[0]
+	for _, v := range floats[1:] {
+		ret -= v
+	}
+	return types.NewAtom(types.NewFloatValue(ret))
+}
+
+func builtinMathMultiply(s *types.Scope, args []*types.Atom) *types.Atom {
+
+	if len(args) < 1 {
+		return types.NewAtom(types.NewIntegerValue(0))
+	}
+
+	values, err := getAtomListFinalValues(s, args)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	integers, floats, isInteger, err := getNumberValues(values)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	if isInteger {
+		ret := integers[0]
+		for _, v := range integers[1:] {
+			ret *= v
+		}
+		return types.NewAtom(types.NewIntegerValue(ret))
+	}
+
+	ret := floats[0]
+	for _, v := range floats[1:] {
+		ret *= v
+	}
+	return types.NewAtom(types.NewFloatValue(ret))
+}
+
+func builtinMathDivide(s *types.Scope, args []*types.Atom) *types.Atom {
+
+	if len(args) < 1 {
+		return types.NewAtom(types.NewIntegerValue(0))
+	}
+
+	values, err := getAtomListFinalValues(s, args)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	integers, floats, isInteger, err := getNumberValues(values)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	if isInteger {
+		var ret float64 = float64(integers[0])
+		for _, v := range integers[1:] {
+			if v == 0 {
+				return types.NewAtom(types.NewInfinityValue())
+			}
+			ret /= float64(v)
+		}
+		return types.NewAtom(types.NewFloatValue(ret))
+	}
+
+	ret := floats[0]
+	for _, v := range floats[1:] {
+		if v == 0 {
+			return types.NewAtom(types.NewInfinityValue())
+		}
+		ret /= v
+	}
+	return types.NewAtom(types.NewFloatValue(ret))
+}
+
 func init() {
 
 	RegisterBuiltinFunction("+", builtinMathAdd)
+	RegisterBuiltinFunction("-", builtinMathSubtract)
+	RegisterBuiltinFunction("*", builtinMathMultiply)
+	RegisterBuiltinFunction("/", builtinMathDivide)
 
 }
