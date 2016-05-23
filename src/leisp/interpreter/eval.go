@@ -73,3 +73,9 @@ func astListToAtomList(s *types.Scope, list []*types.AST) []*types.Atom {
 	}
 	return ret
 }
+
+// func getAtomFinalValue(s *types.Scope, a *types.Atom) (types.ValueType, error) {
+// 	if a.IsError() {
+// 		return nil, a.Error
+// 	}
+// }

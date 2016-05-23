@@ -25,6 +25,10 @@ func (v *ListValue) GetType() string {
 	return "list"
 }
 
+func (v *ListValue) IsValue() bool {
+	return false
+}
+
 func (v *ListValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert list to %s: does not implement yet", t)
 }

@@ -18,6 +18,10 @@ func (v *IntegerValue) GetType() string {
 	return "integer"
 }
 
+func (v *IntegerValue) IsValue() bool {
+	return true
+}
+
 func (v *IntegerValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert integer to %s: does not implement yet", t)
 }

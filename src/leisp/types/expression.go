@@ -18,6 +18,10 @@ func (v *ExpressionValue) GetType() string {
 	return "integer"
 }
 
+func (v *ExpressionValue) IsValue() bool {
+	return false
+}
+
 func (v *ExpressionValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert expression to %s: does not implement yet", t)
 }

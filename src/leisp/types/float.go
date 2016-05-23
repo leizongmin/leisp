@@ -18,6 +18,10 @@ func (v *FloatValue) GetType() string {
 	return "float"
 }
 
+func (v *FloatValue) IsValue() bool {
+	return true
+}
+
 func (v *FloatValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert float to %s: does not implement yet", t)
 }

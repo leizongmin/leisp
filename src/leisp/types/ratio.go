@@ -18,6 +18,10 @@ func (v *RatioValue) GetType() string {
 	return "ratio"
 }
 
+func (v *RatioValue) IsValue() bool {
+	return true
+}
+
 func (v *RatioValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
 }

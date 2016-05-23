@@ -21,6 +21,10 @@ func (v *BooleanValue) GetType() string {
 	return "boolean"
 }
 
+func (v *BooleanValue) IsValue() bool {
+	return true
+}
+
 func (v *BooleanValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert boolean to %s: does not implement yet", t)
 }

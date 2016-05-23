@@ -73,7 +73,11 @@ func (v *ScopeValue) ToString() string {
 }
 
 func (v *ScopeValue) GetType() string {
-	return "ratio"
+	return "scope"
+}
+
+func (v *ScopeValue) IsValue() bool {
+	return true
 }
 
 func (v *ScopeValue) To(t string) (ValueType, error) {

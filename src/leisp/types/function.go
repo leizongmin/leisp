@@ -25,6 +25,10 @@ func (v *FunctionValue) GetType() string {
 	return "function"
 }
 
+func (v *FunctionValue) IsValue() bool {
+	return false
+}
+
 func (v *FunctionValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert function to %s: does not implement yet", t)
 }
