@@ -26,7 +26,7 @@ func builtinTypeOf(s *types.Scope, list []*types.AST) *types.Atom {
 	return types.NewAtom(types.NewStringValue(a.Value.GetType()))
 }
 
-func builtinDef(s *types.Scope, list []*types.AST) *types.Atom {
+func builtinDefvar(s *types.Scope, list []*types.AST) *types.Atom {
 
 	args, errAtom := astListToAtomList(s, list)
 	if errAtom != nil {
@@ -144,7 +144,7 @@ func builtinDefn(s *types.Scope, list []*types.AST) *types.Atom {
 func init() {
 
 	RegisterBuiltinFunction("type-of", builtinTypeOf)
-	RegisterBuiltinFunction("def", builtinDef)
+	RegisterBuiltinFunction("defvar", builtinDefvar)
 	RegisterBuiltinFunction("lambda", builtinLambda)
 	RegisterBuiltinFunction("defn", builtinDefn)
 	RegisterBuiltinFunction("new-scope", builtinNewScope)

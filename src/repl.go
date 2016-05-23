@@ -12,7 +12,7 @@ import (
 func main() {
 
 	str := `
-;(def aa "hello, world")
+(defvar aa "hello, world")
 ;(println aa 123 "ok" :haha def)
 ;(println {1 2.2 "aa"})
 ;(println [1 2 3])
@@ -21,7 +21,7 @@ func main() {
 (defn add [a b]
   (println a b)
   (+ a b))
-(add 123 456)
+(add 123 1)
 `
 	parser.Dump(str)
 
