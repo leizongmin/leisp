@@ -16,6 +16,7 @@ func main() {
 (println aa 123 "ok" :haha def)
 (println {1 2.2 "aa"})
 (println [1 2 3])
+(type-of aa/bb)
 `
 	parser.Dump(str)
 

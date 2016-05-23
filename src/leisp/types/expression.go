@@ -4,16 +4,22 @@
 
 package types
 
+import "fmt"
+
 type ExpressionValue struct {
 	Value *AST
 }
 
-func (t *ExpressionValue) ToString() string {
-	return t.Value.ToString()
+func (v *ExpressionValue) ToString() string {
+	return v.Value.ToString()
 }
 
-func (t *ExpressionValue) GetType() string {
+func (v *ExpressionValue) GetType() string {
 	return "integer"
+}
+
+func (v *ExpressionValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert expression to %s: does not implement yet", t)
 }
 
 func NewExpression(v *AST) *ExpressionValue {

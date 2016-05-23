@@ -4,22 +4,29 @@
 
 package types
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 type ListValue struct {
 	Value []ValueType
 }
 
-func (t *ListValue) ToString() string {
-	list := make([]string, len(t.Value))
-	for i, v := range t.Value {
-		list[i] = v.ToString()
+func (v *ListValue) ToString() string {
+	list := make([]string, len(v.Value))
+	for i, v2 := range v.Value {
+		list[i] = v2.ToString()
 	}
 	return "[" + strings.Join(list, " ") + "]"
 }
 
-func (t *ListValue) GetType() string {
+func (v *ListValue) GetType() string {
 	return "list"
+}
+
+func (v *ListValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert list to %s: does not implement yet", t)
 }
 
 func NewList(v []ValueType) *ListValue {

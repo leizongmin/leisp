@@ -4,16 +4,22 @@
 
 package types
 
+import "fmt"
+
 type NullValue struct {
 	Value bool
 }
 
-func (t *NullValue) ToString() string {
+func (v *NullValue) ToString() string {
 	return "NIL"
 }
 
-func (t *NullValue) GetType() string {
+func (v *NullValue) GetType() string {
 	return "null"
+}
+
+func (v *NullValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert null to %s: does not implement yet", t)
 }
 
 func NewNull() *NullValue {

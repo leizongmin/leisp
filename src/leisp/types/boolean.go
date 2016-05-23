@@ -4,19 +4,25 @@
 
 package types
 
+import "fmt"
+
 type BooleanValue struct {
 	Value bool
 }
 
-func (t *BooleanValue) ToString() string {
-	if t.Value {
+func (v *BooleanValue) ToString() string {
+	if v.Value {
 		return "T"
 	}
 	return "NIL"
 }
 
-func (t *BooleanValue) GetType() string {
+func (v *BooleanValue) GetType() string {
 	return "boolean"
+}
+
+func (v *BooleanValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert boolean to %s: does not implement yet", t)
 }
 
 func NewBoolean(v bool) *BooleanValue {

@@ -10,12 +10,16 @@ type RatioValue struct {
 	Value string
 }
 
-func (t *RatioValue) ToString() string {
-	return fmt.Sprint(t.Value)
+func (v *RatioValue) ToString() string {
+	return fmt.Sprint(v.Value)
 }
 
-func (t *RatioValue) GetType() string {
+func (v *RatioValue) GetType() string {
 	return "ratio"
+}
+
+func (v *RatioValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
 }
 
 func NewRatio(v string) *RatioValue {

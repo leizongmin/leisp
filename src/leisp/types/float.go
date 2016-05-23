@@ -10,12 +10,16 @@ type FloatValue struct {
 	Value float64
 }
 
-func (t *FloatValue) ToString() string {
-	return fmt.Sprint(t.Value)
+func (v *FloatValue) ToString() string {
+	return fmt.Sprint(v.Value)
 }
 
-func (t *FloatValue) GetType() string {
+func (v *FloatValue) GetType() string {
 	return "float"
+}
+
+func (v *FloatValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert float to %s: does not implement yet", t)
 }
 
 func NewFloat(v float64) *FloatValue {

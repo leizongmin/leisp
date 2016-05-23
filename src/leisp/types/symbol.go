@@ -10,12 +10,16 @@ type SymbolValue struct {
 	Value string
 }
 
-func (t *SymbolValue) ToString() string {
-	return fmt.Sprint(t.Value)
+func (v *SymbolValue) ToString() string {
+	return fmt.Sprint(v.Value)
 }
 
-func (t *SymbolValue) GetType() string {
+func (v *SymbolValue) GetType() string {
 	return "symbol"
+}
+
+func (v *SymbolValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert symbol to %s: does not implement yet", t)
 }
 
 func (t *SymbolValue) GetFinalValue(s *Scope) (ValueType, error) {

@@ -10,12 +10,16 @@ type IntegerValue struct {
 	Value int64
 }
 
-func (t *IntegerValue) ToString() string {
-	return fmt.Sprint(t.Value)
+func (v *IntegerValue) ToString() string {
+	return fmt.Sprint(v.Value)
 }
 
-func (t *IntegerValue) GetType() string {
+func (v *IntegerValue) GetType() string {
 	return "integer"
+}
+
+func (v *IntegerValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert integer to %s: does not implement yet", t)
 }
 
 func NewInteger(v int64) *IntegerValue {

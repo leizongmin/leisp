@@ -13,16 +13,20 @@ type FunctionValue struct {
 	Name  string
 }
 
-func (t *FunctionValue) ToString() string {
-	n := t.Name
+func (v *FunctionValue) ToString() string {
+	n := v.Name
 	if n == "" {
 		n = "anonymous"
 	}
 	return fmt.Sprintf("<Function#%s>", n)
 }
 
-func (t *FunctionValue) GetType() string {
+func (v *FunctionValue) GetType() string {
 	return "function"
+}
+
+func (v *FunctionValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert function to %s: does not implement yet", t)
 }
 
 func (t *FunctionValue) Call(s *Scope, args []*Atom) *Atom {

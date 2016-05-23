@@ -10,12 +10,16 @@ type KeywordValue struct {
 	Value string
 }
 
-func (t *KeywordValue) ToString() string {
-	return fmt.Sprint(t.Value)
+func (v *KeywordValue) ToString() string {
+	return fmt.Sprint(v.Value)
 }
 
-func (t *KeywordValue) GetType() string {
+func (v *KeywordValue) GetType() string {
 	return "keyword"
+}
+
+func (v *KeywordValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert keyword to %s: does not implement yet", t)
 }
 
 func NewKeyword(v string) *KeywordValue {

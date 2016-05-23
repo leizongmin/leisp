@@ -10,12 +10,16 @@ type CharValue struct {
 	Value rune
 }
 
-func (t *CharValue) ToString() string {
-	return fmt.Sprint(t.Value)
+func (v *CharValue) ToString() string {
+	return fmt.Sprint(v.Value)
 }
 
-func (t *CharValue) GetType() string {
+func (v *CharValue) GetType() string {
 	return "char"
+}
+
+func (v *CharValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert char to %s: does not implement yet", t)
 }
 
 func getRuneByIndex(s string, i int) rune {
