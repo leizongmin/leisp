@@ -69,7 +69,7 @@ type ScopeValue struct {
 }
 
 func (v *ScopeValue) ToString() string {
-	return fmt.Sprint(v.Value)
+	return fmt.Sprint("<scope# ", v.Value, ">")
 }
 
 func (v *ScopeValue) GetType() string {
