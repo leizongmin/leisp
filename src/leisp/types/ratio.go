@@ -22,6 +22,6 @@ func (v *RatioValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
 }
 
-func NewRatio(v string) *RatioValue {
+func NewRatioValue(v string) *RatioValue {
 	return &RatioValue{Value: v}
 }

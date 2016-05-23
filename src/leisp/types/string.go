@@ -22,6 +22,6 @@ func (v *StringValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert string to %s: does not implement yet", t)
 }
 
-func NewString(v string) *StringValue {
+func NewStringValue(v string) *StringValue {
 	return &StringValue{Value: v}
 }

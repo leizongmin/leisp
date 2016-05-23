@@ -52,18 +52,18 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 			}
 			ret[i] = a.Value
 		}
-		return types.NewAtom(types.NewList(ret))
+		return types.NewAtom(types.NewListValue(ret))
 	}
 
 	if ast.IsQExpression() {
-		return types.NewAtom(types.NewExpression(types.NewSExpressionAST(ast.Children)))
+		return types.NewAtom(types.NewExpressionValue(types.NewSExpressionAST(ast.Children)))
 	}
 
 	if ast.IsQuote() {
 		return types.NewAtom(ast.Value)
 	}
 
-	return types.NewAtom(types.NewNull())
+	return types.NewAtom(types.NewNullValue())
 }
 
 func astListToAtomList(s *types.Scope, list []*types.AST) []*types.Atom {

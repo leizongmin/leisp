@@ -22,6 +22,6 @@ func (v *NullValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert null to %s: does not implement yet", t)
 }
 
-func NewNull() *NullValue {
+func NewNullValue() *NullValue {
 	return &NullValue{Value: false}
 }

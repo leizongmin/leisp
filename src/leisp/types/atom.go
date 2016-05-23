@@ -21,7 +21,7 @@ func NewAtom(v ValueType) *Atom {
 }
 
 func NewEmptyAtom() *Atom {
-	return NewAtom(NewNull())
+	return NewAtom(NewNullValue())
 }
 
 func NewErrorAtom(err error) *Atom {

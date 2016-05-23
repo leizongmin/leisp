@@ -10,17 +10,19 @@ import (
 )
 
 func builtinTypeOf(s *types.Scope, args []*types.Atom) *types.Atom {
+
 	if len(args) != 1 {
 		return types.NewErrorMessageAtom(`invalid arguments number for type-of`)
 	}
 	a := args[0]
 	if a.IsError() {
-		return types.NewAtom(types.NewString("error"))
+		return types.NewAtom(types.NewStringValue("error"))
 	}
-	return types.NewAtom(types.NewString(a.Value.GetType()))
+	return types.NewAtom(types.NewStringValue(a.Value.GetType()))
 }
 
 func builtinDef(s *types.Scope, args []*types.Atom) *types.Atom {
+
 	if len(args) != 2 {
 		return types.NewErrorMessageAtom(`invalid arguments number for def`)
 	}
@@ -43,6 +45,18 @@ func builtinDef(s *types.Scope, args []*types.Atom) *types.Atom {
 
 	return v
 }
+
+// func builtinNewScope(s *types.Scope, args []*types.Atom) *types.Atom {
+
+// 	argc := len(args)
+// 	if > 1 {
+// 		return types.NewErrorMessageAtom(`invalid arguments number for new-scope`)
+// 	}
+// 	if argc == 0 {
+// 		return types.NewAtom(types.NewScopeValue(types.NewScope(nil)))
+// 	}
+
+// }
 
 func init() {
 

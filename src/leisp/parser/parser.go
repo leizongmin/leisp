@@ -64,7 +64,7 @@ func (p *Parser) Parse() (*types.AST, error) {
 	switch tok {
 
 	case tokenString:
-		return types.NewValueAST(types.NewString(lit)), nil
+		return types.NewValueAST(types.NewStringValue(lit)), nil
 
 	case tokenEOF:
 		return types.NewEOFAST(), nil
@@ -73,16 +73,16 @@ func (p *Parser) Parse() (*types.AST, error) {
 		return p.parseNumber(lit)
 
 	case tokenKeyword:
-		return types.NewValueAST(types.NewKeyword(lit)), nil
+		return types.NewValueAST(types.NewKeywordValue(lit)), nil
 
 	case tokenSymbol:
 		LIT := strings.ToUpper(lit)
 		if LIT == "NIL" {
-			return types.NewValueAST(types.NewNull()), nil
+			return types.NewValueAST(types.NewNullValue()), nil
 		} else if LIT == "T" {
-			return types.NewValueAST(types.NewBoolean(true)), nil
+			return types.NewValueAST(types.NewBooleanValue(true)), nil
 		} else {
-			return types.NewValueAST(types.NewSymbol(lit)), nil
+			return types.NewValueAST(types.NewSymbolValue(lit)), nil
 		}
 
 	case tokenQuote:
@@ -99,19 +99,19 @@ func (p *Parser) Parse() (*types.AST, error) {
 func (p *Parser) parseNumber(lit string) (*types.AST, error) {
 
 	if i := strings.IndexAny(lit, "/"); i != -1 {
-		return types.NewValueAST(types.NewRatio(lit)), nil
+		return types.NewValueAST(types.NewRatioValue(lit)), nil
 	}
 	if i := strings.IndexAny(lit, "."); i != -1 {
 		if val, err := strconv.ParseFloat(lit, 64); err != nil {
 			return types.NewEOFAST(), fmt.Errorf("invalid float number %s", lit)
 		} else {
-			return types.NewValueAST(types.NewFloat(val)), nil
+			return types.NewValueAST(types.NewFloatValue(val)), nil
 		}
 	}
 	if val, err := strconv.ParseInt(lit, 10, 64); err != nil {
 		return types.NewEOFAST(), fmt.Errorf("invalid integer number %s", lit)
 	} else {
-		return types.NewValueAST(types.NewInteger(val)), nil
+		return types.NewValueAST(types.NewIntegerValue(val)), nil
 	}
 }
 

@@ -29,6 +29,6 @@ func (v *ListValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert list to %s: does not implement yet", t)
 }
 
-func NewList(v []ValueType) *ListValue {
+func NewListValue(v []ValueType) *ListValue {
 	return &ListValue{Value: v}
 }

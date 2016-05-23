@@ -63,3 +63,23 @@ func (s *Scope) Delete(name string) error {
 	}
 	return nil
 }
+
+type ScopeValue struct {
+	Value *Scope
+}
+
+func (v *ScopeValue) ToString() string {
+	return fmt.Sprint(v.Value)
+}
+
+func (v *ScopeValue) GetType() string {
+	return "ratio"
+}
+
+func (v *ScopeValue) To(t string) (ValueType, error) {
+	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
+}
+
+func NewScopeValue(v *Scope) *ScopeValue {
+	return &ScopeValue{Value: v}
+}

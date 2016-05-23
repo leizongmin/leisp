@@ -12,7 +12,7 @@ import (
 var Scope = types.NewRootScope()
 
 func RegisterBuiltinFunction(name string, handler types.BuiltinFunction) {
-	Scope.Declare(name, types.NewFunction(name, handler))
+	Scope.Declare(name, types.NewFunctionValue(name, handler))
 }
 
 func CallBuiltinFunction(s *types.Scope, args []*types.Atom) *types.Atom {

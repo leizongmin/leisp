@@ -22,6 +22,6 @@ func (v *ExpressionValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert expression to %s: does not implement yet", t)
 }
 
-func NewExpression(v *AST) *ExpressionValue {
+func NewExpressionValue(v *AST) *ExpressionValue {
 	return &ExpressionValue{Value: v}
 }

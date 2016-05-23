@@ -34,6 +34,6 @@ func (t *SymbolValue) GetFinalValue(s *Scope) (ValueType, error) {
 	return sym.GetFinalValue(s)
 }
 
-func NewSymbol(v string) *SymbolValue {
+func NewSymbolValue(v string) *SymbolValue {
 	return &SymbolValue{Value: v}
 }

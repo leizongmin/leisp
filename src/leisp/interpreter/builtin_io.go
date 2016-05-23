@@ -11,6 +11,7 @@ import (
 )
 
 func builtinPrint(s *types.Scope, args []*types.Atom) *types.Atom {
+
 	if len(args) > 0 {
 		list := make([]string, len(args))
 		for i, a := range args {
@@ -28,10 +29,11 @@ func builtinPrint(s *types.Scope, args []*types.Atom) *types.Atom {
 		}
 		fmt.Print(strings.Join(list, " "))
 	}
-	return types.NewAtom(types.NewNull())
+	return types.NewAtom(types.NewNullValue())
 }
 
 func builtinPrintln(s *types.Scope, args []*types.Atom) *types.Atom {
+
 	a := builtinPrint(s, args)
 	fmt.Println("")
 	return a

@@ -22,6 +22,6 @@ func (v *IntegerValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert integer to %s: does not implement yet", t)
 }
 
-func NewInteger(v int64) *IntegerValue {
+func NewIntegerValue(v int64) *IntegerValue {
 	return &IntegerValue{Value: v}
 }

@@ -22,6 +22,6 @@ func (v *KeywordValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert keyword to %s: does not implement yet", t)
 }
 
-func NewKeyword(v string) *KeywordValue {
+func NewKeywordValue(v string) *KeywordValue {
 	return &KeywordValue{Value: v}
 }

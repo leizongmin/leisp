@@ -22,6 +22,6 @@ func (v *FloatValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert float to %s: does not implement yet", t)
 }
 
-func NewFloat(v float64) *FloatValue {
+func NewFloatValue(v float64) *FloatValue {
 	return &FloatValue{Value: v}
 }

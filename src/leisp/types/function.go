@@ -33,6 +33,6 @@ func (t *FunctionValue) Call(s *Scope, args []*Atom) *Atom {
 	return t.Value(s, args)
 }
 
-func NewFunction(n string, v BuiltinFunction) *FunctionValue {
+func NewFunctionValue(n string, v BuiltinFunction) *FunctionValue {
 	return &FunctionValue{Name: n, Value: v}
 }
