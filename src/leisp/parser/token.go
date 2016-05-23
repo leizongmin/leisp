@@ -4,18 +4,19 @@
 
 package parser
 
-type Token int
+type token int
 
 const (
-	TokenIllegal Token = iota
-	TokenEOF
-	TokenWhitespace
-	TokenComment
+	tokenIllegal token = iota
+	tokenEOF
+	tokenWhitespace
+	tokenComment
 
-	TokenKeyword
-	TokenSymbol
-	TokenNumber
-	TokenString
+	tokenKeyword
+	tokenSymbol
+	tokenNumber
+	tokenString
 
-	TokenPunctuation
+	tokenPunctuation
+	tokenQuote
 )

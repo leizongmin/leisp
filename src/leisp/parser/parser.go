@@ -15,7 +15,7 @@ import (
 type Parser struct {
 	s   *Scanner
 	buf struct {
-		tok Token
+		tok token
 		lit string
 		n   int
 	}
@@ -27,7 +27,7 @@ func NewParser(r io.Reader) *Parser {
 	}
 }
 
-func (p *Parser) scan() (tok Token, lit string) {
+func (p *Parser) scan() (tok token, lit string) {
 
 	if p.buf.n != 0 {
 		p.buf.n = 0
@@ -44,10 +44,10 @@ func (p *Parser) unscan() {
 	p.buf.n = 1
 }
 
-func (p *Parser) scanIgnoreWhitespaceOrComment() (tok Token, lit string) {
+func (p *Parser) scanIgnoreWhitespaceOrComment() (tok token, lit string) {
 	for {
 		tok, lit = p.scan()
-		if tok != TokenWhitespace && tok != TokenComment {
+		if tok != tokenWhitespace && tok != tokenComment {
 			break
 		}
 	}
@@ -63,19 +63,19 @@ func (p *Parser) Parse() (*types.AST, error) {
 	tok, lit := p.scanIgnoreWhitespaceOrComment()
 	switch tok {
 
-	case TokenString:
+	case tokenString:
 		return types.NewValueAST(types.NewString(lit)), nil
 
-	case TokenEOF:
+	case tokenEOF:
 		return types.NewEOFAST(), nil
 
-	case TokenNumber:
+	case tokenNumber:
 		return p.parseNumber(lit)
 
-	case TokenKeyword:
+	case tokenKeyword:
 		return types.NewValueAST(types.NewKeyword(lit)), nil
 
-	case TokenSymbol:
+	case tokenSymbol:
 		LIT := strings.ToUpper(lit)
 		if LIT == "NIL" {
 			return types.NewValueAST(types.NewNull()), nil
@@ -85,7 +85,7 @@ func (p *Parser) Parse() (*types.AST, error) {
 			return types.NewValueAST(types.NewSymbol(lit)), nil
 		}
 
-	case TokenPunctuation:
+	case tokenPunctuation:
 		return p.parsePunctuation(lit)
 
 	default:
@@ -134,7 +134,7 @@ func (p *Parser) parseSExpression(lit string) (*types.AST, error) {
 
 	for {
 		tok, lit := p.scanIgnoreWhitespaceOrComment()
-		if tok == TokenPunctuation && lit == ")" {
+		if tok == tokenPunctuation && lit == ")" {
 			break
 		} else {
 			p.unscan()
@@ -155,7 +155,7 @@ func (p *Parser) parseQExpression(lit string) (*types.AST, error) {
 
 	for {
 		tok, lit := p.scanIgnoreWhitespaceOrComment()
-		if tok == TokenPunctuation && lit == "}" {
+		if tok == tokenPunctuation && lit == "}" {
 			break
 		} else {
 			p.unscan()
@@ -176,7 +176,7 @@ func (p *Parser) parseList(lit string) (*types.AST, error) {
 
 	for {
 		tok, lit := p.scanIgnoreWhitespaceOrComment()
-		if tok == TokenPunctuation && lit == "]" {
+		if tok == tokenPunctuation && lit == "]" {
 			break
 		} else {
 			p.unscan()

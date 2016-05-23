@@ -65,7 +65,7 @@ func (s *Scanner) unread() {
 	}
 }
 
-func (s *Scanner) Scan() (tok Token, lit string) {
+func (s *Scanner) Scan() (tok token, lit string) {
 
 	ch := s.read()
 
@@ -80,7 +80,7 @@ func (s *Scanner) Scan() (tok Token, lit string) {
 
 	switch ch {
 	case eof:
-		return TokenEOF, ""
+		return tokenEOF, ""
 	case '"':
 		s.unread()
 		return s.scanString()
@@ -93,14 +93,14 @@ func (s *Scanner) Scan() (tok Token, lit string) {
 	}
 
 	if isPunctuation(ch) {
-		return TokenPunctuation, string(ch)
+		return tokenPunctuation, string(ch)
 	}
 
 	s.unread()
 	return s.scanSymbol()
 }
 
-func (s *Scanner) scanWhitespace() (tok Token, lit string) {
+func (s *Scanner) scanWhitespace() (tok token, lit string) {
 
 	var buf bytes.Buffer
 	buf.WriteRune(s.read())
@@ -116,17 +116,17 @@ func (s *Scanner) scanWhitespace() (tok Token, lit string) {
 		}
 	}
 
-	return TokenWhitespace, buf.String()
+	return tokenWhitespace, buf.String()
 }
 
-func (s *Scanner) scanString() (tok Token, lit string) {
+func (s *Scanner) scanString() (tok token, lit string) {
 
 	var buf bytes.Buffer
 	s.read()
 
 	for {
 		if ch := s.read(); ch == eof {
-			return TokenIllegal, buf.String()
+			return tokenIllegal, buf.String()
 		} else if ch == '\\' {
 			buf.WriteRune(ch)
 			ch = s.read()
@@ -138,10 +138,10 @@ func (s *Scanner) scanString() (tok Token, lit string) {
 		}
 	}
 
-	return TokenString, buf.String()
+	return tokenString, buf.String()
 }
 
-func (s *Scanner) scanNumber() (tok Token, lit string) {
+func (s *Scanner) scanNumber() (tok token, lit string) {
 
 	var buf bytes.Buffer
 	buf.WriteRune(s.read())
@@ -157,21 +157,21 @@ func (s *Scanner) scanNumber() (tok Token, lit string) {
 			buf.WriteRune(ch)
 		} else if ch == '/' {
 			if isSlash {
-				return TokenIllegal, string(ch)
+				return tokenIllegal, string(ch)
 			} else {
 				buf.WriteRune(ch)
 				isSlash = true
 			}
 		} else if ch == '.' {
 			if isDot {
-				return TokenIllegal, string(ch)
+				return tokenIllegal, string(ch)
 			} else {
 				buf.WriteRune(ch)
 				isDot = true
 			}
 		} else if ch == 'e' || ch == 'E' {
 			if isE {
-				return TokenIllegal, string(ch)
+				return tokenIllegal, string(ch)
 			} else {
 				buf.WriteRune(ch)
 				isE = true
@@ -180,14 +180,14 @@ func (s *Scanner) scanNumber() (tok Token, lit string) {
 			s.unread()
 			break
 		} else {
-			return TokenIllegal, string(ch)
+			return tokenIllegal, string(ch)
 		}
 	}
 
-	return TokenNumber, buf.String()
+	return tokenNumber, buf.String()
 }
 
-func (s *Scanner) scanSymbol() (tok Token, lit string) {
+func (s *Scanner) scanSymbol() (tok token, lit string) {
 
 	var buf bytes.Buffer
 	buf.WriteRune(s.read())
@@ -206,10 +206,10 @@ func (s *Scanner) scanSymbol() (tok Token, lit string) {
 		}
 	}
 
-	return TokenSymbol, buf.String()
+	return tokenSymbol, buf.String()
 }
 
-func (s *Scanner) scanKeyword() (tok Token, lit string) {
+func (s *Scanner) scanKeyword() (tok token, lit string) {
 
 	var buf bytes.Buffer
 	buf.WriteRune(s.read())
@@ -221,7 +221,7 @@ func (s *Scanner) scanKeyword() (tok Token, lit string) {
 			s.unread()
 			break
 		} else if ch == ':' {
-			return TokenIllegal, string(ch)
+			return tokenIllegal, string(ch)
 		} else if isPunctuation(ch) {
 			s.unread()
 			break
@@ -230,10 +230,10 @@ func (s *Scanner) scanKeyword() (tok Token, lit string) {
 		}
 	}
 
-	return TokenKeyword, buf.String()
+	return tokenKeyword, buf.String()
 }
 
-func (s *Scanner) scanComment() (tok Token, lit string) {
+func (s *Scanner) scanComment() (tok token, lit string) {
 
 	var buf bytes.Buffer
 	buf.WriteRune(s.read())
@@ -248,5 +248,5 @@ func (s *Scanner) scanComment() (tok Token, lit string) {
 		}
 	}
 
-	return TokenComment, buf.String()
+	return tokenComment, buf.String()
 }
