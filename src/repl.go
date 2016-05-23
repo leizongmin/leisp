@@ -12,11 +12,11 @@ import (
 func main() {
 
 	str := `
-(def aa "hello, world")
-(println aa 123 "ok" :haha def)
-(println {1 2.2 "aa"})
-(println [1 2 3])
-(println '(list 1 2 3))
+;(def aa "hello, world")
+;(println aa 123 "ok" :haha def)
+;(println {1 2.2 "aa"})
+;(println [1 2 3])
+;(println '(list 1 2 3))
 (println (str 1 "2" 3.3 :4) (/ 1 2 34) (^ 2 10 2))
 (lambda [a b]
   (println a b)

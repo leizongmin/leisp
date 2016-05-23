@@ -9,7 +9,12 @@ import (
 	"leisp/types"
 )
 
-func builtinTypeOf(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinTypeOf(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) != 1 {
 		return types.NewErrorMessageAtom(`invalid arguments number for type-of`)
@@ -21,7 +26,12 @@ func builtinTypeOf(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewAtom(types.NewStringValue(a.Value.GetType()))
 }
 
-func builtinDef(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinDef(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) != 2 {
 		return types.NewErrorMessageAtom(`invalid arguments number for def`)
@@ -46,7 +56,12 @@ func builtinDef(s *types.Scope, args []*types.Atom) *types.Atom {
 	return v
 }
 
-func builtinNewScope(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinNewScope(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	argc := len(args)
 	if argc > 1 {
@@ -65,33 +80,37 @@ func builtinNewScope(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewErrorAtom(fmt.Errorf("%s is not a scope: %s", a.GetType(), a.ToString()))
 }
 
-func builtinLambda(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinLambda(s *types.Scope, list []*types.AST) *types.Atom {
 
-	argc := len(args)
+	argc := len(list)
 	if argc < 2 {
-		return types.NewErrorMessageAtom(`invalid arguments number for lambda`)
+		return types.NewErrorMessageAtom("invalid arguments number for lambda")
 	}
 
-	first := args[0]
-	if first.IsError() {
-		return first
+	first := list[0]
+	if !first.IsList() {
+		return types.NewErrorAtom(fmt.Errorf("lambda arguments must be a list: %s", first.ToString()))
 	}
-	arg, ok := first.Value.(*types.ListValue)
-	if !ok {
-		return types.NewErrorAtom(fmt.Errorf("%s is not a list: %s", first.Value.GetType(), first.Value.ToString()))
-	}
-	names := make([]string, len(arg.Value))
-	for i, v := range arg.Value {
-		if n, ok := v.(*types.SymbolValue); ok {
+
+	names := make([]string, len(first.Children))
+	for i, v := range first.Children {
+		if !v.IsValue() {
+			return types.NewErrorAtom(fmt.Errorf("lambda argument must be symbol: %s", v.ToString()))
+		}
+		if n, ok := v.Value.(*types.SymbolValue); ok {
 			names[i] = n.Value
 		} else {
 			return types.NewErrorAtom(fmt.Errorf("invalid arguments type: %s", v.ToString()))
 		}
 	}
 
-	fmt.Println(*args[1], *args[2])
+	body := make([]*types.ExpressionValue, argc-1)
+	for i, v := range list[1:] {
+		body[i] = types.NewExpressionValue(v)
+	}
+	lam := types.NewLambdaValue(types.NewLambdaValueInfo(s, names, body, "no source"))
 
-	return types.NewAtom(types.NewStringValue("haha"))
+	return types.NewAtom(lam)
 }
 
 func init() {

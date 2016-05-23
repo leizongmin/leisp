@@ -4,7 +4,10 @@
 
 package types
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type LambdaValueInfo struct {
 	Scope  *Scope
@@ -27,7 +30,7 @@ type LambdaValue struct {
 }
 
 func (v *LambdaValue) ToString() string {
-	return fmt.Sprint(v.Value)
+	return fmt.Sprintf("<Lambda#(%s)#%s>", strings.Join(v.Value.Names, ","), v.Value.Source)
 }
 
 func (v *LambdaValue) GetType() string {

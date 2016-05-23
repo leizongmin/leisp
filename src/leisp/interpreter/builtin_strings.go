@@ -9,7 +9,12 @@ import (
 	"strings"
 )
 
-func builtinStr(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinStr(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	values, err := getAtomListFinalValues(s, args)
 	if err != nil {

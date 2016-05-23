@@ -10,7 +10,12 @@ import (
 	"strings"
 )
 
-func builtinPrint(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinPrint(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) > 0 {
 		list := make([]string, len(args))
@@ -32,9 +37,9 @@ func builtinPrint(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewAtom(types.NewNullValue())
 }
 
-func builtinPrintln(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinPrintln(s *types.Scope, list []*types.AST) *types.Atom {
 
-	a := builtinPrint(s, args)
+	a := builtinPrint(s, list)
 	fmt.Println("")
 	return a
 }

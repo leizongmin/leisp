@@ -6,7 +6,7 @@ package types
 
 import "fmt"
 
-type BuiltinFunction func(s *Scope, args []*Atom) *Atom
+type BuiltinFunction func(s *Scope, args []*AST) *Atom
 
 type FunctionValue struct {
 	Value BuiltinFunction
@@ -33,7 +33,7 @@ func (v *FunctionValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert function to %s: does not implement yet", t)
 }
 
-func (t *FunctionValue) Call(s *Scope, args []*Atom) *Atom {
+func (t *FunctionValue) Call(s *Scope, args []*AST) *Atom {
 	return t.Value(s, args)
 }
 

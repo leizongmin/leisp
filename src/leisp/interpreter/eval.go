@@ -33,45 +33,71 @@ func Eval(prog string) *types.Atom {
 	return r
 }
 
-func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
+func EvalAST(s *types.Scope, a *types.AST) *types.Atom {
 
-	if ast.IsValue() {
-		return types.NewAtom(ast.Value)
+	if a.IsValue() {
+		return types.NewAtom(a.Value)
 	}
 
-	if ast.IsSExpression() {
-		return CallBuiltinFunction(s, astListToAtomList(s, ast.Children))
+	if a.IsSExpression() {
+		return evalSExpression(s, a.Children)
 	}
 
-	if ast.IsList() {
-		list := astListToAtomList(s, ast.Children)
-		ret := make([]types.ValueType, len(list))
-		for i, a := range list {
-			if a.IsError() {
-				return a
-			}
-			ret[i] = a.Value
+	if a.IsList() {
+		atoms, err := astListToAtomList(s, a.Children)
+		if err != nil {
+			return err
 		}
-		return types.NewAtom(types.NewListValue(ret))
+		list := make([]types.ValueType, len(atoms))
+		for i, a := range atoms {
+			list[i] = a.Value
+		}
+		return types.NewAtom(types.NewListValue(list))
 	}
 
-	if ast.IsQExpression() {
-		return types.NewAtom(types.NewExpressionValue(types.NewSExpressionAST(ast.Children)))
+	if a.IsQExpression() {
+		return types.NewAtom(types.NewExpressionValue(types.NewSExpressionAST(a.Children)))
 	}
 
-	if ast.IsQuote() {
-		return types.NewAtom(ast.Value)
+	if a.IsQuote() {
+		return types.NewAtom(a.Value)
 	}
 
 	return types.NewAtom(types.NewNullValue())
 }
 
-func astListToAtomList(s *types.Scope, list []*types.AST) []*types.Atom {
-	ret := make([]*types.Atom, len(list))
+func evalSExpression(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) < 1 {
+		return types.NewErrorMessageAtom("invalid s-expression")
+	}
+
+	first := list[0]
+	if !first.IsValue() {
+		return types.NewErrorMessageAtom("invalid s-expression")
+	}
+
+	var op string
+	if sym, ok := first.Value.(*types.SymbolValue); ok {
+		op = sym.Value
+	} else if _, ok := first.Value.(*types.KeywordValue); ok {
+		return types.NewErrorMessageAtom("keyword s-expression does not implement")
+	} else {
+		return types.NewErrorMessageAtom("invalid s-expression, operator must be symbol")
+	}
+
+	return CallBuiltinFunction(s, op, list[1:])
+}
+
+func astListToAtomList(s *types.Scope, list []*types.AST) (ret []*types.Atom, err *types.Atom) {
+	ret = make([]*types.Atom, len(list))
 	for i, a := range list {
 		ret[i] = EvalAST(s, a)
+		if ret[i].IsError() {
+			return nil, ret[i]
+		}
 	}
-	return ret
+	return ret, nil
 }
 
 func getAtomFinalValue(s *types.Scope, a *types.Atom) (types.ValueType, error) {

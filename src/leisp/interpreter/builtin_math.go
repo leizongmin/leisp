@@ -32,7 +32,12 @@ func getNumberValues(list []types.ValueType) (integers []int64, floats []float64
 	return integers, floats, isInteger, nil
 }
 
-func builtinMathAdd(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinMathAdd(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) < 1 {
 		return types.NewAtom(types.NewIntegerValue(0))
@@ -63,7 +68,12 @@ func builtinMathAdd(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewAtom(types.NewFloatValue(ret))
 }
 
-func builtinMathSubtract(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinMathSubtract(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) < 1 {
 		return types.NewAtom(types.NewIntegerValue(0))
@@ -94,7 +104,12 @@ func builtinMathSubtract(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewAtom(types.NewFloatValue(ret))
 }
 
-func builtinMathMultiply(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinMathMultiply(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) < 1 {
 		return types.NewAtom(types.NewIntegerValue(0))
@@ -125,7 +140,12 @@ func builtinMathMultiply(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewAtom(types.NewFloatValue(ret))
 }
 
-func builtinMathDivide(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinMathDivide(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) < 1 {
 		return types.NewAtom(types.NewIntegerValue(0))
@@ -151,7 +171,12 @@ func builtinMathDivide(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewAtom(types.NewFloatValue(ret))
 }
 
-func builtinMathPow(s *types.Scope, args []*types.Atom) *types.Atom {
+func builtinMathPow(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
 
 	if len(args) < 1 {
 		return types.NewAtom(types.NewIntegerValue(0))
