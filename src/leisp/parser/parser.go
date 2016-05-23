@@ -85,6 +85,9 @@ func (p *Parser) Parse() (*types.AST, error) {
 			return types.NewValueAST(types.NewSymbol(lit)), nil
 		}
 
+	case tokenQuote:
+		return p.parseQuote(lit)
+
 	case tokenPunctuation:
 		return p.parsePunctuation(lit)
 
@@ -115,14 +118,19 @@ func (p *Parser) parseNumber(lit string) (*types.AST, error) {
 func (p *Parser) parsePunctuation(lit string) (*types.AST, error) {
 
 	switch lit {
+
 	case "(":
 		return p.parseSExpression(lit)
+
 	case "{":
 		return p.parseQExpression(lit)
+
 	case "[":
 		return p.parseList(lit)
+
 	case ")", "}", "]":
 		return types.NewEOFAST(), fmt.Errorf("mismatching %s", lit)
+
 	default:
 		return types.NewEOFAST(), fmt.Errorf("illegal token %s", lit)
 	}
@@ -168,6 +176,28 @@ func (p *Parser) parseQExpression(lit string) (*types.AST, error) {
 	}
 
 	return types.NewQExpressionAST(children), nil
+}
+
+func (p *Parser) parseQuote(lit string) (*types.AST, error) {
+
+	ast, err := p.Parse()
+	if err != nil {
+		return nil, err
+	}
+
+	if ast.IsEOF() {
+		return ast, nil
+	}
+	if ast.IsValue() {
+		switch ast.Value.(type) {
+		case *types.KeywordValue, *types.SymbolValue:
+			return types.NewQuoteAST(ast.Value), nil
+		default:
+			return ast, nil
+		}
+	}
+
+	return types.NewQExpressionAST(ast.Children), nil
 }
 
 func (p *Parser) parseList(lit string) (*types.AST, error) {

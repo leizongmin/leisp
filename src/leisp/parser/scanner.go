@@ -79,17 +79,24 @@ func (s *Scanner) Scan() (tok token, lit string) {
 	}
 
 	switch ch {
+
 	case eof:
 		return tokenEOF, ""
+
 	case '"':
 		s.unread()
 		return s.scanString()
+
 	case ';':
 		s.unread()
 		return s.scanComment()
+
 	case ':':
 		s.unread()
 		return s.scanKeyword()
+
+	case '\'':
+		return tokenQuote, string(ch)
 	}
 
 	if isPunctuation(ch) {

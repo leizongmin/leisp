@@ -47,6 +47,14 @@ func NewQExpressionAST(ch []*AST) *AST {
 	}
 }
 
+func NewQuoteAST(v ValueType) *AST {
+	return &AST{
+		Type:     "quote",
+		Value:    v,
+		Children: nil,
+	}
+}
+
 func NewListAST(ch []*AST) *AST {
 	return &AST{
 		Type:     "list",
@@ -110,6 +118,11 @@ func (a *AST) IsQExpression() bool {
 	return a.IsType("q-expr")
 }
 
+// IsQuote returns true if this is quote AST
+func (a *AST) IsQuote() bool {
+	return a.IsType("quote")
+}
+
 // IsList returns true if this is s-expr AST
 func (a *AST) IsList() bool {
 	return a.IsType("list")
@@ -135,6 +148,9 @@ func (a *AST) ToString() string {
 	}
 	if a.IsSExpression() {
 		return "(" + a.ChildrenToString() + ")"
+	}
+	if a.IsQuote() {
+		return a.Value.ToString()
 	}
 	return ""
 }
