@@ -6,10 +6,10 @@ package types
 
 import "fmt"
 
-type Function func(s *Scope, args []*Atom) *Atom
+type BuiltinFunction func(s *Scope, args []*Atom) *Atom
 
 type FunctionValue struct {
-	Value Function
+	Value BuiltinFunction
 	Name  string
 }
 
@@ -33,6 +33,6 @@ func (t *FunctionValue) Call(s *Scope, args []*Atom) *Atom {
 	return t.Value(s, args)
 }
 
-func NewFunction(n string, v Function) *FunctionValue {
+func NewFunction(n string, v BuiltinFunction) *FunctionValue {
 	return &FunctionValue{Name: n, Value: v}
 }

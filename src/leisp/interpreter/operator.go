@@ -11,7 +11,7 @@ import (
 
 var Scope = types.NewRootScope()
 
-func RegisterBuiltinFunction(name string, handler types.Function) {
+func RegisterBuiltinFunction(name string, handler types.BuiltinFunction) {
 	Scope.Declare(name, types.NewFunction(name, handler))
 }
 
