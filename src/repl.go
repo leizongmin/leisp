@@ -18,7 +18,9 @@ func main() {
 (println [1 2 3])
 (println '(list 1 2 3))
 (println (str 1 "2" 3.3 :4) (/ 1 2 34) (^ 2 10 2))
-(new-scope)
+(lambda [a b]
+  (println a b)
+  (+ a b))
 `
 	parser.Dump(str)
 

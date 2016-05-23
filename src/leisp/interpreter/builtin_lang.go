@@ -65,11 +65,40 @@ func builtinNewScope(s *types.Scope, args []*types.Atom) *types.Atom {
 	return types.NewErrorAtom(fmt.Errorf("%s is not a scope: %s", a.GetType(), a.ToString()))
 }
 
+func builtinLambda(s *types.Scope, args []*types.Atom) *types.Atom {
+
+	argc := len(args)
+	if argc < 2 {
+		return types.NewErrorMessageAtom(`invalid arguments number for lambda`)
+	}
+
+	first := args[0]
+	if first.IsError() {
+		return first
+	}
+	arg, ok := first.Value.(*types.ListValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("%s is not a list: %s", first.Value.GetType(), first.Value.ToString()))
+	}
+	names := make([]string, len(arg.Value))
+	for i, v := range arg.Value {
+		if n, ok := v.(*types.SymbolValue); ok {
+			names[i] = n.Value
+		} else {
+			return types.NewErrorAtom(fmt.Errorf("invalid arguments type: %s", v.ToString()))
+		}
+	}
+
+	fmt.Println(*args[1], *args[2])
+
+	return types.NewAtom(types.NewStringValue("haha"))
+}
+
 func init() {
 
 	RegisterBuiltinFunction("type-of", builtinTypeOf)
 	RegisterBuiltinFunction("def", builtinDef)
-
+	RegisterBuiltinFunction("lambda", builtinLambda)
 	RegisterBuiltinFunction("new-scope", builtinNewScope)
 
 }
