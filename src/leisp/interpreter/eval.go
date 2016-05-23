@@ -74,8 +74,41 @@ func astListToAtomList(s *types.Scope, list []*types.AST) []*types.Atom {
 	return ret
 }
 
-// func getAtomFinalValue(s *types.Scope, a *types.Atom) (types.ValueType, error) {
-// 	if a.IsError() {
-// 		return nil, a.Error
-// 	}
-// }
+func getAtomFinalValue(s *types.Scope, a *types.Atom) (types.ValueType, error) {
+	if a.IsError() {
+		return nil, a.Error
+	}
+	return getFinalValue(s, a.Value)
+}
+
+func getAtomListFinalValues(s *types.Scope, list []*types.Atom) ([]types.ValueType, error) {
+	ret := make([]types.ValueType, len(list))
+	for i, a := range list {
+		if a.IsError() {
+			return nil, a.Error
+		}
+		v, err := getAtomFinalValue(s, a)
+		if err != nil {
+			return nil, err
+		}
+		ret[i] = v
+	}
+	return ret, nil
+}
+
+func getFinalValue(s *types.Scope, v types.ValueType) (types.ValueType, error) {
+	if s == nil {
+		return nil, fmt.Errorf("invalid scope: cannot be nil")
+	}
+	if v.IsValue() {
+		return v, nil
+	}
+	if sym, ok := v.(*types.SymbolValue); ok {
+		v2, err := s.Get(sym.Value)
+		if err != nil {
+			return nil, err
+		}
+		return getFinalValue(s, v2)
+	}
+	return v, nil
+}

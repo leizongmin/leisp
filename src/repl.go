@@ -17,6 +17,7 @@ func main() {
 (println {1 2.2 "aa"})
 (println [1 2 3])
 (println '(list 1 2 3))
+(println (str 1 "2" 3.3 :4))
 (type-of 'a)
 `
 	parser.Dump(str)
