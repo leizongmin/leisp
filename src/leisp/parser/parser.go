@@ -62,14 +62,19 @@ func (p *Parser) Parse() (*types.AST, error) {
 
 	tok, lit := p.scanIgnoreWhitespaceOrComment()
 	switch tok {
+
 	case TokenString:
 		return types.NewValueAST(types.NewString(lit)), nil
+
 	case TokenEOF:
 		return types.NewEOFAST(), nil
+
 	case TokenNumber:
 		return p.parseNumber(lit)
+
 	case TokenKeyword:
 		return types.NewValueAST(types.NewKeyword(lit)), nil
+
 	case TokenSymbol:
 		LIT := strings.ToUpper(lit)
 		if LIT == "NIL" {
@@ -79,8 +84,10 @@ func (p *Parser) Parse() (*types.AST, error) {
 		} else {
 			return types.NewValueAST(types.NewSymbol(lit)), nil
 		}
+
 	case TokenPunctuation:
 		return p.parsePunctuation(lit)
+
 	default:
 		return types.NewEOFAST(), fmt.Errorf("illegal token %s", lit)
 	}

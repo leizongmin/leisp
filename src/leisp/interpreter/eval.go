@@ -19,7 +19,7 @@ func Eval(prog string) *types.Atom {
 	for {
 		if ast, err := p.Parse(); err != nil {
 			pos := p.GetPosition()
-			return types.NewErrorAtom(fmt.Errorf("Error: %s at line %d,%d\n", err.Error(), pos.Line, pos.Column))
+			return types.NewErrorAtom(fmt.Errorf("Error: %s at line %d,%d\n", err.Error(), pos.Line, pos.Column-1))
 		} else if ast.IsEOF() {
 			break
 		} else {

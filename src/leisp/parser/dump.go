@@ -16,7 +16,7 @@ func Dump(s string) {
 	for {
 		if a, e := p.Parse(); e != nil {
 			pos := p.GetPosition()
-			fmt.Printf("Error: %s at line %d,%d\n", e.Error(), pos.Line, pos.Column)
+			fmt.Printf("Error: %s at line %d,%d\n", e.Error(), pos.Line, pos.Column-1)
 			break
 		} else if a.IsEOF() {
 			fmt.Println("EOF")
