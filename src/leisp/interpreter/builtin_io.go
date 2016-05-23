@@ -28,6 +28,9 @@ func builtinPrint(s *types.Scope, list []*types.AST) *types.Atom {
 						list[i] = v.ToString()
 					}
 					continue
+				} else if str, ok := a.Value.(*types.StringValue); ok {
+					list[i] = str.Value
+					continue
 				}
 			}
 			list[i] = a.ToString()

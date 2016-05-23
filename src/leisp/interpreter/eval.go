@@ -24,9 +24,22 @@ func Eval(prog string) *types.Atom {
 			break
 		} else {
 			r = EvalAST(Scope, ast)
-			if r.Error != nil {
+			if r.IsError() {
 				break
 			}
+		}
+	}
+
+	return r
+}
+
+func EvalASTList(s *types.Scope, list []*types.AST) *types.Atom {
+
+	var r *types.Atom
+	for _, a := range list {
+		r = EvalAST(s, a)
+		if r.IsError() {
+			break
 		}
 	}
 
@@ -79,14 +92,20 @@ func evalSExpression(s *types.Scope, list []*types.AST) *types.Atom {
 
 	var op string
 	if sym, ok := first.Value.(*types.SymbolValue); ok {
+
 		op = sym.Value
+
 	} else if _, ok := first.Value.(*types.KeywordValue); ok {
+
 		return types.NewErrorMessageAtom("keyword s-expression does not implement")
+
 	} else {
+
 		return types.NewErrorMessageAtom("invalid s-expression, operator must be symbol")
+
 	}
 
-	return CallBuiltinFunction(s, op, list[1:])
+	return callOperator(s, op, list[1:])
 }
 
 func astListToAtomList(s *types.Scope, list []*types.AST) (ret []*types.Atom, err *types.Atom) {

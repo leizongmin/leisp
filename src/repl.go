@@ -12,16 +12,16 @@ import (
 func main() {
 
 	str := `
-(defvar aa "hello, world")
+(defvar aa 456)
 ;(println aa 123 "ok" :haha def)
 ;(println {1 2.2 "aa"})
 ;(println [1 2 3])
 ;(println '(list 1 2 3))
 (println (str 1 "2" 3.3 :4) (/ 1 2 34) (^ 2 10 2))
 (defn add [a b]
-  (println a b)
+  (println "arguments:" a b)
   (+ a b))
-(add 123 1)
+(add 123 aa)
 `
 	parser.Dump(str)
 
