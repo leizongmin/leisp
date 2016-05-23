@@ -18,9 +18,10 @@ func main() {
 ;(println [1 2 3])
 ;(println '(list 1 2 3))
 (println (str 1 "2" 3.3 :4) (/ 1 2 34) (^ 2 10 2))
-(lambda [a b]
+(defn add [a b]
   (println a b)
   (+ a b))
+(add 123 456)
 `
 	parser.Dump(str)
 

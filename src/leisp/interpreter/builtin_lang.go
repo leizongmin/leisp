@@ -113,11 +113,40 @@ func builtinLambda(s *types.Scope, list []*types.AST) *types.Atom {
 	return types.NewAtom(lam)
 }
 
+func builtinDefn(s *types.Scope, list []*types.AST) *types.Atom {
+
+	argc := len(list)
+	if argc < 3 {
+		return types.NewErrorMessageAtom("invalid arguments number for defn")
+	}
+
+	first := list[0]
+	if !first.IsValue() {
+		return types.NewErrorAtom(fmt.Errorf("function name must be symbol: %s", first.ToString()))
+	}
+	name, ok := first.Value.(*types.SymbolValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("function name must be symbol: %s", name.ToString()))
+	}
+
+	lam := builtinLambda(s, list[1:])
+	if lam.IsError() {
+		return lam
+	}
+
+	if err := s.Declare(name.Value, lam.Value); err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	return lam
+}
+
 func init() {
 
 	RegisterBuiltinFunction("type-of", builtinTypeOf)
 	RegisterBuiltinFunction("def", builtinDef)
 	RegisterBuiltinFunction("lambda", builtinLambda)
+	RegisterBuiltinFunction("defn", builtinDefn)
 	RegisterBuiltinFunction("new-scope", builtinNewScope)
 
 }
