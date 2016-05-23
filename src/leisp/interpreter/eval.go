@@ -59,6 +59,10 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 		return types.NewAtom(types.NewExpression(types.NewSExpressionAST(ast.Children)))
 	}
 
+	if ast.IsQuote() {
+		return types.NewAtom(ast.Value)
+	}
+
 	return types.NewAtom(types.NewNull())
 }
 
