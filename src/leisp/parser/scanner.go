@@ -84,9 +84,6 @@ func (s *Scanner) Scan() (tok Token, lit string) {
 	case '"':
 		s.unread()
 		return s.scanString()
-	case '\'':
-		s.unread()
-		return s.scanChar()
 	case ';':
 		s.unread()
 		return s.scanComment()
@@ -188,27 +185,6 @@ func (s *Scanner) scanNumber() (tok Token, lit string) {
 	}
 
 	return TokenNumber, buf.String()
-}
-
-func (s *Scanner) scanChar() (tok Token, lit string) {
-
-	var buf bytes.Buffer
-	s.read()
-
-	if ch := s.read(); ch == '\\' {
-		buf.WriteRune(s.read())
-	} else if ch == '\'' {
-		return TokenIllegal, string(ch)
-	} else {
-		buf.WriteRune(ch)
-	}
-
-	ch := s.read()
-	if ch != '\'' {
-		return TokenIllegal, string(ch)
-	}
-
-	return TokenChar, buf.String()
 }
 
 func (s *Scanner) scanSymbol() (tok Token, lit string) {

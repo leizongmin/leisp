@@ -62,8 +62,6 @@ func (p *Parser) Parse() (*types.AST, error) {
 
 	tok, lit := p.scanIgnoreWhitespaceOrComment()
 	switch tok {
-	case TokenChar:
-		return types.NewValueAST(types.NewChar(lit)), nil
 	case TokenString:
 		return types.NewValueAST(types.NewString(lit)), nil
 	case TokenEOF:

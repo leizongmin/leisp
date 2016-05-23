@@ -16,7 +16,6 @@ const (
 	TokenSymbol
 	TokenNumber
 	TokenString
-	TokenChar
 
 	TokenPunctuation
 )
