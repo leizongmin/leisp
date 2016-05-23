@@ -11,10 +11,14 @@ import (
 	"strings"
 )
 
-func Eval(prog string) *types.Atom {
+func Eval(s *types.Scope, prog string) *types.Atom {
 
 	p := parser.NewParser(strings.NewReader(prog))
 	var r *types.Atom
+
+	if s == nil {
+		s = Scope
+	}
 
 	for {
 		if ast, err := p.Parse(); err != nil {
@@ -23,7 +27,7 @@ func Eval(prog string) *types.Atom {
 		} else if ast.IsEOF() {
 			break
 		} else {
-			r = EvalAST(Scope, ast)
+			r = EvalAST(s, ast)
 			if r.IsError() {
 				break
 			}
