@@ -44,7 +44,15 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 	}
 
 	if ast.IsList() {
-		return types.NewErrorMessageAtom("does not implement list AST yet")
+		list := astListToAtomList(s, ast.Children)
+		ret := make([]types.ValueType, len(list))
+		for i, a := range list {
+			if a.IsError() {
+				return a
+			}
+			ret[i] = a.Value
+		}
+		return types.NewAtom(types.NewList(ret))
 	}
 
 	if ast.IsQExpression() {
@@ -54,10 +62,10 @@ func EvalAST(s *types.Scope, ast *types.AST) *types.Atom {
 	return types.NewAtom(types.NewNull())
 }
 
-func astListToAtomList(s *types.Scope, ast []*types.AST) []*types.Atom {
-	list := make([]*types.Atom, len(ast))
-	for i, a := range ast {
-		list[i] = EvalAST(s, a)
+func astListToAtomList(s *types.Scope, list []*types.AST) []*types.Atom {
+	ret := make([]*types.Atom, len(list))
+	for i, a := range list {
+		ret[i] = EvalAST(s, a)
 	}
-	return list
+	return ret
 }

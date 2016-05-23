@@ -15,7 +15,7 @@ func main() {
 (def aa "hello, world")
 (println aa 123 "ok" :haha def)
 (println {1 2.2 "aa"})
-[1 2 3]
+(println [1 2 3])
 `
 	parser.Dump(str)
 
