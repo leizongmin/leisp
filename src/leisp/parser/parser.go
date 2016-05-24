@@ -142,7 +142,9 @@ func (p *Parser) parseSExpression(lit string) (*types.AST, error) {
 
 	for {
 		tok, lit := p.scanIgnoreWhitespaceOrComment()
-		if tok == tokenPunctuation && lit == ")" {
+		if tok == tokenEOF {
+			return nil, fmt.Errorf("unexpected end of s-expression")
+		} else if tok == tokenPunctuation && lit == ")" {
 			break
 		} else {
 			p.unscan()
@@ -163,7 +165,9 @@ func (p *Parser) parseQExpression(lit string) (*types.AST, error) {
 
 	for {
 		tok, lit := p.scanIgnoreWhitespaceOrComment()
-		if tok == tokenPunctuation && lit == "}" {
+		if tok == tokenEOF {
+			return nil, fmt.Errorf("unexpected end of q-expression")
+		} else if tok == tokenPunctuation && lit == "}" {
 			break
 		} else {
 			p.unscan()
@@ -206,7 +210,9 @@ func (p *Parser) parseList(lit string) (*types.AST, error) {
 
 	for {
 		tok, lit := p.scanIgnoreWhitespaceOrComment()
-		if tok == tokenPunctuation && lit == "]" {
+		if tok == tokenEOF {
+			return nil, fmt.Errorf("unexpected end of list")
+		} else if tok == tokenPunctuation && lit == "]" {
 			break
 		} else {
 			p.unscan()

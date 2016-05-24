@@ -27,6 +27,8 @@ func main() {
 (println (add 123 aa))
 (println this)
 `
+	str = `(ok`
+
 	parser.Dump(str)
 
 	a := interpreter.Eval(nil, str)
