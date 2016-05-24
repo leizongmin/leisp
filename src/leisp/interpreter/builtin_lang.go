@@ -149,7 +149,7 @@ func builtinExit(s *types.Scope, list []*types.AST) *types.Atom {
 		return errAtom
 	}
 
-	var exitCode int = 0
+	exitCode := 0
 	if len(args) > 0 {
 		first := args[0]
 		code, ok := first.Value.(*types.IntegerValue)
@@ -184,6 +184,31 @@ func builtinValue(s *types.Scope, list []*types.AST) *types.Atom {
 	return types.NewAtom(types.NewExpressionValue(first))
 }
 
+func builtinValueByName(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 1 {
+		return types.NewErrorMessageAtom("invalid arguments number for value")
+	}
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
+
+	first := args[0]
+	str, ok := first.Value.(*types.StringValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("invalid arguments type for value*, expected string actually %s", first.Value.GetType()))
+	}
+
+	val, err := s.Get(str.Value)
+	if err != nil {
+		return types.NewErrorAtom(err)
+	}
+
+	return types.NewAtom(val)
+}
+
 func init() {
 
 	RegisterBuiltinFunction("lambda", builtinLambda)
@@ -192,7 +217,7 @@ func init() {
 	RegisterBuiltinFunction("typeof", builtinTypeOf)
 	RegisterBuiltinFunction("defvar", builtinDefvar)
 	RegisterBuiltinFunction("value", builtinValue)
-	//RegisterBuiltinFunction("value*", builtinValueByName)
+	RegisterBuiltinFunction("value*", builtinValueByName)
 
 	RegisterBuiltinFunction("new-scope", builtinNewScope)
 	RegisterBuiltinFunction("exit", builtinExit)
