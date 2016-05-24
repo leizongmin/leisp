@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"leisp/interpreter"
 	"os"
+	"strings"
 
 	"github.com/peterh/liner"
 )
@@ -139,7 +140,7 @@ func startREPL() {
 			}
 		}
 
-		buffer += line + " "
+		buffer = strings.TrimSpace(buffer + line + " ")
 		if len(brackets) == 0 && !isString {
 
 			a := interpreter.Eval(nil, buffer)
