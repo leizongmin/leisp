@@ -29,32 +29,29 @@ func builtinTypeOf(s *types.Scope, list []*types.AST) *types.Atom {
 
 func builtinDefvar(s *types.Scope, list []*types.AST) *types.Atom {
 
-	args, errAtom := astListToAtomList(s, list)
-	if errAtom != nil {
-		return errAtom
+	if len(list) != 2 {
+		return types.NewErrorMessageAtom(`invalid arguments number for defvar`)
 	}
 
-	if len(args) != 2 {
-		return types.NewErrorMessageAtom(`invalid arguments number for def`)
+	first := list[0]
+	if !first.IsValue() {
+		return types.NewErrorAtom(fmt.Errorf("function name must be symbol: %s", first.ToString()))
 	}
-	n := args[0]
-	v := args[1]
-	if !n.IsValue() {
-		return n
-	}
-	if !v.IsValue() {
-		return v
-	}
-	sym, ok := n.Value.(*types.SymbolValue)
+	name, ok := first.Value.(*types.SymbolValue)
 	if !ok {
-		return types.NewErrorAtom(fmt.Errorf("invalid type of variable name: %s", n.ToString()))
+		return types.NewErrorAtom(fmt.Errorf("function name must be symbol: %s", name.ToString()))
 	}
 
-	if err := s.Declare(sym.ToString(), v.Value); err != nil {
+	value := EvalAST(s, list[1])
+	if value.IsError() {
+		return value
+	}
+
+	if err := s.Declare(name.Value, value.Value); err != nil {
 		return types.NewErrorAtom(err)
 	}
 
-	return v
+	return value
 }
 
 func builtinNewScope(s *types.Scope, list []*types.AST) *types.Atom {

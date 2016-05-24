@@ -53,6 +53,13 @@ func EvalASTList(s *types.Scope, list []*types.AST) *types.Atom {
 func EvalAST(s *types.Scope, a *types.AST) *types.Atom {
 
 	if a.IsValue() {
+		if sym, ok := a.Value.(*types.SymbolValue); ok {
+			v, err := s.Get(sym.Value)
+			if err != nil {
+				return types.NewErrorAtom(err)
+			}
+			return types.NewAtom(v)
+		}
 		return types.NewAtom(a.Value)
 	}
 

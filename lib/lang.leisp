@@ -1,2 +1,2 @@
 (defn hello [msg]
-  (println "hello, " msg))
+  (println (str "hello, " msg)))
