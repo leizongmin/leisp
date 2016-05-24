@@ -5,8 +5,11 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"io/ioutil"
 	"leisp/interpreter"
+	"os"
 
 	"github.com/peterh/liner"
 )
@@ -38,28 +41,44 @@ Press Ctrl+C to Exit.
 	`)
 }
 
+func printUsage() {
+
+	fmt.Printf("%s\n", `
+Usage: leisp [options] [<file1> <file2> ...]
+
+Options:
+	`)
+
+	flag.PrintDefaults()
+	os.Exit(0)
+
+}
+
 func main() {
+
+	flag.Usage = printUsage
+	flag.Parse()
 
 	printWelcome()
 
-	// 	str := `
-	// (defvar aa 456)
-	// (println aa 123 "ok" :haha 'defvar)
-	// (println {1 2.2 "aa"})
-	// (println [1 2 3])
-	// (println '(list 1 2 3))
-	// (println (str 1 "2" 3.3 :4) (/ 1 2 34) (^ 2 10 2))
-	// (defn add [a b]
-	//   (println "arguments:" a b)
-	//   (+ a b))
-	// (println (add 123 aa))
-	// (println this)
-	// `
+	files := flag.Args()
+	for _, f := range files {
+		content, err := ioutil.ReadFile(f)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		r := interpreter.Eval(nil, string(content))
+		if r.IsError() {
+			fmt.Println(r.ToString())
+			os.Exit(2)
+		}
+	}
 
-	// 	parser.Dump(str)
+	startREPL()
+}
 
-	// 	a := interpreter.Eval(nil, str)
-	// 	a.Print()
+func startREPL() {
 
 	rl := liner.NewLiner()
 	rl.SetCtrlCAborts(true)
@@ -120,15 +139,17 @@ func main() {
 			}
 		}
 
-		buffer += " " + line
+		buffer += line + " "
 		if len(brackets) == 0 && !isString {
+
 			a := interpreter.Eval(nil, buffer)
 			a.Print()
+
+			rl.AppendHistory(buffer)
 			buffer = ""
 		}
 
 	}
 
 	rl.Close()
-
 }

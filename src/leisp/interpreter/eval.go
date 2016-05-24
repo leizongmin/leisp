@@ -14,7 +14,7 @@ import (
 func Eval(s *types.Scope, prog string) *types.Atom {
 
 	p := parser.NewParser(strings.NewReader(prog))
-	var r *types.Atom
+	r := types.NewEmptyAtom()
 
 	if s == nil {
 		s = Scope
