@@ -7,6 +7,7 @@ package interpreter
 import (
 	"fmt"
 	"leisp/types"
+	"os"
 )
 
 func builtinTypeOf(s *types.Scope, list []*types.AST) *types.Atom {
@@ -141,6 +142,27 @@ func builtinDefn(s *types.Scope, list []*types.AST) *types.Atom {
 	return lam
 }
 
+func builtinExit(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
+
+	var exitCode int = 0
+	if len(args) > 0 {
+		first := args[0]
+		code, ok := first.Value.(*types.IntegerValue)
+		if !ok {
+			return types.NewErrorAtom(fmt.Errorf("exit code must be type integer: actually type is %s", first.Value.GetType()))
+		}
+		exitCode = int(code.Value)
+	}
+	os.Exit(exitCode)
+
+	return types.NewEmptyAtom()
+}
+
 func init() {
 
 	RegisterBuiltinFunction("typeof", builtinTypeOf)
@@ -148,5 +170,6 @@ func init() {
 	RegisterBuiltinFunction("lambda", builtinLambda)
 	RegisterBuiltinFunction("defn", builtinDefn)
 	RegisterBuiltinFunction("new-scope", builtinNewScope)
+	RegisterBuiltinFunction("exit", builtinExit)
 
 }
