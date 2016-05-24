@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"leisp/interpreter"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strings"
 
@@ -107,9 +108,16 @@ func startREPL() {
 
 	rl := createLiner()
 
-	historyFileName := filepath.Join(os.TempDir(), ".leisp_history")
+	userInfo, err := user.Current()
+	historyDir := os.TempDir()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		historyDir = userInfo.HomeDir
+	}
+
+	historyFileName := filepath.Join(historyDir, ".leisp_history")
 	historyFile, err := os.OpenFile(historyFileName, os.O_CREATE|os.O_RDWR, 0644)
-	fmt.Println(historyFileName)
 	if err != nil {
 		fmt.Printf("Warning: cannot open history file: %s\n", err)
 	} else {
