@@ -12,6 +12,14 @@ import (
 	"github.com/peterh/liner"
 )
 
+func makeIndentString(n int) string {
+	s := ""
+	for i := 0; i < n; i++ {
+		s += "  "
+	}
+	return s
+}
+
 func main() {
 
 	str := `
@@ -27,7 +35,6 @@ func main() {
 (println (add 123 aa))
 (println this)
 `
-	str = `(ok`
 
 	parser.Dump(str)
 
@@ -35,12 +42,24 @@ func main() {
 	a.Print()
 
 	rl := liner.NewLiner()
+	rl.SetCtrlCAborts(true)
+
+	brackets := make([]rune, 0)
+	buffer := ""
 
 	for {
 
-		line, err := rl.Prompt("leisp> ")
+		prompt := "leisp> "
+		if len(brackets) > 0 {
+			prompt = "       " + makeIndentString(len(brackets))
+		}
+
+		line, err := rl.Prompt(prompt)
 		if err != nil {
-			fmt.Println("Error: %s", err)
+			if err.Error() == "prompt aborted" {
+				break
+			}
+			fmt.Println(err)
 			break
 		}
 
@@ -48,8 +67,32 @@ func main() {
 			continue
 		}
 
-		a := interpreter.Eval(nil, line)
-		a.Print()
+		for _, r2 := range line {
+			if r2 == '{' || r2 == '[' || r2 == '(' {
+				brackets = append(brackets, r2)
+			} else if r2 == '}' || r2 == ']' || r2 == ')' {
+				r := brackets[len(brackets)-1]
+				if r == '{' && r2 == '}' {
+					brackets = brackets[:len(brackets)-1]
+				} else if r == '[' && r2 == ']' {
+					brackets = brackets[:len(brackets)-1]
+				} else if r == '(' && r2 == ')' {
+					brackets = brackets[:len(brackets)-1]
+				} else {
+					fmt.Printf("Error: %s does not matched %s\n", string(r), string(r2))
+				}
+			}
+		}
+
+		buffer += " " + line
+		if len(brackets) == 0 {
+			a := interpreter.Eval(nil, buffer)
+			a.Print()
+			buffer = ""
+		}
+
 	}
+
+	rl.Close()
 
 }
