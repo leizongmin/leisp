@@ -39,7 +39,7 @@ func builtinDefvar(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 	name, ok := first.Value.(*types.SymbolValue)
 	if !ok {
-		return types.NewErrorAtom(fmt.Errorf("function name must be symbol: %s", name.ToString()))
+		return types.NewErrorAtom(fmt.Errorf("function name must be symbol: %s", first.ToString()))
 	}
 
 	value := EvalAST(s, list[1])
