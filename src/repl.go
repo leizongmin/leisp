@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"leisp/interpreter"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/peterh/liner"
@@ -87,20 +88,14 @@ func createLiner() *liner.State {
 
 	rl.SetTabCompletionStyle(liner.TabCircular)
 	rl.SetWordCompleter(func(line string, pos int) (head string, completions []string, tail string) {
-		if pos == 0 {
+
+		if line == "" {
 			head, tail = "(", ")"
 			completions = []string{""}
 		} else {
-			// fmt.Println("")
-			// str := line[pos:]
-			// fmt.Println(str)
-			// for _, n := range interpreter.Scope.Keys() {
-			// 	fmt.Print(n, "\t")
-			// 	if strings.Index(n, str) == 0 {
-			// 		completions = append(completions, n)
-			// 	}
-			// }
-			// fmt.Println("")
+			head = line[0:pos] + " "
+			tail = line[pos:]
+			completions = []string{"()", "'", "{}", "[]", ""}
 		}
 		return head, completions, tail
 	})
@@ -111,6 +106,17 @@ func createLiner() *liner.State {
 func startREPL() {
 
 	rl := createLiner()
+
+	historyFileName := filepath.Join(os.TempDir(), ".leisp_history")
+	historyFile, err := os.OpenFile(historyFileName, os.O_CREATE|os.O_RDWR, 0644)
+	fmt.Println(historyFileName)
+	if err != nil {
+		fmt.Printf("Warning: cannot open history file: %s\n", err)
+	} else {
+		if _, err := rl.ReadHistory(historyFile); err != nil {
+			fmt.Printf("Warning: cannot open history file: %s\n", err)
+		}
+	}
 
 	brackets := make([]rune, 0)
 	isString := false
@@ -175,6 +181,8 @@ func startREPL() {
 			a.Print()
 
 			rl.AppendHistory(buffer)
+			rl.WriteHistory(historyFile)
+
 			buffer = ""
 		}
 
