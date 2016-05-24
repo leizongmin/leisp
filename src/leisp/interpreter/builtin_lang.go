@@ -163,12 +163,37 @@ func builtinExit(s *types.Scope, list []*types.AST) *types.Atom {
 	return types.NewEmptyAtom()
 }
 
+func builtinValue(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 1 {
+		return types.NewErrorMessageAtom("invalid arguments number for value")
+	}
+
+	first := list[0]
+	if first.IsValue() {
+		if sym, ok := first.Value.(*types.SymbolValue); ok {
+			val, err := s.Get(sym.Value)
+			if err != nil {
+				return types.NewErrorAtom(err)
+			}
+			return types.NewAtom(val)
+		}
+		return types.NewAtom(first.Value)
+	}
+
+	return types.NewAtom(types.NewExpressionValue(first))
+}
+
 func init() {
+
+	RegisterBuiltinFunction("lambda", builtinLambda)
+	RegisterBuiltinFunction("defn", builtinDefn)
 
 	RegisterBuiltinFunction("typeof", builtinTypeOf)
 	RegisterBuiltinFunction("defvar", builtinDefvar)
-	RegisterBuiltinFunction("lambda", builtinLambda)
-	RegisterBuiltinFunction("defn", builtinDefn)
+	RegisterBuiltinFunction("value", builtinValue)
+	//RegisterBuiltinFunction("value*", builtinValueByName)
+
 	RegisterBuiltinFunction("new-scope", builtinNewScope)
 	RegisterBuiltinFunction("exit", builtinExit)
 
