@@ -74,6 +74,16 @@ func (s *Scope) Delete(name string) error {
 	return nil
 }
 
+func (s *Scope) Keys() []string {
+
+	var keys []string
+	for k := range s.Variables {
+		keys = append(keys, k)
+	}
+
+	return keys
+}
+
 type ScopeValue struct {
 	Value *Scope
 }

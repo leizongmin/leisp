@@ -79,10 +79,38 @@ func main() {
 	startREPL()
 }
 
-func startREPL() {
+func createLiner() *liner.State {
 
 	rl := liner.NewLiner()
 	rl.SetCtrlCAborts(true)
+	rl.SetMultiLineMode(true)
+
+	rl.SetTabCompletionStyle(liner.TabCircular)
+	rl.SetWordCompleter(func(line string, pos int) (head string, completions []string, tail string) {
+		if pos == 0 {
+			head, tail = "(", ")"
+			completions = []string{""}
+		} else {
+			// fmt.Println("")
+			// str := line[pos:]
+			// fmt.Println(str)
+			// for _, n := range interpreter.Scope.Keys() {
+			// 	fmt.Print(n, "\t")
+			// 	if strings.Index(n, str) == 0 {
+			// 		completions = append(completions, n)
+			// 	}
+			// }
+			// fmt.Println("")
+		}
+		return head, completions, tail
+	})
+
+	return rl
+}
+
+func startREPL() {
+
+	rl := createLiner()
 
 	brackets := make([]rune, 0)
 	isString := false
