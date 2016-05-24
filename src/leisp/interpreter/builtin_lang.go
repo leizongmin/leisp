@@ -139,6 +139,29 @@ func builtinDefn(s *types.Scope, list []*types.AST) *types.Atom {
 	return lam
 }
 
+func builtinEval(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
+
+	r := types.NewEmptyAtom()
+
+	for _, a := range args {
+		if expr, ok := a.Value.(*types.ExpressionValue); ok {
+			r = EvalAST(s, expr.Value)
+			if r.IsError() {
+				return r
+			}
+			continue
+		}
+		r = a
+	}
+
+	return r
+}
+
 func builtinExit(s *types.Scope, list []*types.AST) *types.Atom {
 
 	args, errAtom := astListToAtomList(s, list)
@@ -210,6 +233,7 @@ func init() {
 
 	RegisterBuiltinFunction("lambda", builtinLambda)
 	RegisterBuiltinFunction("defn", builtinDefn)
+	RegisterBuiltinFunction("eval", builtinEval)
 
 	RegisterBuiltinFunction("typeof", builtinTypeOf)
 	RegisterBuiltinFunction("defvar", builtinDefvar)
