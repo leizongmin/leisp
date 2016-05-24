@@ -45,6 +45,7 @@ func main() {
 	rl.SetCtrlCAborts(true)
 
 	brackets := make([]rune, 0)
+	isString := false
 	buffer := ""
 
 	for {
@@ -67,25 +68,40 @@ func main() {
 			continue
 		}
 
+		isEscape := false
 		for _, r2 := range line {
-			if r2 == '{' || r2 == '[' || r2 == '(' {
-				brackets = append(brackets, r2)
-			} else if r2 == '}' || r2 == ']' || r2 == ')' {
-				r := brackets[len(brackets)-1]
-				if r == '{' && r2 == '}' {
-					brackets = brackets[:len(brackets)-1]
-				} else if r == '[' && r2 == ']' {
-					brackets = brackets[:len(brackets)-1]
-				} else if r == '(' && r2 == ')' {
-					brackets = brackets[:len(brackets)-1]
+			if isString {
+				if isEscape {
+					isEscape = false
 				} else {
-					fmt.Printf("Error: %s does not matched %s\n", string(r), string(r2))
+					if r2 == '\\' {
+						isEscape = true
+					} else if r2 == '"' {
+						isString = false
+					}
+				}
+			} else {
+				if r2 == '{' || r2 == '[' || r2 == '(' {
+					brackets = append(brackets, r2)
+				} else if r2 == '}' || r2 == ']' || r2 == ')' {
+					r := brackets[len(brackets)-1]
+					if r == '{' && r2 == '}' {
+						brackets = brackets[:len(brackets)-1]
+					} else if r == '[' && r2 == ']' {
+						brackets = brackets[:len(brackets)-1]
+					} else if r == '(' && r2 == ')' {
+						brackets = brackets[:len(brackets)-1]
+					} else {
+						fmt.Printf("Error: %s does not matched %s\n", string(r), string(r2))
+					}
+				} else if r2 == '"' {
+					isString = true
 				}
 			}
 		}
 
 		buffer += " " + line
-		if len(brackets) == 0 {
+		if len(brackets) == 0 && !isString {
 			a := interpreter.Eval(nil, buffer)
 			a.Print()
 			buffer = ""
