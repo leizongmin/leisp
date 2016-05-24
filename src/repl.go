@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"leisp/interpreter"
 	"leisp/parser"
+
+	"github.com/peterh/liner"
 )
 
 func main() {
@@ -30,13 +32,21 @@ func main() {
 	a := interpreter.Eval(nil, str)
 	a.Print()
 
+	rl := liner.NewLiner()
+
 	for {
 
-		var ln string
-		fmt.Print("leisp> ")
-		fmt.Scanf("%s", &ln)
+		line, err := rl.Prompt("leisp> ")
+		if err != nil {
+			fmt.Println("Error: %s", err)
+			break
+		}
 
-		a := interpreter.Eval(nil, ln)
+		if line == "" {
+			continue
+		}
+
+		a := interpreter.Eval(nil, line)
 		a.Print()
 	}
 
