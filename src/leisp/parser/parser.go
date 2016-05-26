@@ -128,7 +128,7 @@ func (p *Parser) parsePunctuation(lit string) (*types.AST, error) {
 		return p.parseQExpression(lit)
 
 	case "[":
-		return p.parseList(lit)
+		return p.parseArray(lit)
 
 	case ")", "}", "]":
 		return types.NewEOFAST(), fmt.Errorf("mismatching %s", lit)
@@ -206,7 +206,7 @@ func (p *Parser) parseQuote(lit string) (*types.AST, error) {
 	return types.NewQExpressionAST(ast.Children), nil
 }
 
-func (p *Parser) parseList(lit string) (*types.AST, error) {
+func (p *Parser) parseArray(lit string) (*types.AST, error) {
 
 	var children []*types.AST
 
