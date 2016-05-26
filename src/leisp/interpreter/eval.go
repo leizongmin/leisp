@@ -17,7 +17,11 @@ func Eval(s *types.Scope, prog string) *types.Atom {
 	r := types.NewEmptyAtom()
 
 	if s == nil {
-		s = Scope
+		var err error
+		s, err = NewDefaultScope()
+		if err != nil {
+			types.NewErrorAtom(err)
+		}
 	}
 
 	for {

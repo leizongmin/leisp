@@ -32,9 +32,3 @@ func builtinStr(s *types.Scope, list []*types.AST) *types.Atom {
 
 	return types.NewAtom(types.NewStringValue(strings.Join(strs, "")))
 }
-
-func init() {
-
-	RegisterBuiltinFunction("str", builtinStr)
-
-}

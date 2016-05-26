@@ -130,6 +130,11 @@ func startREPL() {
 	isString := false
 	buffer := ""
 
+	scope, err := interpreter.NewDefaultScope()
+	if err != nil {
+		panic(err)
+	}
+
 	for {
 
 		prompt := "leisp> "
@@ -185,7 +190,7 @@ func startREPL() {
 		buffer = strings.TrimSpace(buffer + line + " ")
 		if len(brackets) == 0 && !isString {
 
-			a := interpreter.Eval(nil, buffer)
+			a := interpreter.Eval(scope, buffer)
 			a.Print()
 
 			rl.AppendHistory(buffer)

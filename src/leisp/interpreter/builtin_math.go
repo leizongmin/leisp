@@ -198,13 +198,3 @@ func builtinMathPow(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 	return types.NewAtom(types.NewFloatValue(ret))
 }
-
-func init() {
-
-	RegisterBuiltinFunction("+", builtinMathAdd)
-	RegisterBuiltinFunction("-", builtinMathSubtract)
-	RegisterBuiltinFunction("*", builtinMathMultiply)
-	RegisterBuiltinFunction("/", builtinMathDivide)
-	RegisterBuiltinFunction("^", builtinMathPow)
-
-}

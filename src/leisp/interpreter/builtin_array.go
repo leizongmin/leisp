@@ -13,7 +13,7 @@ func builtinArrayLength(s *types.Scope, list []*types.AST) *types.Atom {
 
 	argc := len(list)
 	if argc != 1 {
-		return types.NewErrorMessageAtom("invalid arguments number for array-length")
+		return types.NewErrorMessageAtom("wrong arguments number for array-length")
 	}
 
 	array := EvalAST(s, list[0])
@@ -32,7 +32,7 @@ func builtinArrayIndex(s *types.Scope, list []*types.AST) *types.Atom {
 
 	argc := len(list)
 	if argc != 2 {
-		return types.NewErrorMessageAtom("invalid arguments number for array-index")
+		return types.NewErrorMessageAtom("wrong arguments number for array-index")
 	}
 
 	array := EvalAST(s, list[0])
@@ -64,7 +64,7 @@ func builtinArraySlice(s *types.Scope, list []*types.AST) *types.Atom {
 
 	argc := len(list)
 	if argc != 3 {
-		return types.NewErrorMessageAtom("invalid arguments number for array-slice")
+		return types.NewErrorMessageAtom("wrong arguments number for array-slice")
 	}
 
 	array := EvalAST(s, list[0])
@@ -102,12 +102,4 @@ func builtinArraySlice(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 
 	return types.NewAtom(types.NewArrayValue(arr.Value[b.Value:e.Value]))
-}
-
-func init() {
-
-	RegisterBuiltinFunction("array-length", builtinArrayLength)
-	RegisterBuiltinFunction("array-index", builtinArrayIndex)
-	RegisterBuiltinFunction("array-slice", builtinArraySlice)
-
 }

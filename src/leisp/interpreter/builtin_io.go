@@ -46,10 +46,3 @@ func builtinPrintln(s *types.Scope, list []*types.AST) *types.Atom {
 	fmt.Println("")
 	return a
 }
-
-func init() {
-
-	RegisterBuiltinFunction("print", builtinPrint)
-	RegisterBuiltinFunction("println", builtinPrintln)
-
-}

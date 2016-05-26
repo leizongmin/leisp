@@ -10,10 +10,8 @@ import (
 	"strings"
 )
 
-var Scope = types.NewRootScope()
-
-func RegisterBuiltinFunction(name string, handler types.BuiltinFunction) {
-	Scope.Declare(name, types.NewFunctionValue(name, handler))
+func RegisterBuiltinFunction(s *types.Scope, name string, handler types.BuiltinFunction) {
+	s.Declare(name, types.NewFunctionValue(name, handler))
 }
 
 func callOperator(s *types.Scope, name string, args []*types.AST) *types.Atom {
@@ -37,7 +35,7 @@ func callOperator(s *types.Scope, name string, args []*types.AST) *types.Atom {
 		}
 
 		if len(values) < len(lam.Value.Names) {
-			return types.NewErrorAtom(fmt.Errorf("invalid arguments number for %s, expected %d actually %d", name, len(lam.Value.Names), len(values)))
+			return types.NewErrorAtom(fmt.Errorf("wrong arguments number for %s, expected %d actually %d", name, len(lam.Value.Names), len(values)))
 		}
 		for i, n := range lam.Value.Names {
 			if strings.Index(n, "...") == 0 {

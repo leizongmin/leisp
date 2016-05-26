@@ -27,6 +27,24 @@ func NewParser(r io.Reader) *Parser {
 	}
 }
 
+func ParseAll(prog string) (list []*types.AST, err error) {
+
+	p := NewParser(strings.NewReader(prog))
+
+	for {
+		if ast, err := p.Parse(); err != nil {
+			pos := p.GetPosition()
+			return nil, fmt.Errorf("Error: %s at line %d,%d\n", err.Error(), pos.Line, pos.Column-1)
+		} else if ast.IsEOF() {
+			break
+		} else {
+			list = append(list, ast)
+		}
+	}
+
+	return list, nil
+}
+
 func (p *Parser) scan() (tok token, lit string) {
 
 	if p.buf.n != 0 {

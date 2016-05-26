@@ -18,7 +18,7 @@ func builtinTypeOf(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 
 	if len(args) != 1 {
-		return types.NewErrorMessageAtom(`invalid arguments number for type-of`)
+		return types.NewErrorMessageAtom(`wrong arguments number for type-of`)
 	}
 	a := args[0]
 	if a.IsError() {
@@ -30,7 +30,7 @@ func builtinTypeOf(s *types.Scope, list []*types.AST) *types.Atom {
 func builtinDefvar(s *types.Scope, list []*types.AST) *types.Atom {
 
 	if len(list) != 2 {
-		return types.NewErrorMessageAtom(`invalid arguments number for defvar`)
+		return types.NewErrorMessageAtom(`wrong arguments number for defvar`)
 	}
 
 	first := list[0]
@@ -63,7 +63,7 @@ func builtinNewScope(s *types.Scope, list []*types.AST) *types.Atom {
 
 	argc := len(args)
 	if argc > 1 {
-		return types.NewErrorMessageAtom(`invalid arguments number for new-scope`)
+		return types.NewErrorMessageAtom(`wrong arguments number for new-scope`)
 	}
 	if argc == 0 {
 		return types.NewAtom(types.NewScopeValue(types.NewScope(nil)))
@@ -82,7 +82,7 @@ func builtinLambda(s *types.Scope, list []*types.AST) *types.Atom {
 
 	argc := len(list)
 	if argc < 2 {
-		return types.NewErrorMessageAtom("invalid arguments number for lambda")
+		return types.NewErrorMessageAtom("wrong arguments number for lambda")
 	}
 
 	first := list[0]
@@ -115,7 +115,7 @@ func builtinDefn(s *types.Scope, list []*types.AST) *types.Atom {
 
 	argc := len(list)
 	if argc < 3 {
-		return types.NewErrorMessageAtom("invalid arguments number for defn")
+		return types.NewErrorMessageAtom("wrong arguments number for defn")
 	}
 
 	first := list[0]
@@ -186,7 +186,7 @@ func builtinExit(s *types.Scope, list []*types.AST) *types.Atom {
 func builtinValue(s *types.Scope, list []*types.AST) *types.Atom {
 
 	if len(list) != 1 {
-		return types.NewErrorMessageAtom("invalid arguments number for value")
+		return types.NewErrorMessageAtom("wrong arguments number for value")
 	}
 
 	first := list[0]
@@ -207,7 +207,7 @@ func builtinValue(s *types.Scope, list []*types.AST) *types.Atom {
 func builtinValueByName(s *types.Scope, list []*types.AST) *types.Atom {
 
 	if len(list) != 1 {
-		return types.NewErrorMessageAtom("invalid arguments number for value")
+		return types.NewErrorMessageAtom("wrong arguments number for value")
 	}
 
 	args, errAtom := astListToAtomList(s, list)
@@ -237,7 +237,7 @@ func builtinEqual(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 
 	if len(args) < 2 {
-		return types.NewErrorMessageAtom("invalid arguments number for value")
+		return types.NewErrorMessageAtom("wrong arguments number for value")
 	}
 
 	ok := true
@@ -256,21 +256,80 @@ func builtinEqual(s *types.Scope, list []*types.AST) *types.Atom {
 	return types.NewAtom(types.NewBooleanValue(ok))
 }
 
-func init() {
+func builtinAnd(s *types.Scope, list []*types.AST) *types.Atom {
 
-	RegisterBuiltinFunction("lambda", builtinLambda)
-	RegisterBuiltinFunction("defn", builtinDefn)
-	RegisterBuiltinFunction("eval", builtinEval)
+	if len(list) < 2 {
+		return types.NewErrorMessageAtom("wrong arguments number for and")
+	}
 
-	RegisterBuiltinFunction("typeof", builtinTypeOf)
-	RegisterBuiltinFunction("defvar", builtinDefvar)
-	// RegisterBuiltinFunction("value", builtinValue)
-	RegisterBuiltinFunction("symbol-value", builtinValueByName)
+	for _, a := range list {
 
-	RegisterBuiltinFunction("new-scope", builtinNewScope)
-	RegisterBuiltinFunction("exit", builtinExit)
+		r := EvalAST(s, a)
+		if r.IsError() {
+			return r
+		}
 
-	RegisterBuiltinFunction("equal?", builtinEqual)
-	RegisterBuiltinFunction("=", builtinEqual)
+		if _, ok := r.Value.(*types.NullValue); ok {
+			return types.NewAtom(types.NewBooleanValue(false))
+		}
+		if boolValue, ok := r.Value.(*types.BooleanValue); ok {
+			if !boolValue.Value {
+				return types.NewAtom(types.NewBooleanValue(false))
+			}
+		}
+	}
+
+	return types.NewAtom(types.NewBooleanValue(true))
+}
+
+func builtinOr(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) < 2 {
+		return types.NewErrorMessageAtom("wrong arguments number for or")
+	}
+
+	for _, a := range list {
+
+		r := EvalAST(s, a)
+		if r.IsError() {
+			return r
+		}
+
+		if _, ok := r.Value.(*types.NullValue); ok {
+			continue
+		}
+		if boolValue, ok := r.Value.(*types.BooleanValue); ok {
+			if !boolValue.Value {
+				continue
+			}
+		}
+
+		return types.NewAtom(types.NewBooleanValue(true))
+	}
+
+	return types.NewAtom(types.NewBooleanValue(false))
+}
+
+func builtinNot(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 1 {
+		return types.NewErrorMessageAtom("wrong arguments number for not")
+	}
+
+	r := EvalAST(s, list[0])
+	if r.IsError() {
+		return r
+	}
+
+	if _, ok := r.Value.(*types.NullValue); ok {
+		return types.NewAtom(types.NewBooleanValue(true))
+	}
+	if boolValue, ok := r.Value.(*types.BooleanValue); ok {
+		if !boolValue.Value {
+			return types.NewAtom(types.NewBooleanValue(true))
+		}
+	}
+
+	return types.NewAtom(types.NewBooleanValue(false))
 
 }
