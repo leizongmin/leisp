@@ -114,7 +114,7 @@ func builtinLambda(s *types.Scope, list []*types.AST) *types.Atom {
 
 	restNameCount := len(varNames)
 	if restNameCount > 1 {
-		return types.NewErrorAtom(fmt.Errorf("only support variable arugment, actually got %d", restNameCount))
+		return types.NewErrorAtom(fmt.Errorf("only support 1 variable arugment, actually got %d", restNameCount))
 	}
 
 	body := make([]*types.ExpressionValue, argc-1)
