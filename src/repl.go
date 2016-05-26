@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"leisp/interpreter"
-	"leisp/parser"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -106,11 +105,6 @@ func createLiner() *liner.State {
 }
 
 func startREPL() {
-
-	str := `
-[1 2 3]
-	`
-	parser.Dump(str)
 
 	rl := createLiner()
 

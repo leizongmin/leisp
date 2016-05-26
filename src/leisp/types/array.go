@@ -33,6 +33,15 @@ func (v *ArrayValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert list to %s: does not implement yet", t)
 }
 
+func (v *ArrayValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*ArrayValue); ok {
+		if &v2.Value == &v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewArrayValue(v []ValueType) *ArrayValue {
 	return &ArrayValue{Value: v}
 }

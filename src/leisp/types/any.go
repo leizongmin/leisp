@@ -26,6 +26,15 @@ func (v *AnyValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert any to %s: does not implement yet", t)
 }
 
+func (v *AnyValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*AnyValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewAnyValue(v interface{}) *AnyValue {
 	return &AnyValue{Value: v}
 }

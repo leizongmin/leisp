@@ -26,6 +26,15 @@ func (v *FloatValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert float to %s: does not implement yet", t)
 }
 
+func (v *FloatValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*FloatValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewFloatValue(v float64) *FloatValue {
 	return &FloatValue{Value: v}
 }

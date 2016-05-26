@@ -26,6 +26,15 @@ func (v *ExpressionValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert expression to %s: does not implement yet", t)
 }
 
+func (v *ExpressionValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*ExpressionValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewExpressionValue(v *AST) *ExpressionValue {
 	return &ExpressionValue{Value: v}
 }

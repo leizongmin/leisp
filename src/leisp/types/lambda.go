@@ -45,6 +45,15 @@ func (v *LambdaValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert keyword to %s: does not implement yet", t)
 }
 
+func (v *LambdaValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*LambdaValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewLambdaValue(v *LambdaValueInfo) *LambdaValue {
 	return &LambdaValue{Value: v}
 }

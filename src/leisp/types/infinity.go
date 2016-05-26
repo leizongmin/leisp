@@ -7,7 +7,7 @@ package types
 import "fmt"
 
 type InfinityValue struct {
-	Value int64
+	Value bool
 }
 
 func (v *InfinityValue) ToString() string {
@@ -26,6 +26,15 @@ func (v *InfinityValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert infinity to %s: does not implement yet", t)
 }
 
+func (v *InfinityValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*InfinityValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewInfinityValue() *InfinityValue {
-	return &InfinityValue{}
+	return &InfinityValue{Value: true}
 }

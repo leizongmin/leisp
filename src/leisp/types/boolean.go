@@ -29,6 +29,15 @@ func (v *BooleanValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert boolean to %s: does not implement yet", t)
 }
 
+func (v *BooleanValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*BooleanValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewBooleanValue(v bool) *BooleanValue {
 	return &BooleanValue{Value: v}
 }

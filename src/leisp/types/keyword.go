@@ -26,6 +26,15 @@ func (v *KeywordValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert keyword to %s: does not implement yet", t)
 }
 
+func (v *KeywordValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*KeywordValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewKeywordValue(v string) *KeywordValue {
 	return &KeywordValue{Value: v}
 }

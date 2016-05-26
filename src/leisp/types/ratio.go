@@ -26,6 +26,15 @@ func (v *RatioValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
 }
 
+func (v *RatioValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*RatioValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewRatioValue(v string) *RatioValue {
 	return &RatioValue{Value: v}
 }

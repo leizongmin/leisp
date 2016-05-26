@@ -117,6 +117,15 @@ func (v *ScopeValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
 }
 
+func (v *ScopeValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*ScopeValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewScopeValue(v *Scope) *ScopeValue {
 	return &ScopeValue{Value: v}
 }

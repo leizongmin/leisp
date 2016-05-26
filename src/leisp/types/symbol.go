@@ -26,6 +26,15 @@ func (v *SymbolValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert symbol to %s: does not implement yet", t)
 }
 
+func (v *SymbolValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*SymbolValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func (t *SymbolValue) GetFinalValue(s *Scope) (ValueType, error) {
 	val, err := s.Get(t.Value)
 	if err != nil {

@@ -26,6 +26,15 @@ func (v *NullValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert null to %s: does not implement yet", t)
 }
 
+func (v *NullValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*NullValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewNullValue() *NullValue {
 	return &NullValue{Value: false}
 }

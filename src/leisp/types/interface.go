@@ -5,8 +5,9 @@
 package types
 
 type ValueType interface {
-	ToString() string               // Returns a string representation of the value
-	GetType() string                // Returns the valueType (enum of all Values)
+	ToString() string               // Return a string representation of the value
+	GetType() string                // Return the valueType (enum of all Values)
 	To(t string) (ValueType, error) // Convert to specified type
-	IsValue() bool                  // Returns true if it's an value
+	IsValue() bool                  // Return true if it's an value
+	EqualTo(t ValueType) bool       // Return true if it's equal to specified value
 }

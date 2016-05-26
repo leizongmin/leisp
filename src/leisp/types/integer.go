@@ -26,6 +26,15 @@ func (v *IntegerValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert integer to %s: does not implement yet", t)
 }
 
+func (v *IntegerValue) EqualTo(t ValueType) bool {
+	if v2, ok := t.(*IntegerValue); ok {
+		if v2.Value == v.Value {
+			return true
+		}
+	}
+	return false
+}
+
 func NewIntegerValue(v int64) *IntegerValue {
 	return &IntegerValue{Value: v}
 }

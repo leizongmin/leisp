@@ -218,7 +218,7 @@ func builtinValueByName(s *types.Scope, list []*types.AST) *types.Atom {
 	first := args[0]
 	str, ok := first.Value.(*types.StringValue)
 	if !ok {
-		return types.NewErrorAtom(fmt.Errorf("invalid arguments type for value*, expected string actually %s", first.Value.GetType()))
+		return types.NewErrorAtom(fmt.Errorf("invalid arguments type for symbol-value, expected string actually %s", first.Value.GetType()))
 	}
 
 	val, err := s.Get(str.Value)
@@ -227,6 +227,33 @@ func builtinValueByName(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 
 	return types.NewAtom(val)
+}
+
+func builtinEqual(s *types.Scope, list []*types.AST) *types.Atom {
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
+
+	if len(args) < 2 {
+		return types.NewErrorMessageAtom("invalid arguments number for value")
+	}
+
+	ok := true
+	for i, right := range args[1:] {
+		left := args[i]
+		if left.Value.GetType() != right.Value.GetType() {
+			ok = false
+			break
+		}
+		ok = left.Value.EqualTo(right.Value)
+		if !ok {
+			break
+		}
+	}
+
+	return types.NewAtom(types.NewBooleanValue(ok))
 }
 
 func init() {
@@ -242,5 +269,8 @@ func init() {
 
 	RegisterBuiltinFunction("new-scope", builtinNewScope)
 	RegisterBuiltinFunction("exit", builtinExit)
+
+	RegisterBuiltinFunction("equal?", builtinEqual)
+	RegisterBuiltinFunction("=", builtinEqual)
 
 }
