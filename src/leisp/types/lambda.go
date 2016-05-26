@@ -10,18 +10,20 @@ import (
 )
 
 type LambdaValueInfo struct {
-	Scope  *Scope
-	Names  []string
-	Body   []*ExpressionValue
-	Source string
+	Scope    *Scope
+	Names    []string
+	VarNames []string
+	Body     []*ExpressionValue
+	Source   string
 }
 
-func NewLambdaValueInfo(scope *Scope, names []string, body []*ExpressionValue, source string) *LambdaValueInfo {
+func NewLambdaValueInfo(scope *Scope, names []string, varNames []string, body []*ExpressionValue, source string) *LambdaValueInfo {
 	return &LambdaValueInfo{
-		Scope:  scope,
-		Names:  names,
-		Body:   body,
-		Source: source,
+		Scope:    scope,
+		Names:    names,
+		VarNames: varNames,
+		Body:     body,
+		Source:   source,
 	}
 }
 

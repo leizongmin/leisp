@@ -90,23 +90,38 @@ func builtinLambda(s *types.Scope, list []*types.AST) *types.Atom {
 		return types.NewErrorAtom(fmt.Errorf("lambda arguments must be a list: %s", first.ToString()))
 	}
 
-	names := make([]string, len(first.Children))
-	for i, v := range first.Children {
+	var names []string
+	var varNames []string
+	beginRestName := false
+	for _, v := range first.Children {
 		if !v.IsValue() {
 			return types.NewErrorAtom(fmt.Errorf("lambda argument must be symbol: %s", v.ToString()))
 		}
 		if n, ok := v.Value.(*types.SymbolValue); ok {
-			names[i] = n.Value
+			if beginRestName {
+				varNames = append(varNames, n.Value)
+			} else {
+				if n.Value == "&" {
+					beginRestName = true
+				} else {
+					names = append(names, n.Value)
+				}
+			}
 		} else {
 			return types.NewErrorAtom(fmt.Errorf("invalid arguments type: %s", v.ToString()))
 		}
+	}
+
+	restNameCount := len(varNames)
+	if restNameCount > 1 {
+		return types.NewErrorAtom(fmt.Errorf("only support variable arugment, actually got %d", restNameCount))
 	}
 
 	body := make([]*types.ExpressionValue, argc-1)
 	for i, v := range list[1:] {
 		body[i] = types.NewExpressionValue(v)
 	}
-	lam := types.NewLambdaValue(types.NewLambdaValueInfo(s, names, body, "no source"))
+	lam := types.NewLambdaValue(types.NewLambdaValueInfo(s, names, varNames, body, "no source"))
 
 	return types.NewAtom(lam)
 }

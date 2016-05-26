@@ -7,7 +7,6 @@ package interpreter
 import (
 	"fmt"
 	"leisp/types"
-	"strings"
 )
 
 func RegisterBuiltinFunction(s *types.Scope, name string, handler types.BuiltinFunction) {
@@ -38,10 +37,18 @@ func callOperator(s *types.Scope, name string, args []*types.AST) *types.Atom {
 			return types.NewErrorAtom(fmt.Errorf("wrong arguments number for %s, expected %d actually %d", name, len(lam.Value.Names), len(values)))
 		}
 		for i, n := range lam.Value.Names {
-			if strings.Index(n, "...") == 0 {
-				return types.NewErrorMessageAtom("variable arguments does not implement yet")
-			}
 			if err := ns.Declare(n, values[i].Value); err != nil {
+				return types.NewErrorAtom(err)
+			}
+		}
+		fixNameCount := len(lam.Value.Names)
+		if len(lam.Value.VarNames) > 0 {
+			n := lam.Value.VarNames[0]
+			vs := make([]types.ValueType, len(values)-fixNameCount)
+			for i, v := range values[fixNameCount:] {
+				vs[i] = v.Value
+			}
+			if err := ns.Declare(n, types.NewArrayValue(vs)); err != nil {
 				return types.NewErrorAtom(err)
 			}
 		}
