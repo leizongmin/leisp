@@ -12,9 +12,9 @@ type BooleanValue struct {
 
 func (v *BooleanValue) ToString() string {
 	if v.Value {
-		return "T"
+		return "true"
 	}
-	return "NIL"
+	return "false"
 }
 
 func (v *BooleanValue) GetType() string {

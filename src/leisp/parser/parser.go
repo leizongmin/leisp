@@ -76,11 +76,13 @@ func (p *Parser) Parse() (*types.AST, error) {
 		return types.NewValueAST(types.NewKeywordValue(lit)), nil
 
 	case tokenSymbol:
-		LIT := strings.ToUpper(lit)
-		if LIT == "NIL" {
+		LIT := strings.ToLower(lit)
+		if LIT == "null" {
 			return types.NewValueAST(types.NewNullValue()), nil
-		} else if LIT == "T" {
+		} else if LIT == "true" {
 			return types.NewValueAST(types.NewBooleanValue(true)), nil
+		} else if LIT == "false" {
+			return types.NewValueAST(types.NewBooleanValue(false)), nil
 		} else {
 			return types.NewValueAST(types.NewSymbolValue(lit)), nil
 		}

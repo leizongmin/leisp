@@ -11,7 +11,7 @@ type NullValue struct {
 }
 
 func (v *NullValue) ToString() string {
-	return "NIL"
+	return "null"
 }
 
 func (v *NullValue) GetType() string {
