@@ -9,30 +9,30 @@ import (
 	"strings"
 )
 
-type ListValue struct {
+type ArrayValue struct {
 	Value []ValueType
 }
 
-func (v *ListValue) ToString() string {
-	list := make([]string, len(v.Value))
+func (v *ArrayValue) ToString() string {
+	arr := make([]string, len(v.Value))
 	for i, v2 := range v.Value {
-		list[i] = v2.ToString()
+		arr[i] = v2.ToString()
 	}
-	return "[" + strings.Join(list, " ") + "]"
+	return "[" + strings.Join(arr, " ") + "]"
 }
 
-func (v *ListValue) GetType() string {
-	return "list"
+func (v *ArrayValue) GetType() string {
+	return "array"
 }
 
-func (v *ListValue) IsValue() bool {
+func (v *ArrayValue) IsValue() bool {
 	return false
 }
 
-func (v *ListValue) To(t string) (ValueType, error) {
+func (v *ArrayValue) To(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert list to %s: does not implement yet", t)
 }
 
-func NewListValue(v []ValueType) *ListValue {
-	return &ListValue{Value: v}
+func NewArrayValue(v []ValueType) *ArrayValue {
+	return &ArrayValue{Value: v}
 }

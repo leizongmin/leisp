@@ -86,7 +86,7 @@ func builtinLambda(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 
 	first := list[0]
-	if !first.IsList() {
+	if !first.IsArray() {
 		return types.NewErrorAtom(fmt.Errorf("lambda arguments must be a list: %s", first.ToString()))
 	}
 
@@ -237,8 +237,8 @@ func init() {
 
 	RegisterBuiltinFunction("typeof", builtinTypeOf)
 	RegisterBuiltinFunction("defvar", builtinDefvar)
-	RegisterBuiltinFunction("value", builtinValue)
-	RegisterBuiltinFunction("value*", builtinValueByName)
+	// RegisterBuiltinFunction("value", builtinValue)
+	RegisterBuiltinFunction("symbol-value", builtinValueByName)
 
 	RegisterBuiltinFunction("new-scope", builtinNewScope)
 	RegisterBuiltinFunction("exit", builtinExit)

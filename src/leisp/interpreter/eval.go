@@ -67,7 +67,7 @@ func EvalAST(s *types.Scope, a *types.AST) *types.Atom {
 		return evalSExpression(s, a.Children)
 	}
 
-	if a.IsList() {
+	if a.IsArray() {
 		atoms, err := astListToAtomList(s, a.Children)
 		if err != nil {
 			return err
@@ -76,7 +76,7 @@ func EvalAST(s *types.Scope, a *types.AST) *types.Atom {
 		for i, a := range atoms {
 			list[i] = a.Value
 		}
-		return types.NewAtom(types.NewListValue(list))
+		return types.NewAtom(types.NewArrayValue(list))
 	}
 
 	if a.IsQExpression() {
