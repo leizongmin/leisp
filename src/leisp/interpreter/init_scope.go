@@ -21,6 +21,7 @@ var initLeispPrograms = `
 (defn array? [a] (equal? (typeof a) "array"))
 (defn expression? [a] (equal? (typeof a) "expression"))
 (defn function? [a] (equal? (typeof a) "function"))
+(defn lambda? [a] (equal? (typeof a) "lambda"))
 (defn infinity? [a] (equal? (typeof a) "infinity"))
 (defn keyword? [a] (equal? (typeof a) "keyword"))
 (defn symbol? [a] (equal? (typeof a) "symbol"))
