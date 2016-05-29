@@ -7,42 +7,25 @@ package interpreter
 import (
 	"fmt"
 	"leisp/types"
-	"strings"
 )
 
-func builtinPrint(s *types.Scope, list []*types.AST) *types.Atom {
+func builtinStdOutPrint(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 1 {
+		return types.NewErrorMessageAtom("wrong arguments number for to-string")
+	}
 
 	args, errAtom := astListToAtomList(s, list)
 	if errAtom != nil {
 		return errAtom
 	}
 
-	if len(args) > 0 {
-		list := make([]string, len(args))
-		for i, a := range args {
-			if a.IsValue() {
-				if sym, ok := a.Value.(*types.SymbolValue); ok {
-					if v, err := sym.GetFinalValue(s); err != nil {
-						return types.NewErrorAtom(err)
-					} else {
-						list[i] = v.ToString()
-					}
-					continue
-				} else if str, ok := a.Value.(*types.StringValue); ok {
-					list[i] = str.Value
-					continue
-				}
-			}
-			list[i] = a.ToString()
-		}
-		fmt.Print(strings.Join(list, " "))
+	a := args[0]
+	if v, ok := a.Value.(*types.StringValue); ok {
+		fmt.Print(v.Value)
+	} else {
+		fmt.Print(a.Value)
 	}
+
 	return types.NewAtom(types.NewNullValue())
-}
-
-func builtinPrintln(s *types.Scope, list []*types.AST) *types.Atom {
-
-	a := builtinPrint(s, list)
-	fmt.Println("")
-	return a
 }

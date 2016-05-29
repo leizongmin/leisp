@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"leisp/interpreter"
+	"leisp/types"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -191,7 +192,13 @@ func startREPL() {
 		if len(brackets) == 0 && !isString {
 
 			a := interpreter.Eval(scope, buffer)
-			a.Print()
+			if a.IsValue() {
+				if _, ok := a.Value.(*types.NullValue); !ok {
+					a.Print()
+				}
+			} else {
+				a.Print()
+			}
 
 			rl.AppendHistory(buffer)
 			rl.WriteHistory(historyFile)

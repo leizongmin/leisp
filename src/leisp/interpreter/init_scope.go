@@ -29,6 +29,11 @@ var initLeispPrograms = `
 (defn string? [a] (equal? (typeof a) "string"))
 (defn scope? [a] (equal? (typeof a) "scope"))
 
+;; io
+(defn print [a] (stdout-print (to-string a)))
+(defn println [a] (print a) (stdout-print "
+"))
+
 `
 
 func NewDefaultScope() (*types.Scope, error) {
@@ -43,6 +48,7 @@ func NewDefaultScope() (*types.Scope, error) {
 	RegisterBuiltinFunction(s, "defvar", builtinDefvar)
 	// RegisterBuiltinFunction(s, "value", builtinValue)
 	RegisterBuiltinFunction(s, "getvar", builtinValueByName)
+	RegisterBuiltinFunction(s, "to-string", builtinToString)
 
 	RegisterBuiltinFunction(s, "new-scope", builtinNewScope)
 	RegisterBuiltinFunction(s, "exit", builtinExit)
@@ -58,8 +64,7 @@ func NewDefaultScope() (*types.Scope, error) {
 	RegisterBuiltinFunction(s, "array-index", builtinArrayIndex)
 	RegisterBuiltinFunction(s, "array-slice", builtinArraySlice)
 
-	RegisterBuiltinFunction(s, "print", builtinPrint)
-	RegisterBuiltinFunction(s, "println", builtinPrintln)
+	RegisterBuiltinFunction(s, "stdout-print", builtinStdOutPrint)
 
 	RegisterBuiltinFunction(s, "+", builtinMathAdd)
 	RegisterBuiltinFunction(s, "-", builtinMathSubtract)

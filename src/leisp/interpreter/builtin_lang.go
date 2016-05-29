@@ -348,3 +348,22 @@ func builtinNot(s *types.Scope, list []*types.AST) *types.Atom {
 	return types.NewAtom(types.NewBooleanValue(false))
 
 }
+
+func builtinToString(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 1 {
+		return types.NewErrorMessageAtom("wrong arguments number for to-string")
+	}
+
+	r := EvalAST(s, list[0])
+	if r.IsError() {
+		return r
+	}
+
+	if strValue, ok := r.Value.(*types.StringValue); ok {
+		return types.NewAtom(strValue)
+	}
+
+	return types.NewAtom(types.NewStringValue(r.ToString()))
+
+}
