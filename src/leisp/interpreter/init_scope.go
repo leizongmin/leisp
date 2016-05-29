@@ -30,8 +30,8 @@ var initLeispPrograms = `
 (defn scope? [a] (equal? (typeof a) "scope"))
 
 ;; stdout
-(defn print [a] (stdout-print (to-string a)))
-(defn println [a] (print a) (stdout-print "
+(defn print [& a] (stdout-print (func-apply str a)))
+(defn println [& a] (func-apply print a) (stdout-print "
 "))
 
 `
