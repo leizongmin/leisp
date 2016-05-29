@@ -29,7 +29,7 @@ var initLeispPrograms = `
 (defn string? [a] (equal? (typeof a) "string"))
 (defn scope? [a] (equal? (typeof a) "scope"))
 
-;; io
+;; stdout
 (defn print [a] (stdout-print (to-string a)))
 (defn println [a] (print a) (stdout-print "
 "))
@@ -43,6 +43,8 @@ func NewDefaultScope() (*types.Scope, error) {
 	RegisterBuiltinFunction(s, "lambda", builtinLambda)
 	RegisterBuiltinFunction(s, "defn", builtinDefn)
 	RegisterBuiltinFunction(s, "eval", builtinEval)
+	RegisterBuiltinFunction(s, "func-call", builtinFunctionCall)
+	RegisterBuiltinFunction(s, "func-apply", builtinFunctionApply)
 
 	RegisterBuiltinFunction(s, "typeof", builtinTypeOf)
 	RegisterBuiltinFunction(s, "defvar", builtinDefvar)

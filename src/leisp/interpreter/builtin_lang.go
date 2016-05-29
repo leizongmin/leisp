@@ -367,3 +367,53 @@ func builtinToString(s *types.Scope, list []*types.AST) *types.Atom {
 	return types.NewAtom(types.NewStringValue(r.ToString()))
 
 }
+
+func builtinFunctionCall(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) < 1 {
+		return types.NewErrorMessageAtom("wrong arguments number for func-call")
+	}
+
+	first := list[0]
+	if !first.IsValue() {
+		return types.NewErrorAtom(fmt.Errorf("the first argument for func-call must be symbol"))
+	}
+	firstValue, ok := first.Value.(*types.SymbolValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("the first argument for func-call must be symbol, actually is %s", first.Value.GetType()))
+	}
+
+	return callOperator(s, firstValue.Value, list[1:])
+}
+
+func builtinFunctionApply(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 2 {
+		return types.NewErrorMessageAtom("wrong arguments number for func-apply")
+	}
+
+	first := list[0]
+	if !first.IsValue() {
+		return types.NewErrorAtom(fmt.Errorf("the first argument for func-apply must be symbol"))
+	}
+	firstValue, ok := first.Value.(*types.SymbolValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("the first argument for func-apply must be symbol, actually is %s", first.Value.GetType()))
+	}
+
+	second := EvalAST(s, list[1])
+	if second.IsError() {
+		return second
+	}
+	args, ok := second.Value.(*types.ArrayValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("the second argument for func-apply must be array, actually is %s", second.Value.GetType()))
+	}
+
+	astList := make([]*types.AST, len(args.Value))
+	for i, a := range args.Value {
+		astList[i] = types.NewValueAST(a)
+	}
+
+	return callOperator(s, firstValue.Value, astList)
+}
