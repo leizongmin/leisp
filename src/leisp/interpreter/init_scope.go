@@ -17,6 +17,7 @@ var initLeispPrograms = `
 (defn float? [a] (equal? (typeof a) "float"))
 (defn number? [a] (or (equal? (typeof a) "float") (equal? (typeof a) "integer")))
 (defn boolean? [a] (equal? (typeof a) "boolean"))
+(defn true? [a] (equal? a true))
 (defn any? [a] (equal? (typeof a) "any"))
 (defn array? [a] (equal? (typeof a) "array"))
 (defn expression? [a] (equal? (typeof a) "expression"))
@@ -28,6 +29,8 @@ var initLeispPrograms = `
 (defn ratio? [a] (equal? (typeof a) "ratio"))
 (defn string? [a] (equal? (typeof a) "string"))
 (defn scope? [a] (equal? (typeof a) "scope"))
+
+;; condition
 
 ;; stdout
 (defn print [& a] (stdout-print (func-apply str a)))
@@ -57,6 +60,8 @@ func NewDefaultScope() (*types.Scope, error) {
 
 	RegisterBuiltinFunction(s, "equal?", builtinEqual)
 	RegisterBuiltinFunction(s, "=", builtinEqual)
+
+	RegisterBuiltinFunction(s, "if-true-do", builtinIfTrueDo)
 
 	RegisterBuiltinFunction(s, "and", builtinAnd)
 	RegisterBuiltinFunction(s, "or", builtinOr)

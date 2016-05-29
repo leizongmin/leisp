@@ -273,7 +273,7 @@ func builtinEqual(s *types.Scope, list []*types.AST) *types.Atom {
 
 func builtinAnd(s *types.Scope, list []*types.AST) *types.Atom {
 
-	if len(list) < 2 {
+	if len(list) < 1 {
 		return types.NewErrorMessageAtom("wrong arguments number for and")
 	}
 
@@ -299,7 +299,7 @@ func builtinAnd(s *types.Scope, list []*types.AST) *types.Atom {
 
 func builtinOr(s *types.Scope, list []*types.AST) *types.Atom {
 
-	if len(list) < 2 {
+	if len(list) < 1 {
 		return types.NewErrorMessageAtom("wrong arguments number for or")
 	}
 
@@ -416,4 +416,26 @@ func builtinFunctionApply(s *types.Scope, list []*types.AST) *types.Atom {
 	}
 
 	return callOperator(s, firstValue.Value, astList)
+}
+
+func builtinIfTrueDo(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 2 {
+		return types.NewErrorMessageAtom("wrong arguments number for if-true-do")
+	}
+
+	first := list[0]
+	if !first.IsValue() {
+		return types.NewErrorAtom(fmt.Errorf("the first argument for if-true-do must be boolean"))
+	}
+	firstValue, ok := first.Value.(*types.BooleanValue)
+	if !ok {
+		return types.NewErrorAtom(fmt.Errorf("the first argument for if-true-do must be boolean, actually is %s", first.Value.GetType()))
+	}
+
+	if firstValue.Value {
+		return EvalAST(s, list[1])
+	}
+
+	return types.NewEmptyAtom()
 }
