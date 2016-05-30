@@ -5,8 +5,8 @@
 package interpreter
 
 import (
-	"leisp/parser"
-	"leisp/types"
+	"github.com/leizongmin/leisp/parser"
+	"github.com/leizongmin/leisp/types"
 )
 
 var initLeispPrograms = `

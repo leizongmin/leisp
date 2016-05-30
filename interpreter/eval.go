@@ -6,9 +6,10 @@ package interpreter
 
 import (
 	"fmt"
-	"leisp/parser"
-	"leisp/types"
 	"strings"
+
+	"github.com/leizongmin/leisp/parser"
+	"github.com/leizongmin/leisp/types"
 )
 
 func Eval(s *types.Scope, prog string) *types.Atom {

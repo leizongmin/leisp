@@ -7,9 +7,10 @@ package parser
 import (
 	"fmt"
 	"io"
-	"leisp/types"
 	"strconv"
 	"strings"
+
+	"github.com/leizongmin/leisp/types"
 )
 
 type Parser struct {

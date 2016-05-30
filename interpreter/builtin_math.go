@@ -6,8 +6,9 @@ package interpreter
 
 import (
 	"fmt"
-	"leisp/types"
 	"math"
+
+	"github.com/leizongmin/leisp/types"
 )
 
 func getNumberValues(list []types.ValueType) (integers []int64, floats []float64, isInteger bool, err error) {

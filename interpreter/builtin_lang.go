@@ -6,8 +6,9 @@ package interpreter
 
 import (
 	"fmt"
-	"leisp/types"
 	"os"
+
+	"github.com/leizongmin/leisp/types"
 )
 
 func builtinTypeOf(s *types.Scope, list []*types.AST) *types.Atom {

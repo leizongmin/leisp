@@ -5,8 +5,9 @@
 package interpreter
 
 import (
-	"leisp/types"
 	"strings"
+
+	"github.com/leizongmin/leisp/types"
 )
 
 func builtinStr(s *types.Scope, list []*types.AST) *types.Atom {

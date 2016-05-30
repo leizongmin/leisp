@@ -6,7 +6,8 @@ package interpreter
 
 import (
 	"fmt"
-	"leisp/types"
+
+	"github.com/leizongmin/leisp/types"
 )
 
 func builtinArrayLength(s *types.Scope, list []*types.AST) *types.Atom {

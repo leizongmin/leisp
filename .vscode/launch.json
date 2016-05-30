@@ -9,11 +9,11 @@
 			"remotePath": "",
 			"port": 2345,
 			"host": "127.0.0.1",
-			"program": "${workspaceRoot}/src/repl.go",
+			"program": "${workspaceRoot}/repl.go",
 			"env": {
 				"GOPATH": "/Users/glen/work/gocode:${workspaceRoot}"
 			},
-			"args": ["${workspaceRoot}/lib/lang.leisp"]
+			"args": []
 		}
 	]
 }

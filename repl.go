@@ -8,12 +8,13 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"leisp/interpreter"
-	"leisp/types"
 	"os"
 	"os/user"
 	"path/filepath"
 	"strings"
+
+	"github.com/leizongmin/leisp/interpreter"
+	"github.com/leizongmin/leisp/types"
 
 	"github.com/peterh/liner"
 )
