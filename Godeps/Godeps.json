@@ -1,0 +1,10 @@
+{
+	"ImportPath": "github.com/leizongmin/leisp",
+	"GoVersion": "go1.6",
+	"Deps": [
+		{
+			"ImportPath": "github.com/peterh/liner",
+			"Rev": "0e4af131b90a9786839c8b1b01717be263e8555a"
+		}
+	]
+}

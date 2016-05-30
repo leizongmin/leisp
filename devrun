@@ -1,5 +1,0 @@
-#!/bin/sh
-
-GOPATH="$GOPATH:$(pwd)"
-
-go run repl.go $@
