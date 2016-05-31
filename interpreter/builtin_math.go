@@ -33,6 +33,34 @@ func getNumberValues(list []types.ValueType) (integers []int64, floats []float64
 	return integers, floats, isInteger, nil
 }
 
+func builtinZerop(s *types.Scope, list []*types.AST) *types.Atom {
+
+	if len(list) != 1 {
+		return types.NewErrorAtom(fmt.Errorf("wrong arguments number for zero?"))
+	}
+
+	args, errAtom := astListToAtomList(s, list)
+	if errAtom != nil {
+		return errAtom
+	}
+
+	number := args[0]
+	if integerValue, ok := number.Value.(*types.IntegerValue); ok {
+		if integerValue.Value == 0 {
+			return types.NewAtom(types.NewBooleanValue(true))
+		}
+		return types.NewAtom(types.NewBooleanValue(false))
+	}
+	if floatValue, ok := number.Value.(*types.FloatValue); ok {
+		if floatValue.Value == 0 {
+			return types.NewAtom(types.NewBooleanValue(true))
+		}
+		return types.NewAtom(types.NewBooleanValue(false))
+	}
+
+	return types.NewAtom(types.NewBooleanValue(false))
+}
+
 func builtinMathAdd(s *types.Scope, list []*types.AST) *types.Atom {
 
 	args, errAtom := astListToAtomList(s, list)

@@ -73,6 +73,7 @@ func NewDefaultScope() (*types.Scope, error) {
 
 	RegisterBuiltinFunction(s, "stdout-print", builtinStdOutPrint)
 
+	RegisterBuiltinFunction(s, "zero?", builtinZerop)
 	RegisterBuiltinFunction(s, "+", builtinMathAdd)
 	RegisterBuiltinFunction(s, "-", builtinMathSubtract)
 	RegisterBuiltinFunction(s, "*", builtinMathMultiply)
