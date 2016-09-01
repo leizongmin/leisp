@@ -23,5 +23,5 @@ _testmain.go
 *.test
 *.prof
 
-*.browse.*
-src/debug
+bin
+vendor
