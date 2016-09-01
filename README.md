@@ -12,7 +12,7 @@ $ go install github.com/leizongmin/leisp
 
 After finished install leisp, start the leisp REPL:
 
-```bash
+```
 $ leisp
 
 
@@ -37,23 +37,17 @@ leisp>
 
 ## Development
 
-**leisp** use the [Godep](https://github.com/tools/godep) to manage the dependencies.
-If you don't installed the **Godep** before, please run the command below:
+I use a Node.js pargram to build this project. To use it, use need to install Node.js v6.0 or newer version.
+And run the following command to install [lei-run](https://github.com/leizongmin/lei-run) :
 
 ```bash
-$ go get github.com/tools/godep
+$ npm install -g lei-run
 ```
 
-Next, install all dependencies:
+Then run this command to build:
 
 ```bash
-$ godep restore
-```
-
-Now, start the REPL:
-
-```bash
-$ godep go run repl.go
+$ run build
 ```
 
 

@@ -1,34 +1,54 @@
 'use strict';
 
-// 自定义的参数
 const pkg = 'github.com/leizongmin/leisp';
-const out = 'bin/leisp';
 
+const pkgParent = path.dirname(pkg);
+const workspace = path.resolve(pwd, '_workspace');
+const out = path.resolve(pwd, 'bin', path.basename(pkg));
 
-register('build', function () {
-  const pkgParent = path.dirname(pkg);
-  const gopath = path.resolve(os.tmpDir(), utils.randomString(10));
-  env.GOPATH = gopath;
+function mkdir(dir) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+}
+
+function autoInitWorkspace() {
+  if (!fs.existsSync(workspace)) run('workspace');
+}
+
+register('workspace', 'create virtual workspace', function () {
+  env.GOPATH = workspace;
   mexec([
-    `mkdir -p ${gopath}/src/${pkgParent}`,
-    `ln -s ${pwd} ${gopath}/src/${pkg}`,
-    `go build -o ${out} ${pkg}`,
-    `rm -rf ${gopath}`
+    `mkdir -p ${workspace}/src/${pkgParent}`,
+    `ln -s ${pwd} ${workspace}/src/${pkg}`,
+    `mkdir -p ${pwd}/vendor`,
+    `mkdir -p ${workspace}/vendor`,
+    `ln -s ${pwd}/vendor ${workspace}/vendor/src`,
   ]);
 });
 
-register('fetch', function () {
-  if (argv.length < 1) return exit(1, 'run featch packages');
-  const pkgParent = path.dirname(pkg);
-  const gopath = path.resolve(os.tmpDir(), utils.randomString(10));
-  env.GOPATH = gopath;
-  if (!fs.existsSync(path.resolve(pwd, 'vendor'))) {
-    exec(`mkdir ${pwd}/vendor`);
-  }
+register('clean', 'clean virtual workspace and vendor', function () {
   mexec([
-    `mkdir -p ${gopath}`,
-    `ln -s ${pwd}/vendor ${gopath}/src`,
-    `go get ${argv.join(' ')}`,
-    `rm -rf ${gopath}`,
+    `rm -rf ${workspace}`,
+    `rm -rf ${pwd}/vendor`,
+    `rm -rf ${pwd}/bin`,
   ]);
+});
+
+register('build', 'build project', function () {
+  autoInitWorkspace();
+  env.GOPATH = workspace;
+  exec(`go build -o ${out} ${pkg}`);
+});
+
+register('bin', 'run program', function () {
+   exec(`${out}`);
+});
+
+register('vendor', 'add dependencies', function () {
+  autoInitWorkspace();
+  if (argv.length < 1) return exit(1, 'Usage: run vendor packages');
+  const gopath = path.resolve(workspace, 'vendor');
+  env.GOPATH = gopath;
+  exec(`go get ${argv.join(' ')}`);
 });
