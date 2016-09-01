@@ -37,7 +37,7 @@ leisp>
 
 ## Development
 
-I use a Node.js pargram to build this project. To use it, use need to install Node.js v6.0 or newer version.
+**leisp** use a Node.js pargram to build this project. To use it, you need to install Node.js v6.0 or newer version.
 And run the following command to install [lei-run](https://github.com/leizongmin/lei-run) :
 
 ```bash
