@@ -37,17 +37,22 @@ leisp>
 
 ## Development
 
-**leisp** use a Node.js pargram to build this project. To use it, you need to install Node.js v6.0 or newer version.
-And run the following command to install [lei-run](https://github.com/leizongmin/lei-run) :
+**leisp** use [gogo](https://github.com/leizongmin/gogo) to manage dependencies.
+Please install **gogo** command firstly:
 
 ```bash
-$ npm install -g lei-run
+$ go get -u github.com/leizongmin/gogo
 ```
 
-Then run this command to build:
+Then run the following commands to build:
 
 ```bash
-$ run build
+# init
+$ gogo clean && gogo init
+# install dependencies
+$ gogo install
+# build leisp
+$ gogo build
 ```
 
 
