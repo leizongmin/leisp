@@ -22,7 +22,7 @@ func (v *SymbolValue) IsValue() bool {
 	return false
 }
 
-func (v *SymbolValue) To(t string) (ValueType, error) {
+func (v *SymbolValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert symbol to %s: does not implement yet", t)
 }
 

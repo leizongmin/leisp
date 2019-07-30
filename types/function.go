@@ -29,7 +29,7 @@ func (v *FunctionValue) IsValue() bool {
 	return false
 }
 
-func (v *FunctionValue) To(t string) (ValueType, error) {
+func (v *FunctionValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert function to %s: does not implement yet", t)
 }
 

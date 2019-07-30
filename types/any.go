@@ -22,7 +22,7 @@ func (v *AnyValue) IsValue() bool {
 	return true
 }
 
-func (v *AnyValue) To(t string) (ValueType, error) {
+func (v *AnyValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert any to %s: does not implement yet", t)
 }
 

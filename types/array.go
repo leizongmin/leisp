@@ -29,7 +29,7 @@ func (v *ArrayValue) IsValue() bool {
 	return false
 }
 
-func (v *ArrayValue) To(t string) (ValueType, error) {
+func (v *ArrayValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert list to %s: does not implement yet", t)
 }
 

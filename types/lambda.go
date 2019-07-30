@@ -43,7 +43,7 @@ func (v *LambdaValue) IsValue() bool {
 	return false
 }
 
-func (v *LambdaValue) To(t string) (ValueType, error) {
+func (v *LambdaValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert keyword to %s: does not implement yet", t)
 }
 

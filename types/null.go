@@ -22,7 +22,7 @@ func (v *NullValue) IsValue() bool {
 	return true
 }
 
-func (v *NullValue) To(t string) (ValueType, error) {
+func (v *NullValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert null to %s: does not implement yet", t)
 }
 

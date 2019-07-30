@@ -113,7 +113,7 @@ func (v *ScopeValue) IsValue() bool {
 	return true
 }
 
-func (v *ScopeValue) To(t string) (ValueType, error) {
+func (v *ScopeValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
 }
 

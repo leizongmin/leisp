@@ -22,7 +22,7 @@ func (v *InfinityValue) IsValue() bool {
 	return true
 }
 
-func (v *InfinityValue) To(t string) (ValueType, error) {
+func (v *InfinityValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert infinity to %s: does not implement yet", t)
 }
 

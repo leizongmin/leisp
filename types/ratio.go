@@ -22,7 +22,7 @@ func (v *RatioValue) IsValue() bool {
 	return true
 }
 
-func (v *RatioValue) To(t string) (ValueType, error) {
+func (v *RatioValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert ratio to %s: does not implement yet", t)
 }
 

@@ -22,7 +22,7 @@ func (v *KeywordValue) IsValue() bool {
 	return false
 }
 
-func (v *KeywordValue) To(t string) (ValueType, error) {
+func (v *KeywordValue) ConvertTo(t string) (ValueType, error) {
 	return nil, fmt.Errorf("cannot convert keyword to %s: does not implement yet", t)
 }
 
