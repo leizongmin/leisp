@@ -1,6 +1,0 @@
-package: github.com/leizongmin/leisp
-homepage: https://github.com/leizongmin/leisp
-license: MIT
-author: Zongmin Lei <leizongmin@gmail.com>
-import:
-- package: github.com/peterh/liner
