@@ -30,3 +30,4 @@ _workspace
 /.idea/
 /.vscode/
 
+/target/
