@@ -1,8 +1,10 @@
-# The leisp programming language
+# The Leisp Programming Language
+
+**Leisp** is a Lisp-Like programming language.
 
 ## Installation
 
-Run the following command to install **leisp**:
+Run the following command to install leisp:
 
 ```bash
 go install github.com/leizongmin/leisp
