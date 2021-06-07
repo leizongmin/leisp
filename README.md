@@ -1,19 +1,17 @@
-# leisp.go
-The leisp programming language written in Go
-
+# The leisp programming language
 
 ## Installation
 
-Run the following command to install leisp:
+Run the following command to install **leisp**:
 
 ```bash
-$ go install github.com/leizongmin/leisp
+go install github.com/leizongmin/leisp
 ```
 
 After finished install leisp, start the leisp REPL:
 
-```
-$ leisp
+```text
+leisp
 
 
 ##       ######## ####  ######  ########
@@ -34,34 +32,12 @@ Press Ctrl+C to Exit.
 leisp>
 ```
 
-
-## Development
-
-**leisp** use [gogo](https://github.com/leizongmin/gogo) to manage dependencies.
-Please install **gogo** command firstly:
-
-```bash
-$ go get -u github.com/leizongmin/gogo
-```
-
-Then run the following commands to build:
-
-```bash
-# init
-$ gogo clean && gogo init
-# install dependencies
-$ gogo install
-# build leisp
-$ gogo build
-```
-
-
 ## License
 
-```
+```text
 The MIT License (MIT)
 
-Copyright (c) 2016 Zongmin Lei <leizongmin@gmail.com>
+Copyright (c) 2016-2021 Zongmin Lei <leizongmin@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
